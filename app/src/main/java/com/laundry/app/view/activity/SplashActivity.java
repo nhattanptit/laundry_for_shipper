@@ -15,15 +15,13 @@ public class SplashActivity extends BaseActivity<SplashActivityBinding> {
     @Override
     public void onInitView() {
         Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                navigateTo(SplashActivity.this,MainActivity.class);
-            }
+        handler.postDelayed(() -> {
+            navigateTo(SplashActivity.this, SwitchModeActivity.class);
+            finish();
         }, 3000);
     }
 
     @Override
     public void onViewClick() {
-        }
+    }
 }

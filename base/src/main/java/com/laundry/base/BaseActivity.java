@@ -7,10 +7,13 @@ import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.InflateException;
+import android.view.Window;
+import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 
@@ -45,6 +48,11 @@ public abstract class BaseActivity<DB extends ViewDataBinding> extends AppCompat
         } catch (InflateException | Resources.NotFoundException e) {
             e.printStackTrace();
         }
+
+        Window window = this.getWindow();
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(ContextCompat.getColor(this, R.color.green_8cc63e));
     }
 
     @Override

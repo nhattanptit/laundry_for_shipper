@@ -18,13 +18,9 @@ import androidx.navigation.fragment.NavHostFragment;
 
 public abstract class BaseFragment<DB extends ViewDataBinding> extends Fragment implements BaseView {
 
-    private DB mBinding;
+    protected DB binding;
     private OnBackPressedCallback mCallback;
 
-
-    public DB getBinding() {
-        return mBinding;
-    }
 
     protected abstract int getLayoutResource();
 
@@ -37,9 +33,10 @@ public abstract class BaseFragment<DB extends ViewDataBinding> extends Fragment 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mBinding = DataBindingUtil.inflate(LayoutInflater.from(getActivity()), getLayoutResource(), container, false);
-        mBinding.setLifecycleOwner(getViewLifecycleOwner());
-        return mBinding.getRoot();
+        binding = DataBindingUtil.inflate(LayoutInflater.from(getActivity()), getLayoutResource(), container, false);
+        binding.setLifecycleOwner(getViewLifecycleOwner());
+        onInitBinding();
+        return binding.getRoot();
     }
 
     @Override
@@ -52,15 +49,15 @@ public abstract class BaseFragment<DB extends ViewDataBinding> extends Fragment 
         onViewClick();
     }
 
-    public void onBackPressed() {
+    protected final void onBackPressed() {
         backScreen();
     }
 
-    public boolean isHandleBackPressByFragment() {
+    protected final boolean isHandleBackPressByFragment() {
         return false;
     }
 
-    public void navigateTo(int actionId) {
+    protected final void navigateTo(int actionId) {
         NavController controller = NavHostFragment.findNavController(this);
         NavDestination destination = controller.getCurrentDestination();
         if (destination != null && destination.getAction(actionId) != null) {
@@ -71,7 +68,7 @@ public abstract class BaseFragment<DB extends ViewDataBinding> extends Fragment 
         }
     }
 
-    public void navigateTo(int actionId, Bundle bundle) {
+    protected final void navigateTo(int actionId, Bundle bundle) {
         NavController controller = NavHostFragment.findNavController(this);
         NavDestination destination = controller.getCurrentDestination();
         if (destination != null && destination.getAction(actionId) != null) {
@@ -82,7 +79,7 @@ public abstract class BaseFragment<DB extends ViewDataBinding> extends Fragment 
         }
     }
 
-    public void popBackStack(int idOfFragment) {
+    protected final void popBackStack(int idOfFragment) {
         try {
             NavHostFragment.findNavController(this).popBackStack(idOfFragment, false);
         } catch (IllegalArgumentException e) {
@@ -90,7 +87,7 @@ public abstract class BaseFragment<DB extends ViewDataBinding> extends Fragment 
         }
     }
 
-    public void popBackStack(int idOfFragment, boolean inclusive) {
+    protected final  void popBackStack(int idOfFragment, boolean inclusive) {
         try {
             NavHostFragment.findNavController(this).popBackStack(idOfFragment, inclusive);
         } catch (IllegalArgumentException e) {
@@ -115,15 +112,15 @@ public abstract class BaseFragment<DB extends ViewDataBinding> extends Fragment 
         }
     }
 
-    public void setStatusColor(int color, boolean state) {
+    protected final void setStatusColor(int color, boolean state) {
 
     }
 
-    public void setFullScreenWithStatusBar(boolean isFull) {
+    protected final void setFullScreenWithStatusBar(boolean isFull) {
 
     }
 
-    public void setFullScreen(boolean isFull) {
+    protected final void setFullScreen(boolean isFull) {
 
     }
 }

@@ -43,8 +43,11 @@ public class SettingAdapter extends BaseAdapter {
 
     @Override
     protected BaseVH<?> onCreateVH(int viewType, ViewDataBinding viewDataBinding) {
-        if (viewType == VIEW_TYPE_SETTING) return new SettingVH(viewDataBinding);
-        else return new StudentVH(viewDataBinding);
+        if (viewType == VIEW_TYPE_SETTING) {
+            return new SettingVH(viewDataBinding);
+        } else {
+            return new StudentVH(viewDataBinding);
+        }
     }
 
     class SettingVH extends BaseVH<Setting> {

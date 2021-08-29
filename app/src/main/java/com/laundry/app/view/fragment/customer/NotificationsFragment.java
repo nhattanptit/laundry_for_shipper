@@ -1,4 +1,4 @@
-package com.laundry.app.view.fragment.notifications;
+package com.laundry.app.view.fragment.customer;
 
 import com.laundry.app.R;
 import com.laundry.app.databinding.FragmentNotificationsBinding;

@@ -1,17 +1,24 @@
 package com.laundry.app.view.activity;
 
 import com.facebook.FacebookSdk;
+import android.content.Intent;
+import android.text.TextUtils;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.laundry.app.R;
+import com.laundry.app.constant.Constant;
 import com.laundry.app.databinding.HomeBinding;
+import com.laundry.app.dto.Role;
+import com.laundry.app.utils.SharePreferenceManager;
 import com.laundry.base.BaseActivity;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 public class HomeActivity extends BaseActivity<HomeBinding> {
+
+    private String mMode;
 
     @Override
     protected int getLayoutResource() {
@@ -20,14 +27,18 @@ public class HomeActivity extends BaseActivity<HomeBinding> {
 
     @Override
     public void onInitView() {
+        Intent intent = getIntent();
+        mMode = intent.getStringExtra(Constant.ROLE_SWITCH);
+        if (TextUtils.isEmpty(mMode)) {
+            mMode = SharePreferenceManager.getMode(this);
+        }
+
+        boolean isCustomer = TextUtils.equals(Role.CUSTOMER.role(), mMode);
+
         BottomNavigationView navView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-//        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-//                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
-//                .build();
+        navView.inflateMenu(isCustomer ? R.menu.customer_bottom_nav_menu : R.menu.shipper_bottom_nav_menu);
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-//        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+        navController.setGraph(isCustomer ? R.navigation.customer_navigation : R.navigation.shipper_navigation);
         NavigationUI.setupWithNavController(navView, navController);
         FacebookSdk.sdkInitialize(this);
     }

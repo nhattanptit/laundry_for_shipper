@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.fragment.home.HomeFragment">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/green_8cc63e">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:weightSum="4">
+
+                <RelativeLayout
+                    android:id="@+id/banner"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_200">
+
+                </RelativeLayout>
+                <androidx.cardview.widget.CardView
+                    android:layout_marginTop="@dimen/dp_160"
+                    android:layout_width="@dimen/dp_260"
+                    android:layout_height="@dimen/dp_160"
+                    android:layout_centerHorizontal="true"
+                    android:background="@color/white"
+                    app:cardCornerRadius="@dimen/dp_8"
+                    app:cardElevation="@dimen/dp_4">
+
+                    <Button
+                        android:layout_width="@dimen/dp_160"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@drawable/shaper_button_green"
+                        android:text="Login" />
+                </androidx.cardview.widget.CardView>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/banner"
+                    android:background="@drawable/card_background">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="500dp">
+
+                    </FrameLayout>
+                </RelativeLayout>
+
+
+            </RelativeLayout>
+        </androidx.core.widget.NestedScrollView>
+
+    </RelativeLayout>
+</layout>

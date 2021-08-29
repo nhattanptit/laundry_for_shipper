@@ -2,9 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.laundry.app">
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-
-
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -14,18 +11,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Laundry">
         <activity
-            android:name=".view.activity.SplashActivity">
+            android:name=".view.activity.HomeActivity"
+            android:exported="true"
+            android:label="@string/title_activity_home" />
+        <activity
+            android:name=".view.activity.SwitchModeActivity"
+            android:exported="true" />
+        <activity android:name=".view.activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity
-            android:name=".view.activity.MainActivity">
-        </activity>
-
     </application>
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
 </manifest>

@@ -18,6 +18,8 @@ public class NotificationsFragment extends BaseFragment<FragmentNotificationsBin
 
     @Override
     public void onViewClick() {
-
+        binding.textNotifications.setOnClickListener(view -> {
+            navigateTo(R.id.action_navigation_notifications_to_navigation_RegisterOrLoginFragment);
+        });
     }
 }

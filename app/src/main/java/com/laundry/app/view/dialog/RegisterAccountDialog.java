@@ -2,12 +2,14 @@ package com.laundry.app.view.dialog;
 
 import com.laundry.app.R;
 import com.laundry.app.databinding.LoginDialogBinding;
+import com.laundry.app.databinding.RegisterAccountDialogBinding;
 import com.laundry.base.BaseDialog;
 
-public class LoginDialog extends BaseDialog<LoginDialogBinding> {
+public class RegisterAccountDialog extends BaseDialog<RegisterAccountDialogBinding> {
+
     @Override
     protected int getLayoutResource() {
-        return R.layout.login_dialog;
+        return R.layout.register_account_dialog;
     }
 
     @Override

@@ -7,6 +7,7 @@ import com.laundry.app.R;
 import com.laundry.app.constant.Constant;
 import com.laundry.app.databinding.ActivitySwitchModeBinding;
 import com.laundry.app.dto.Role;
+import com.laundry.app.utils.SharePreferenceManager;
 import com.laundry.base.BaseActivity;
 
 public class SwitchModeActivity extends BaseActivity<ActivitySwitchModeBinding> implements View.OnClickListener {
@@ -32,10 +33,12 @@ public class SwitchModeActivity extends BaseActivity<ActivitySwitchModeBinding> 
         Intent intent = new Intent(this, HomeActivity.class);
         switch (view.getId()) {
             case R.id.switch_to_customer:
-                intent.putExtra(Constant.ROLE_SWITCH, Role.CUSTOMER);
+                intent.putExtra(Constant.ROLE_SWITCH, Role.CUSTOMER.role());
+                SharePreferenceManager.setMode(this, Role.CUSTOMER.role());
                 break;
             case R.id.switch_to_shipper:
-                intent.putExtra(Constant.ROLE_SWITCH, Role.SHIPPER);
+                intent.putExtra(Constant.ROLE_SWITCH, Role.SHIPPER.role());
+                SharePreferenceManager.setMode(this, Role.SHIPPER.role());
                 break;
             default:
                 break;

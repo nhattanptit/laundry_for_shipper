@@ -1,15 +1,16 @@
-package com.laundry.app.view.fragment.home;
+package com.laundry.app.view.fragment.shipper;
 
 import com.laundry.app.R;
-import com.laundry.app.databinding.FragmentHomeBinding;
+import com.laundry.app.databinding.ShipperFragmentHomeBinding;
+import com.laundry.app.databinding.ShipperFragmentInfoBinding;
 import com.laundry.base.BaseFragment;
 
-public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
+public class ShipperInfoFragment extends BaseFragment<ShipperFragmentInfoBinding> {
 
 
     @Override
     protected int getLayoutResource() {
-        return R.layout.fragment_home;
+        return R.layout.shipper_fragment_info;
     }
 
     @Override

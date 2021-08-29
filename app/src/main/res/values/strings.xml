@@ -4,6 +4,6 @@
     <string name="laundry">Laundry</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Order History</string>
-    <string name="title_notifications">User</string>
+    <string name="title_information">User</string>
     <string name="title_activity_home">HomeActivity</string>
 </resources>

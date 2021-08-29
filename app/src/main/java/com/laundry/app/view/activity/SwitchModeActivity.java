@@ -18,8 +18,8 @@ public class SwitchModeActivity extends BaseActivity<ActivitySwitchModeBinding> 
 
     @Override
     public void onInitView() {
-        getBinding().switchToCustomer.setOnClickListener(this);
-        getBinding().switchToShipper.setOnClickListener(this);
+        binding.switchToCustomer.setOnClickListener(this);
+        binding.switchToShipper.setOnClickListener(this);
     }
 
     @Override

@@ -24,7 +24,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentBinding> {
 
     @Override
     public void onViewClick() {
-        getBinding().tvToSetting.setOnClickListener(v->{
+        binding.tvToSetting.setOnClickListener(v->{
             navigateTo(R.id.action_homeFragment_to_settingFragment);
         });
     }

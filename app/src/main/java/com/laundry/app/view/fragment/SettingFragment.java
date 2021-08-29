@@ -34,16 +34,17 @@ public class SettingFragment extends BaseFragment<SettingFragmentBinding> {
         settings.add(new Student("1"));
     }
 
+
     @Override
     public void onInitView() {
         SettingAdapter adapter = new SettingAdapter();
-        getBinding().rvSetting.setAdapter(adapter);
+        binding.rvSetting.setAdapter(adapter);
         adapter.setDataList(settings);
     }
 
     @Override
     public void onViewClick() {
-        getBinding().tvSetting.setOnClickListener(v -> {
+        binding.tvSetting.setOnClickListener(v -> {
             navigateTo(R.id.action_settingFragment_to_collectionFragment);
         });
     }

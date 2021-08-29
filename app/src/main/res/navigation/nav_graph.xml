@@ -39,6 +39,16 @@
         android:id="@+id/collectionFragment"
         android:name="com.laundry.app.view.fragment.CollectionFragment"
         android:label="CollectionFragment"
-        tools:layout="@layout/collection_fragment" />
+        tools:layout="@layout/collection_fragment" >
+        <action
+            android:id="@+id/action_collectionFragment_to_loginDialog"
+            app:destination="@id/loginDialog" />
+    </fragment>
+
+   <dialog
+       android:name="com.laundry.app.view.dialog.LoginDialog"
+       android:id="@+id/loginDialog"
+       android:label="LoginDialog"
+       tools:layout="@layout/login_dialog"/>
 
 </navigation>

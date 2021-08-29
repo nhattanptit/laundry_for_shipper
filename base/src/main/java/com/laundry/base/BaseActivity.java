@@ -1,13 +1,11 @@
 package com.laundry.base;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.InflateException;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,14 +14,10 @@ import androidx.databinding.ViewDataBinding;
 
 public abstract class BaseActivity<DB extends ViewDataBinding> extends AppCompatActivity implements BaseView {
 
+    protected DB binding;
     private static final int REQUEST_PERMISSION = 10000;
-    private DB mBinding;
     private ConfigPermission mConfigPermission;
 
-
-    public DB getBinding() {
-        return mBinding;
-    }
 
     protected abstract int getLayoutResource();
 
@@ -38,8 +32,9 @@ public abstract class BaseActivity<DB extends ViewDataBinding> extends AppCompat
                     return;
                 }
             }
-            mBinding = DataBindingUtil.setContentView(this, getLayoutResource());
-            mBinding.setLifecycleOwner(this);
+            binding = DataBindingUtil.setContentView(this, getLayoutResource());
+            binding.setLifecycleOwner(this);
+            onInitBinding();
             onInitView();
             onViewClick();
         } catch (InflateException | Resources.NotFoundException e) {
@@ -58,23 +53,23 @@ public abstract class BaseActivity<DB extends ViewDataBinding> extends AppCompat
         }
     }
 
-    public boolean isFixSingleTask() {
+    protected final  boolean isFixSingleTask() {
         return false;
     }
 
-    public void navigateTo(Context context, Class<? extends BaseActivity<?>> destination) {
-        Intent intent = new Intent(context, destination);
+    protected final void navigateTo(BaseActivity<?> source, Class<? extends BaseActivity<?>> destination) {
+        Intent intent = new Intent(source, destination);
         startActivity(intent);
 //        overridePendingTransition(R.animator.nav_default_enter_anim, R.animator.nav_default_exit_anim);
     }
 
-    public void navigateTo(BaseActivity<?> source, Class<BaseActivity<?>> destination, Bundle bundle) {
+    protected final void navigateTo(BaseActivity<?> source, Class<BaseActivity<?>> destination, Bundle bundle) {
         Intent intent = new Intent(source, destination);
         startActivity(intent, bundle);
 //        overridePendingTransition(R.animator.nav_default_enter_anim, R.animator.nav_default_exit_anim);
     }
 
-    public void doRequestPermission(String[] permissionList, ConfigPermission callback) {
+    protected final void doRequestPermission(String[] permissionList, ConfigPermission callback) {
         this.mConfigPermission = callback;
         if (checkPermission(permissionList)) {
             callback.onAllow();

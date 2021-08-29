@@ -23,12 +23,17 @@ public class CollectionFragment extends BaseFragment<CollectionFragmentBinding>{
 
     @Override
     public void onViewClick() {
-        getBinding().tvBackToSetting.setOnClickListener( v -> {
+        binding.tvCollection.setOnClickListener(v ->{
+            navigateTo(R.id.action_collectionFragment_to_loginDialog);
+        });
+
+        binding.tvBackToSetting.setOnClickListener( v -> {
             onBackPressed();
         });
-        getBinding().tvBackToHome.setOnClickListener(v -> {
+        binding.tvBackToHome.setOnClickListener(v -> {
             popBackStack(R.id.homeFragment);
         });
     }
+
 
 }

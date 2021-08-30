@@ -1,4 +1,4 @@
-package com.laundry.app.view.fragment.account;
+package com.laundry.app.view.fragment.customer;
 
 import com.laundry.app.R;
 import com.laundry.app.databinding.RegisterLoginFragmentBinding;
@@ -18,11 +18,12 @@ public class RegisterOrLoginFragment extends BaseFragment<RegisterLoginFragmentB
     @Override
     public void onViewClick() {
         binding.login.setOnClickListener( v -> {
-//            navigateTo(R.id.action_navigation_RegisterOrLoginFragment_to_navigation_login);
+            navigateTo(R.id.action_navigation_register_or_login_to_navigation_login_account_dialog);
         });
 
         binding.signUp.setOnClickListener( v -> {
-//            navigateTo(R.id.action_navigation_RegisterOrLoginFragment_to_navigation_register);
+            navigateTo(R.id.action_navigation_register_or_login_to_navigation_register_account_dialog);
         });
     }
+
 }

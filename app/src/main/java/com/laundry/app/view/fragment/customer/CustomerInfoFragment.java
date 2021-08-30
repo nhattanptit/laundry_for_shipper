@@ -1,20 +1,14 @@
 package com.laundry.app.view.fragment.customer;
 
 import com.laundry.app.R;
-import com.laundry.app.databinding.FragmentDashboardBinding;
+import com.laundry.app.databinding.CustomerInfoFragmentBinding;
 import com.laundry.base.BaseFragment;
 
-public class DashboardFragment extends BaseFragment<FragmentDashboardBinding> {
-
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-    }
+public class CustomerInfoFragment extends BaseFragment<CustomerInfoFragmentBinding> {
 
     @Override
     protected int getLayoutResource() {
-        return R.layout.fragment_dashboard;
+        return R.layout.customer_info_fragment;
     }
 
     @Override
@@ -24,6 +18,5 @@ public class DashboardFragment extends BaseFragment<FragmentDashboardBinding> {
 
     @Override
     public void onViewClick() {
-
     }
 }

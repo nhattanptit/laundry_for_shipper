@@ -1,9 +1,13 @@
 package com.laundry.app.view.activity;
 
-import com.facebook.FacebookSdk;
 import android.content.Intent;
 import android.text.TextUtils;
 
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
+
+import com.facebook.FacebookSdk;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.laundry.app.R;
 import com.laundry.app.constant.Constant;
@@ -11,10 +15,6 @@ import com.laundry.app.databinding.HomeBinding;
 import com.laundry.app.dto.Role;
 import com.laundry.app.utils.SharePreferenceManager;
 import com.laundry.base.BaseActivity;
-
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.NavigationUI;
 
 public class HomeActivity extends BaseActivity<HomeBinding> {
 

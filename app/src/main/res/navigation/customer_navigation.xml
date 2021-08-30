@@ -13,13 +13,38 @@
 
     <fragment
         android:id="@+id/navigation_customer_order_list"
-        android:name="com.laundry.app.view.fragment.customer.DashboardFragment"
+        android:name="com.laundry.app.view.fragment.customer.CustomerOderHistoryListFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/customer_history_order_fragment" />
 
     <fragment
         android:id="@+id/navigation_customer_user"
-        android:name="com.laundry.app.view.fragment.customer.NotificationsFragment"
+        android:name="com.laundry.app.view.fragment.customer.CustomerInfoFragment"
         android:label="@string/title_information"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/customer_info_fragment" />
+
+    <fragment
+        android:id="@+id/navigation_register_or_login"
+        android:name="com.laundry.app.view.fragment.customer.RegisterOrLoginFragment"
+        android:label="@string/login_or_signup"
+        tools:layout="@layout/customer_info_fragment">
+        <action
+            android:id="@+id/action_navigation_register_or_login_to_navigation_register_account_dialog"
+            app:destination="@id/navigation_register_account_dialog" />
+        <action
+            android:id="@+id/action_navigation_register_or_login_to_navigation_login_account_dialog"
+            app:destination="@id/navigation_login_account_dialog" />
+    </fragment>
+
+    <dialog
+        android:id="@+id/navigation_register_account_dialog"
+        android:name="com.laundry.app.view.dialog.RegisterAccountDialog"
+        android:label="@string/register"
+        tools:layout="@layout/register_account_dialog" />
+
+    <dialog
+        android:id="@+id/navigation_login_account_dialog"
+        android:name="com.laundry.app.view.dialog.LoginDialog"
+        android:label="@string/login"
+        tools:layout="@layout/login_dialog" />
 </navigation>

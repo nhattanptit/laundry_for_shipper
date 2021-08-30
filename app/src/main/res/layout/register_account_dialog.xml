@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <FrameLayout
+        android:id="@+id/backgroundDialog"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="320dp"
+            android:layout_height="560dp"
+            android:layout_gravity="center"
+            android:background="#FFFFFF"
+            android:paddingHorizontal="15dp">
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/dp_12"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/logo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="80dp"
+                        android:src="@drawable/logo"
+                        app:layout_constraintDimensionRatio="1:1"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/nameText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_12"
+                        android:text="@string/name"
+                        android:textColor="#8cc63e"
+                        android:textSize="@dimen/sp_10"
+                        app:layout_constraintTop_toBottomOf="@+id/logo" />
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/nameEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_6"
+                        android:hint="Harry Potter"
+                        android:textColor="#777777"
+                        android:textSize="@dimen/sp_10"
+                        app:layout_constraintTop_toBottomOf="@+id/nameText" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/phoneText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_12"
+                        android:text="@string/phone"
+                        android:textColor="#8cc63e"
+                        android:textSize="@dimen/sp_10"
+                        app:layout_constraintTop_toBottomOf="@+id/nameEditText" />
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/phoneEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_6"
+                        android:hint="Harry Potter"
+                        android:textColor="#777777"
+                        android:textSize="@dimen/sp_10"
+                        app:layout_constraintTop_toBottomOf="@+id/phoneText" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/passwordText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_12"
+                        android:text="@string/password"
+                        android:textColor="#8cc63e"
+                        android:textSize="@dimen/sp_10"
+                        app:layout_constraintTop_toBottomOf="@+id/phoneEditText" />
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/passwordEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_6"
+                        android:hint="Harry Potter"
+                        android:textColor="#777777"
+                        android:textSize="@dimen/sp_10"
+                        app:layout_constraintTop_toBottomOf="@+id/passwordText" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/confirmPasswordText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_12"
+                        android:text="@string/confirm_password"
+                        android:textColor="#8cc63e"
+                        android:textSize="@dimen/sp_10"
+                        app:layout_constraintTop_toBottomOf="@+id/passwordEditText" />
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/confirmPasswordEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_6"
+                        android:hint="Harry Potter"
+                        android:textColor="#777777"
+                        android:textSize="@dimen/sp_10"
+                        app:layout_constraintTop_toBottomOf="@+id/confirmPasswordText" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/addressText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_12"
+                        android:text="@string/address"
+                        android:textColor="#8cc63e"
+                        android:textSize="@dimen/sp_10"
+                        app:layout_constraintTop_toBottomOf="@+id/confirmPasswordEditText" />
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/addressEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_6"
+                        android:hint="Harry Potter"
+                        android:textColor="#777777"
+                        android:textSize="@dimen/sp_10"
+                        app:layout_constraintTop_toBottomOf="@+id/addressText" />
+
+                    <androidx.appcompat.widget.AppCompatSpinner
+                        android:id="@+id/addressSpinner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_6"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/addressText" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/detailAddressText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_12"
+                        android:text="@string/detail_address"
+                        android:textColor="#8cc63e"
+                        android:textSize="@dimen/sp_10"
+                        app:layout_constraintTop_toBottomOf="@+id/addressSpinner" />
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/detailAddressEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_6"
+                        android:hint="Harry Potter"
+                        android:textColor="#777777"
+                        android:textSize="@dimen/sp_10"
+                        app:layout_constraintTop_toBottomOf="@+id/detailAddressText" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/backToLogin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_12"
+                        android:padding="@dimen/dp_2"
+                        android:text="@string/back_to_login"
+                        android:textColor="@color/color_0087e6"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/detailAddressEditText" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/registerButton"
+                        android:layout_width="@dimen/dp_240"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_12"
+                        android:background="@drawable/shaper_button_green_big"
+                        android:gravity="center"
+                        android:padding="@dimen/dp_12"
+                        android:text="@string/register"
+                        android:textColor="@color/white"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/backToLogin" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.core.widget.NestedScrollView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
+
+</layout>

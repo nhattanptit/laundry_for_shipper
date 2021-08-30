@@ -1,10 +1,10 @@
 package com.laundry.app.view.fragment.customer;
 
 import com.laundry.app.R;
-import com.laundry.app.databinding.FragmentDashboardBinding;
+import com.laundry.app.databinding.CustomerInfoFragmentBinding;
 import com.laundry.base.BaseFragment;
 
-public class DashboardFragment extends BaseFragment<FragmentDashboardBinding> {
+public class CustomerOderHistoryListFragment extends BaseFragment<CustomerInfoFragmentBinding> {
 
 
     @Override
@@ -14,7 +14,7 @@ public class DashboardFragment extends BaseFragment<FragmentDashboardBinding> {
 
     @Override
     protected int getLayoutResource() {
-        return R.layout.fragment_dashboard;
+        return R.layout.customer_history_order_fragment;
     }
 
     @Override

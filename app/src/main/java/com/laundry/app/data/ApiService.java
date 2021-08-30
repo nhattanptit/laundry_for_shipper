@@ -9,6 +9,7 @@ import retrofit2.http.POST;
 
 public interface ApiService {
 
-    @POST(APIConstant.URL_LOGIN)
-    Call<RegisterResponse> saveInfoRegister(@Body RegisterRequest body);
+    @POST(APIConstant.URL_SIGNUP)
+    Call<RegisterResponse> signup(@Body RegisterRequest body);
+
 }

@@ -3,13 +3,14 @@ package com.laundry.app.view.dialog;
 import android.util.Log;
 
 import com.laundry.app.R;
-import com.laundry.app.control.ControllerListener;
+import com.laundry.app.control.ApiServiceOperator;
 import com.laundry.app.control.DataController;
 import com.laundry.app.databinding.RegisterAccountDialogBinding;
 import com.laundry.app.dto.authentication.RegisterResponse;
 import com.laundry.base.BaseDialog;
 
-public class RegisterAccountDialog extends BaseDialog<RegisterAccountDialogBinding> {
+public class RegisterAccountDialog extends BaseDialog<RegisterAccountDialogBinding>
+        implements ApiServiceOperator.OnResponseListener<RegisterResponse> {
 
     private static final String TAG = "RegisterAccountDialog";
     private DataController controller = new DataController();
@@ -34,25 +35,13 @@ public class RegisterAccountDialog extends BaseDialog<RegisterAccountDialogBindi
 
     private void registerAccount() {
         controller.register(
-                "nguyenvana",
-                "thang123",
+                "tannv11",
+                "tan@12345",
                 "nguyen van a",
-                "thanglv11@gmail.com",
-                "0912345678",
+                "tannv11@gmail.com",
+                "0111111111",
                 "tp ha noi",
-                new ControllerListener<RegisterResponse>() {
-            @Override
-            public void onSuccess(RegisterResponse registerResponse) {
-
-            }
-
-            @Override
-            public void onFailure(Throwable throwable) {
-
-            }
-        });
-
-
+                this);
     }
 
 
@@ -61,4 +50,13 @@ public class RegisterAccountDialog extends BaseDialog<RegisterAccountDialogBindi
         return false;
     }
 
+    @Override
+    public void onSuccess(RegisterResponse body) {
+        Log.d(TAG, "onSuccess: " + body);
+    }
+
+    @Override
+    public void onFailure(Throwable t) {
+
+    }
 }

@@ -2,14 +2,47 @@ package com.laundry.app.control;
 
 import com.laundry.app.data.APIConstant;
 import com.laundry.app.data.ApiService;
+import com.laundry.app.dto.authentication.RegisterRequest;
+import com.laundry.app.dto.authentication.RegisterResponse;
+
+import org.jetbrains.annotations.NotNull;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class DataController {
 
-    private ApiService service = new APIConstant().getService();
+    private ApiService service = APIConstant.getService();
 
-    public void getData() {
-        service.getData();
+    public void register(String username,
+                         String password,
+                         String name,
+                         String email,
+                         String phoneNumber,
+                         String address,
+                         ControllerListener<RegisterResponse> callback) {
 
+        RegisterRequest request = new RegisterRequest();
+        request.setUsername(username);
+        request.setPassword(password);
+        request.setName(name);
+        request.setEmail(email);
+        request.setPhoneNumber(phoneNumber);
+        request.setAddress(address);
+
+        service.saveInfoRegister(request).enqueue(new Callback<RegisterResponse>() {
+            @Override
+            public void onResponse(@NotNull Call<RegisterResponse> call, @NotNull Response<RegisterResponse> response) {
+                if (response.isSuccessful()) {
+                    callback.onSuccess(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<RegisterResponse> call, @NotNull Throwable t) {
+                callback.onFailure(t);
+            }
+        });
     }
-
 }

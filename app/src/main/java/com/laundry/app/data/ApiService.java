@@ -1,10 +1,14 @@
 package com.laundry.app.data;
 
+import com.laundry.app.dto.authentication.RegisterRequest;
+import com.laundry.app.dto.authentication.RegisterResponse;
+
 import retrofit2.Call;
-import retrofit2.http.GET;
+import retrofit2.http.Body;
+import retrofit2.http.POST;
 
 public interface ApiService {
 
-    @GET("/get/abc")
-    Call<Boolean> getData();
+    @POST(APIConstant.URL_LOGIN)
+    Call<RegisterResponse> saveInfoRegister(@Body RegisterRequest body);
 }

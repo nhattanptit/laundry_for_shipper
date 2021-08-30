@@ -1,6 +1,7 @@
 package com.laundry.app.dto;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.laundry.app.utils.SharePreferenceManager;
 
@@ -35,6 +36,17 @@ public class UserInfo {
 
     public String getToken(Context context) {
         return SharePreferenceManager.getToken(context);
+    }
+
+    /**
+     * Check login
+     * @param context Context
+     * @return true if exist username and token else false
+     */
+    public boolean isLogin(Context context) {
+        username = SharePreferenceManager.getUsername(context);
+        token = SharePreferenceManager.getToken(context);
+        return !TextUtils.isEmpty(username) && !TextUtils.isEmpty(token);
     }
 
     public void init(Context context) {

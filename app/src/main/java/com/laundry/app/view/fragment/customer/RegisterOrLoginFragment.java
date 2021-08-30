@@ -17,11 +17,11 @@ public class RegisterOrLoginFragment extends BaseFragment<RegisterLoginFragmentB
 
     @Override
     public void onViewClick() {
-        binding.login.setOnClickListener( v -> {
+        binding.login.setOnClickListener(v -> {
             navigateTo(R.id.action_navigation_register_or_login_to_navigation_login_account_dialog);
         });
 
-        binding.signUp.setOnClickListener( v -> {
+        binding.signUp.setOnClickListener(v -> {
             navigateTo(R.id.action_navigation_register_or_login_to_navigation_register_account_dialog);
         });
     }

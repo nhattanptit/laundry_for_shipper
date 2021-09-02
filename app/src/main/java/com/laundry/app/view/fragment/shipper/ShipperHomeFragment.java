@@ -1,24 +1,40 @@
 package com.laundry.app.view.fragment.shipper;
 
 import android.os.Handler;
+import android.view.View;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager.widget.ViewPager;
 
 import com.laundry.app.R;
 import com.laundry.app.databinding.ShipperFragmentHomeBinding;
+import com.laundry.app.dto.order.OrderItem;
 import com.laundry.app.view.adapter.BannerAdapter;
+import com.laundry.app.view.adapter.HomeOrderAdapter;
 import com.laundry.base.BaseFragment;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding> implements ViewPager.OnPageChangeListener {
+public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding> implements ViewPager.OnPageChangeListener, SwipeRefreshLayout.OnRefreshListener {
 
     int[] mResources = {R.drawable.wash_and_iron_icon,
             R.drawable.ironing_icon,
             R.drawable.dry_cleaning_icon,
             R.drawable.wash_blanket_icon};
     int currentPage = 0;
+
+    private List<Object> mListNewOrder;
+    private HomeOrderAdapter mNewOrderAdapter;
+
+    private List<Object> mListHistoryOrder;
+    private HomeOrderAdapter mHistoryOrderAdapter;
+
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     protected int getLayoutResource() {
@@ -35,7 +51,16 @@ public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding
         BannerAdapter bannerAdapter = new BannerAdapter(getContext(), mResources);
         binding.viewPager.setAdapter(bannerAdapter);
         binding.wormDotsIndicator.setViewPager(binding.viewPager);
+        binding.pullToRefresh.setOnRefreshListener(this);
+
+
         autoSwipeBanner();
+
+        initNewOrder();
+        initHistoryOrder();
+
+        callListNewOrderApi();
+        callListHistoryOrderApi();
     }
 
     @Override
@@ -43,6 +68,11 @@ public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding
 
     }
 
+
+
+    /**
+     * Auto swipe banner top
+     */
     private void autoSwipeBanner() {
         Timer timer;
         final Handler handler = new Handler();
@@ -83,4 +113,239 @@ public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding
     public void onPageScrollStateChanged(int state) {
 
     }
+
+    @Override
+    public void onRefresh() {
+        callListNewOrderApi();
+        binding.pullToRefresh.setRefreshing(false);
+    }
+
+    /**
+     * Init list order
+     */
+    private void initNewOrder() {
+        mListNewOrder = new ArrayList<>();
+        mNewOrderAdapter = new HomeOrderAdapter(true);
+        binding.homeStaffNewOrderRcv.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
+        binding.homeStaffNewOrderRcv.setLayoutManager(linearLayoutManager);
+        binding.homeStaffNewOrderRcv.setAdapter(mNewOrderAdapter);
+        mNewOrderAdapter.submitList(mListNewOrder);
+        binding.homeStaffNewOrderRcv.bringToFront();
+    }
+
+    /**
+     * Init history order list
+     */
+    private void initHistoryOrder() {
+        mListHistoryOrder = new ArrayList<>();
+        mHistoryOrderAdapter = new HomeOrderAdapter(false);
+        binding.homeStaffHistoryOrderRcv.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
+        binding.homeStaffHistoryOrderRcv.setLayoutManager(linearLayoutManager);
+        binding.homeStaffHistoryOrderRcv.setAdapter(mHistoryOrderAdapter);
+        mHistoryOrderAdapter.submitList(mListHistoryOrder);
+        binding.homeStaffHistoryOrderRcv.bringToFront();
+    }
+
+    /**
+     * Call list new order api
+     */
+    public void callListNewOrderApi() {
+        mListNewOrder.add(new OrderItem("1"
+                , "https://image.thanhnien.vn/2048/uploaded/thanhlongn/2021_07_17/ngoctrinh_gejd.jpg"
+                , "Ngọc Trinh"
+                , "#AH1234"
+                , "Wash & Iron"
+                , "12 Jan 2021, 10:30 AM"
+                , "B 250 Basker Street ABC XYZ"
+                , "13 Jan 2021, 10:30 AM"
+                , "B 250 Basker Street ABC XYZ"));
+        mListNewOrder.add(new OrderItem("1"
+                , "https://image.thanhnien.vn/2048/uploaded/thanhlongn/2021_07_17/ngoctrinh_gejd.jpg"
+                , "Ngọc Trinh"
+                , "#AH1234"
+                , "Wash & Iron"
+                , "12 Jan 2021, 10:30 AM"
+                , "B 250 Basker Street ABC XYZ"
+                , "13 Jan 2021, 10:30 AM"
+                , "B 250 Basker Street ABC XYZ"));
+        mListNewOrder.add(new OrderItem("1"
+                , "https://image.thanhnien.vn/2048/uploaded/thanhlongn/2021_07_17/ngoctrinh_gejd.jpg"
+                , "Ngọc Trinh"
+                , "#AH1234"
+                , "Wash & Iron"
+                , "12 Jan 2021, 10:30 AM"
+                , "B 250 Basker Street ABC XYZ"
+                , "13 Jan 2021, 10:30 AM"
+                , "B 250 Basker Street ABC XYZ"));
+        mListNewOrder.add(new OrderItem("1"
+                , "https://image.thanhnien.vn/2048/uploaded/thanhlongn/2021_07_17/ngoctrinh_gejd.jpg"
+                , "Ngọc Trinh"
+                , "#AH1234"
+                , "Wash & Iron"
+                , "12 Jan 2021, 10:30 AM"
+                , "B 250 Basker Street ABC XYZ"
+                , "13 Jan 2021, 10:30 AM"
+                , "B 250 Basker Street ABC XYZ"));
+        mListNewOrder.add(new OrderItem("1"
+                , "https://image.thanhnien.vn/2048/uploaded/thanhlongn/2021_07_17/ngoctrinh_gejd.jpg"
+                , "Ngọc Trinh"
+                , "#AH1234"
+                , "Wash & Iron"
+                , "12 Jan 2021, 10:30 AM"
+                , "B 250 Basker Street ABC XYZ"
+                , "13 Jan 2021, 10:30 AM"
+                , "B 250 Basker Street ABC XYZ"));
+        mListNewOrder.add(new OrderItem("1"
+                , "https://image.thanhnien.vn/2048/uploaded/thanhlongn/2021_07_17/ngoctrinh_gejd.jpg"
+                , "Ngọc Trinh"
+                , "#AH1234"
+                , "Wash & Iron"
+                , "12 Jan 2021, 10:30 AM"
+                , "B 250 Basker Street ABC XYZ"
+                , "13 Jan 2021, 10:30 AM"
+                , "B 250 Basker Street ABC XYZ"));
+        mListNewOrder.add(new OrderItem("1"
+                , "https://image.thanhnien.vn/2048/uploaded/thanhlongn/2021_07_17/ngoctrinh_gejd.jpg"
+                , "Ngọc Trinh"
+                , "#AH1234"
+                , "Wash & Iron"
+                , "12 Jan 2021, 10:30 AM"
+                , "B 250 Basker Street ABC XYZ"
+                , "13 Jan 2021, 10:30 AM"
+                , "B 250 Basker Street ABC XYZ"));
+        mListNewOrder.add(new OrderItem("1"
+                , "https://image.thanhnien.vn/2048/uploaded/thanhlongn/2021_07_17/ngoctrinh_gejd.jpg"
+                , "Ngọc Trinh"
+                , "#AH1234"
+                , "Wash & Iron"
+                , "12 Jan 2021, 10:30 AM"
+                , "B 250 Basker Street ABC XYZ"
+                , "13 Jan 2021, 10:30 AM"
+                , "B 250 Basker Street ABC XYZ"));
+        mListNewOrder.add(new OrderItem("1"
+                , "https://image.thanhnien.vn/2048/uploaded/thanhlongn/2021_07_17/ngoctrinh_gejd.jpg"
+                , "Ngọc Trinh"
+                , "#AH1234"
+                , "Wash & Iron"
+                , "12 Jan 2021, 10:30 AM"
+                , "B 250 Basker Street ABC XYZ"
+                , "13 Jan 2021, 10:30 AM"
+                , "B 250 Basker Street ABC XYZ"));
+        mNewOrderAdapter.submitList(mListNewOrder);
+        updateList();
+    }
+
+    /**
+     * Call list history order api
+     */
+    public void callListHistoryOrderApi() {
+        mListHistoryOrder.add(new OrderItem("1"
+                , "https://image.thanhnien.vn/2048/uploaded/thanhlongn/2021_07_17/ngoctrinh_gejd.jpg"
+                , "Ngọc Trinh"
+                , "#AH1234"
+                , "Wash & Iron"
+                , "12 Jan 2021, 10:30 AM"
+                , "B 250 Basker Street ABC XYZ"
+                , "13 Jan 2021, 10:30 AM"
+                , "B 250 Basker Street ABC XYZ"));
+        mListHistoryOrder.add(new OrderItem("1"
+                , "https://image.thanhnien.vn/2048/uploaded/thanhlongn/2021_07_17/ngoctrinh_gejd.jpg"
+                , "Ngọc Trinh"
+                , "#AH1234"
+                , "Wash & Iron"
+                , "12 Jan 2021, 10:30 AM"
+                , "B 250 Basker Street ABC XYZ"
+                , "13 Jan 2021, 10:30 AM"
+                , "B 250 Basker Street ABC XYZ"));
+        mListHistoryOrder.add(new OrderItem("1"
+                , "https://image.thanhnien.vn/2048/uploaded/thanhlongn/2021_07_17/ngoctrinh_gejd.jpg"
+                , "Ngọc Trinh"
+                , "#AH1234"
+                , "Wash & Iron"
+                , "12 Jan 2021, 10:30 AM"
+                , "B 250 Basker Street ABC XYZ"
+                , "13 Jan 2021, 10:30 AM"
+                , "B 250 Basker Street ABC XYZ"));
+        mListHistoryOrder.add(new OrderItem("1"
+                , "https://image.thanhnien.vn/2048/uploaded/thanhlongn/2021_07_17/ngoctrinh_gejd.jpg"
+                , "Ngọc Trinh"
+                , "#AH1234"
+                , "Wash & Iron"
+                , "12 Jan 2021, 10:30 AM"
+                , "B 250 Basker Street ABC XYZ"
+                , "13 Jan 2021, 10:30 AM"
+                , "B 250 Basker Street ABC XYZ"));
+        mListHistoryOrder.add(new OrderItem("1"
+                , "https://image.thanhnien.vn/2048/uploaded/thanhlongn/2021_07_17/ngoctrinh_gejd.jpg"
+                , "Ngọc Trinh"
+                , "#AH1234"
+                , "Wash & Iron"
+                , "12 Jan 2021, 10:30 AM"
+                , "B 250 Basker Street ABC XYZ"
+                , "13 Jan 2021, 10:30 AM"
+                , "B 250 Basker Street ABC XYZ"));
+        mListHistoryOrder.add(new OrderItem("1"
+                , "https://image.thanhnien.vn/2048/uploaded/thanhlongn/2021_07_17/ngoctrinh_gejd.jpg"
+                , "Ngọc Trinh"
+                , "#AH1234"
+                , "Wash & Iron"
+                , "12 Jan 2021, 10:30 AM"
+                , "B 250 Basker Street ABC XYZ"
+                , "13 Jan 2021, 10:30 AM"
+                , "B 250 Basker Street ABC XYZ"));
+        mListHistoryOrder.add(new OrderItem("1"
+                , "https://image.thanhnien.vn/2048/uploaded/thanhlongn/2021_07_17/ngoctrinh_gejd.jpg"
+                , "Ngọc Trinh"
+                , "#AH1234"
+                , "Wash & Iron"
+                , "12 Jan 2021, 10:30 AM"
+                , "B 250 Basker Street ABC XYZ"
+                , "13 Jan 2021, 10:30 AM"
+                , "B 250 Basker Street ABC XYZ"));
+        mListHistoryOrder.add(new OrderItem("1"
+                , "https://image.thanhnien.vn/2048/uploaded/thanhlongn/2021_07_17/ngoctrinh_gejd.jpg"
+                , "Ngọc Trinh"
+                , "#AH1234"
+                , "Wash & Iron"
+                , "12 Jan 2021, 10:30 AM"
+                , "B 250 Basker Street ABC XYZ"
+                , "13 Jan 2021, 10:30 AM"
+                , "B 250 Basker Street ABC XYZ"));
+        mListHistoryOrder.add(new OrderItem("1"
+                , "https://image.thanhnien.vn/2048/uploaded/thanhlongn/2021_07_17/ngoctrinh_gejd.jpg"
+                , "Ngọc Trinh"
+                , "#AH1234"
+                , "Wash & Iron"
+                , "12 Jan 2021, 10:30 AM"
+                , "B 250 Basker Street ABC XYZ"
+                , "13 Jan 2021, 10:30 AM"
+                , "B 250 Basker Street ABC XYZ"));
+        mHistoryOrderAdapter.submitList(mListHistoryOrder);
+        updateList();
+    }
+
+    /**
+     * Set visibility list
+     */
+    private void updateList() {
+        if (mListNewOrder != null && !mListNewOrder.isEmpty()) {
+            binding.homeStaffNewOrderRcv.setVisibility(View.VISIBLE);
+            binding.newOrderHeadingLayout.setVisibility(View.VISIBLE);
+        } else {
+            binding.homeStaffNewOrderRcv.setVisibility(View.GONE);
+            binding.newOrderHeadingLayout.setVisibility(View.GONE);
+        }
+        if (mListHistoryOrder != null && !mListHistoryOrder.isEmpty()) {
+            binding.homeStaffHistoryOrderRcv.setVisibility(View.VISIBLE);
+            binding.historyOrderHeadingLayout.setVisibility(View.VISIBLE);
+        } else {
+            binding.homeStaffHistoryOrderRcv.setVisibility(View.GONE);
+            binding.historyOrderHeadingLayout.setVisibility(View.GONE);
+        }
+    }
+
 }

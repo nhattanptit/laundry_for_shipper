@@ -9,7 +9,11 @@
         android:id="@+id/navigation_customer_home"
         android:name="com.laundry.app.view.fragment.customer.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_customer_home_to_navigation_serviceDetailFragment"
+            app:destination="@id/navigation_serviceDetailFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_customer_order_list"
@@ -47,4 +51,10 @@
         android:name="com.laundry.app.view.dialog.LoginDialog"
         android:label="@string/login"
         tools:layout="@layout/login_dialog" />
+
+    <fragment
+        android:id="@+id/navigation_serviceDetailFragment"
+        android:name="com.laundry.app.view.fragment.customer.ServiceDetailFragment"
+        android:label="ServiceDetailFragment"
+        tools:layout="@layout/services_details_fragment" />
 </navigation>

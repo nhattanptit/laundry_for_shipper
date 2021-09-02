@@ -60,13 +60,13 @@
                         android:layout_height="500dp">
 
                         <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/productionRecycle"
+                            android:id="@+id/serviceAllRecycle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/dp_12"
                             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                             app:spanCount="2"
-                            tools:listitem="@layout/product_item" />
+                            tools:listitem="@layout/service_all_item" />
                     </FrameLayout>
                 </RelativeLayout>
             </RelativeLayout>

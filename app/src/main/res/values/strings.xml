@@ -36,4 +36,5 @@
     <string name="pickup_address">Pickup Address</string>
     <string name="delivery_date_time"><![CDATA[Delivery Date & Time]]></string>
     <string name="delivery_address">Delivery Address</string>
+    <string name="price">Price</string>
 </resources>

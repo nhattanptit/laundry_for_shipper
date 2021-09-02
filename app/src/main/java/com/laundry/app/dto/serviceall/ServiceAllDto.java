@@ -18,51 +18,66 @@ public class ServiceAllDto implements Serializable {
     @SerializedName("serviceIcon")
     @Expose
     private String serviceIcon;
-    @SerializedName("description")
 
+    @SerializedName("description")
     @Expose
     private String description;
 
-    public ServiceAllDto(int id, String name, String serviceIcon, String description) {
-
-        this.id = id;
-        this.name = name;
-        this.serviceIcon = serviceIcon;
-        this.description = description;
-    }
-
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getServiceIcon() {
-        return serviceIcon;
-    }
-
-    public void setServiceIcon(String serviceIcon) {
-        this.serviceIcon = serviceIcon;
-    }
-
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public ServiceAllType getServiceType() {
+        return ServiceAllType.getType(serviceIcon);
     }
 
-    public ServiceAllDto() {
+    public enum ServiceAllType implements INamedStatus {
+        CLEAN {
+            @Override
+            public String getStatusName() {
+                return "CLEAN";
+            }
+        },
+        DRY_CLEAN {
+            @Override
+            public String getStatusName() {
+                return "DRY_CLEAN";
+            }
+        },
+        DRY_CLEAN_AND_IRON {
+            @Override
+            public String getStatusName() {
+                return "DRY_CLEAN_AND_IRON";
+            }
+        },
+        BLANKET {
+            @Override
+            public String getStatusName() {
+                return "BLANKET";
+            }
+        };
+
+        static ServiceAllType getType(String type) {
+            switch (type) {
+                case "CLEAN":
+                    return CLEAN;
+                case "DRY_CLEAN":
+                    return DRY_CLEAN;
+                case "DRY_CLEAN_AND_IRON":
+                    return DRY_CLEAN_AND_IRON;
+                case "BLANKET":
+                    return BLANKET;
+                default:
+                    return null;
+            }
+        }
     }
 }

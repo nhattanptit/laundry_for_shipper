@@ -10,6 +10,8 @@ import com.laundry.app.model.Setting;
 import com.laundry.app.model.Student;
 import com.laundry.base.BaseAdapter;
 
+import java.util.List;
+
 public class SettingAdapter extends BaseAdapter {
 
     public static final int VIEW_TYPE_SETTING = 1;
@@ -17,7 +19,7 @@ public class SettingAdapter extends BaseAdapter {
 
     @Override
     public int getItemViewType(int position) {
-        if (position == 0 || position == getDataList().size() - 1) {
+        if (position == 0 || position == dataList.size() - 1) {
             return VIEW_TYPE_STUDENT;
         } else {
             return VIEW_TYPE_SETTING;
@@ -38,7 +40,7 @@ public class SettingAdapter extends BaseAdapter {
 
     @Override
     protected Object getDataInPosition(int position) {
-        return getDataList().get(position);
+        return dataList.get(position);
     }
 
     @Override
@@ -48,6 +50,11 @@ public class SettingAdapter extends BaseAdapter {
         } else {
             return new StudentVH(viewDataBinding);
         }
+    }
+
+    @Override
+    public void submitList(List<?> list) {
+
     }
 
     class SettingVH extends BaseVH<Setting> {

@@ -22,6 +22,9 @@ public class ServiceDetailDisplay extends BaseDisplay<ServiceDetailDto> {
             case HOME:
                 return R.drawable.home_curtain_icon;
             case OTHER:
+            case WOOLEN_BlANKET:
+            case DUVET:
+            case COMFORTER:
                 return R.drawable.other_icon;
             default:
                 return INVALID_RESOURCE;

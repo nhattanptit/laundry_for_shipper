@@ -1,5 +1,7 @@
 package com.laundry.app.dto.sevicedetail;
 
+import android.util.Log;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.laundry.app.dto.serviceall.INamedStatus;
@@ -77,6 +79,24 @@ public class ServiceDetailDto {
                 return "HOME";
             }
         },
+        WOOLEN_BlANKET {
+            @Override
+            public String getStatusName() {
+                return "WOOLEN_BlANKET";
+            }
+        },
+        DUVET {
+            @Override
+            public String getStatusName() {
+                return "DUVET";
+            }
+        },
+        COMFORTER {
+            @Override
+            public String getStatusName() {
+                return "COMFORTER";
+            }
+        },
         OTHER {
             @Override
             public String getStatusName() {
@@ -84,7 +104,9 @@ public class ServiceDetailDto {
             }
         };
 
+        private static final String TAG = "ServiceDetailType";
         static ServiceDetailType getType(String type) {
+            Log.d(TAG, "getType: " + type);
             switch (type) {
                 case "T_SHIRT":
                     return T_SHIRT;
@@ -98,6 +120,12 @@ public class ServiceDetailDto {
                     return HOME;
                 case "OTHER":
                     return OTHER;
+                case "WOOLEN_BlANKET":
+                    return WOOLEN_BlANKET;
+                case "DUVET":
+                    return DUVET;
+                case "COMFORTER":
+                    return COMFORTER;
                 default:
                     return null;
             }

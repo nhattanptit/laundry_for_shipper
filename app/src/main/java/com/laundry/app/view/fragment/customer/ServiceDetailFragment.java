@@ -9,10 +9,8 @@ import com.laundry.app.databinding.ServicesDetailsFragmentBinding;
 import com.laundry.app.dto.ordercreate.OrderResponse;
 import com.laundry.app.dto.ordercreate.OrderServiceDetailForm;
 import com.laundry.app.dto.serviceall.ServiceAllDto;
-import com.laundry.app.dto.sevicedetail.ServiceDetailDto;
 import com.laundry.app.dto.sevicedetail.ServicesDetailResponse;
 import com.laundry.app.view.adapter.ServiceDetailAdapter;
-import com.laundry.app.view.adapter.ServiceDetailDisplay;
 import com.laundry.base.BaseFragment;
 
 import java.util.ArrayList;

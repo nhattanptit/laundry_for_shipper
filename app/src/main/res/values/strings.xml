@@ -29,4 +29,11 @@
     <string name="sign_up">Sign Up</string>
     <string name="login_or_signup">Login and Sign Up</string>
     <string name="wash_iron"><![CDATA[Wash & Iron]]></string>
+    <string name="new_order">New order</string>
+    <string name="order_history">Order history</string>
+    <string name="accept">Accept</string>
+    <string name="picked_date_time"><![CDATA[Pickup Date & Time]]></string>
+    <string name="pickup_address">Pickup Address</string>
+    <string name="delivery_date_time"><![CDATA[Delivery Date & Time]]></string>
+    <string name="delivery_address">Delivery Address</string>
 </resources>

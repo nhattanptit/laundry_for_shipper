@@ -3,82 +3,159 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/pullToRefresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".view.fragment.customer.home.HomeFragment">
+        android:layout_height="wrap_content">
 
-        <androidx.core.widget.NestedScrollView
+        <RelativeLayout xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/green_8cc63e">
+            tools:context=".view.fragment.customer.home.HomeFragment">
 
-            <RelativeLayout
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:weightSum="4">
-
-                <RelativeLayout
-                    android:id="@+id/banner"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_200">
-
-                    <androidx.viewpager.widget.ViewPager
-                        android:id="@+id/viewPager"
-                        android:layout_width="match_parent"
-                        android:layout_height="140dp">
-
-                    </androidx.viewpager.widget.ViewPager>
-
-                    <!--library https://github.com/tommybuonomo/dotsindicator-->
-                    <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
-                        android:id="@+id/worm_dots_indicator"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/viewPager"
-                        android:layout_centerHorizontal="true"
-                        app:dotsColor="@color/com_facebook_blue"
-                        app:dotsCornerRadius="@dimen/dp_8"
-                        app:dotsSize="@dimen/dp_8"
-                        app:dotsSpacing="@dimen/dp_4"
-                        app:dotsStrokeColor="@color/white"
-                        app:dotsStrokeWidth="@dimen/dp_2" />
-
-                </RelativeLayout>
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="@dimen/dp_260"
-                    android:layout_height="@dimen/dp_160"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/dp_160"
-                    android:background="@color/white"
-                    app:cardCornerRadius="@dimen/dp_8"
-                    app:cardElevation="@dimen/dp_4">
-
-                    <Button
-                        android:layout_width="@dimen/dp_160"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:background="@drawable/shaper_button_green"
-                        android:text="Login" />
-                </androidx.cardview.widget.CardView>
+                android:background="@color/green_8cc63e">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_below="@+id/banner"
-                    android:background="@drawable/card_background">
+                    android:orientation="vertical"
+                    android:weightSum="4">
 
-                    <FrameLayout
+                    <RelativeLayout
+                        android:id="@+id/banner"
                         android:layout_width="match_parent"
-                        android:layout_height="500dp">
-                    </FrameLayout>
+                        android:layout_height="@dimen/dp_200">
+
+                        <androidx.viewpager.widget.ViewPager
+                            android:id="@+id/viewPager"
+                            android:layout_width="match_parent"
+                            android:layout_height="140dp">
+
+                        </androidx.viewpager.widget.ViewPager>
+
+                        <!--library https://github.com/tommybuonomo/dotsindicator-->
+                        <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
+                            android:id="@+id/worm_dots_indicator"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/viewPager"
+                            android:layout_centerHorizontal="true"
+                            app:dotsColor="@color/com_facebook_blue"
+                            app:dotsCornerRadius="@dimen/dp_8"
+                            app:dotsSize="@dimen/dp_8"
+                            app:dotsSpacing="@dimen/dp_4"
+                            app:dotsStrokeColor="@color/white"
+                            app:dotsStrokeWidth="@dimen/dp_2" />
+
+                    </RelativeLayout>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/none_login_view"
+                        android:layout_width="@dimen/dp_260"
+                        android:layout_height="@dimen/dp_160"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/dp_160"
+                        android:background="@color/white"
+                        app:cardCornerRadius="@dimen/dp_8"
+                        app:cardElevation="@dimen/dp_4">
+
+                        <Button
+                            android:layout_width="@dimen/dp_160"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:background="@drawable/shaper_button_green"
+                            android:text="Login" />
+                    </androidx.cardview.widget.CardView>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@+id/banner"
+                        android:background="@drawable/card_background_gray"
+                        android:elevation="@dimen/dp_2">
+
+                        <LinearLayout
+                            android:id="@+id/new_order_heading_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dp_16"
+                            android:layout_marginTop="@dimen/dp_128"
+                            android:layout_marginEnd="@dimen/dp_16"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/new_icon" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/dp_6"
+                                android:text="@string/new_order"
+                                android:textColor="@color/green_8cc63e"
+                                android:textSize="@dimen/sp_21"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/home_staff_new_order_rcv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/new_order_heading_layout"
+                            android:layout_marginTop="@dimen/dp_16"
+                            android:paddingEnd="@dimen/dp_12" />
+
+                        <LinearLayout
+                            android:id="@+id/history_order_heading_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/home_staff_new_order_rcv"
+                            android:layout_marginStart="@dimen/dp_16"
+                            android:layout_marginTop="@dimen/dp_16"
+                            android:layout_marginEnd="@dimen/dp_16"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:visibility="gone">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/history_icon" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/dp_6"
+                                android:text="@string/order_history"
+                                android:textColor="@color/green_8cc63e"
+                                android:textSize="@dimen/sp_21"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/home_staff_history_order_rcv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/history_order_heading_layout"
+                            android:layout_marginTop="@dimen/dp_16"
+                            android:clipToPadding="false"
+                            android:visibility="gone" />
+
+                        <FrameLayout
+                            android:id="@+id/background_corner"
+                            android:layout_width="match_parent"
+                            android:layout_height="500dp" />
+                    </RelativeLayout>
+
+
                 </RelativeLayout>
+            </androidx.core.widget.NestedScrollView>
 
-
-            </RelativeLayout>
-        </androidx.core.widget.NestedScrollView>
-
-    </RelativeLayout>
+        </RelativeLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>

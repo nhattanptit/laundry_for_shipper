@@ -1,6 +1,5 @@
 package com.laundry.app.view.adapter;
 
-import android.content.Context;
 import android.view.View;
 
 import androidx.databinding.ViewDataBinding;
@@ -28,12 +27,17 @@ public class HomeOrderAdapter extends BaseAdapter {
 
     @Override
     protected Object getDataInPosition(int position) {
-        return getDataList().get(position);
+        return dataList.get(position);
     }
 
     @Override
     protected BaseVH<?> onCreateVH(int viewType, ViewDataBinding viewDataBinding) {
         return new OrderVH(viewDataBinding);
+    }
+
+    @Override
+    public void submitList(List<?> list) {
+        setDataList((List<Object>) list);
     }
 
     /**

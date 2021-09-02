@@ -28,4 +28,5 @@
     <string name="sign_in_with_google">Sign in with Google</string>
     <string name="sign_up">Sign Up</string>
     <string name="login_or_signup">Login and Sign Up</string>
+    <string name="wash_iron"><![CDATA[Wash & Iron]]></string>
 </resources>

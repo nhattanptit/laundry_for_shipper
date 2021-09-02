@@ -23,4 +23,7 @@
     <dimen name="dp_110">110dp</dimen>
     <dimen name="dp_280">280dp</dimen>
     <dimen name="dp_28">28dp</dimen>
+    <dimen name="dp_20">20dp</dimen>
+    <dimen name="dp_15">15dp</dimen>
+    <dimen name="sp_15">15sp</dimen>
 </resources>

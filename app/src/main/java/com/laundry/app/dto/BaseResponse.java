@@ -6,5 +6,5 @@ import com.google.gson.annotations.SerializedName;
 public class BaseResponse {
     @SerializedName("status")
     @Expose
-    private String status;
+    public String status;
 }

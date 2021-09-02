@@ -2,21 +2,18 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data>
-
-    </data>
-
     <FrameLayout
         android:id="@+id/backgroundDialog"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="320dp"
-            android:layout_height="560dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_margin="@dimen/dp_16"
             android:background="#FFFFFF"
-            android:paddingHorizontal="15dp">
+            android:paddingHorizontal="@dimen/dp_16">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/logo"
@@ -31,45 +28,6 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/nameText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_12"
-                android:text="@string/name"
-                android:textColor="#8cc63e"
-                android:textSize="@dimen/sp_10"
-                app:layout_constraintTop_toBottomOf="@+id/logo" />
-
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/nameEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_6"
-                android:textColor="#777777"
-                android:textSize="@dimen/sp_10"
-                app:layout_constraintTop_toBottomOf="@+id/nameText" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/passwordText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_12"
-                android:text="@string/password"
-                android:textColor="#8cc63e"
-                android:textSize="@dimen/sp_10"
-                app:layout_constraintTop_toBottomOf="@+id/nameEditText" />
-
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/passwordEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_6"
-                android:inputType="textPassword"
-                android:textColor="#777777"
-                android:textSize="@dimen/sp_10"
-                app:layout_constraintTop_toBottomOf="@+id/passwordText" />
-
-            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/forgotPasswordText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -78,7 +36,7 @@
                 android:text="@string/forgot_password"
                 android:textColor="@color/color_0087e6"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/passwordEditText" />
+                app:layout_constraintTop_toBottomOf="@+id/account_password_layout" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/login"
@@ -105,28 +63,77 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/login" />
-<!--
-            <com.facebook.login.widget.LoginButton
-                android:id="@+id/loginWithFacebook"
-                android:layout_width="@dimen/dp_160"
-                android:layout_height="@dimen/dp_48"
-                android:layout_marginTop="@dimen/dp_18"
-                android:background="@color/color_0087e6"
-                android:text="@string/login_with_facebook"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/connectWithText" />
 
-            <com.google.android.gms.common.SignInButton
-                android:id="@+id/loginWithGoogle"
-                android:layout_width="@dimen/dp_160"
-                android:layout_height="@dimen/dp_48"
-                android:layout_marginTop="@dimen/dp_10"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/loginWithFacebook" />-->
+<!--            <com.facebook.login.widget.LoginButton-->
+<!--                android:id="@+id/loginWithFacebook"-->
+<!--                android:layout_width="@dimen/dp_160"-->
+<!--                android:layout_height="@dimen/dp_48"-->
+<!--                android:layout_marginTop="@dimen/dp_16"-->
+<!--                android:background="@color/color_0087e6"-->
+<!--                android:text="@string/login_with_facebook"-->
+<!--                android:textAllCaps="false"-->
+<!--                android:textColor="@color/white"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/connectWithText" />-->
+
+<!--            <com.google.android.gms.common.SignInButton-->
+<!--                android:id="@+id/loginWithGoogle"-->
+<!--                android:layout_width="@dimen/dp_160"-->
+<!--                android:layout_height="@dimen/dp_48"-->
+<!--                android:layout_marginTop="@dimen/dp_8"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/loginWithFacebook" />-->
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/account_password_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_4"
+                app:layout_constraintTop_toBottomOf="@+id/account_username_layout">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/account_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_password"
+                    android:inputType="textPassword"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="@color/green_8cc63e"
+                    android:textColorHint="@color/green_8cc63e"
+                    android:textSize="@dimen/sp_13" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/account_username_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_16"
+                app:layout_constraintTop_toBottomOf="@+id/logo">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/account_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
+                    android:hint="@string/hint_username"
+                    android:inputType="textFilter"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="@color/green_8cc63e"
+                    android:textColorHint="@color/green_8cc63e"
+                    android:textSize="@dimen/sp_13" />
+
+            </com.google.android.material.textfield.TextInputLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
+
+    <data>
+
+    </data>
 </layout>

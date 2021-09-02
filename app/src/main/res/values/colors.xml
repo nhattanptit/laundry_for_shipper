@@ -10,4 +10,6 @@
     <color name="black">#000000</color>
     <color name="error_red">#f44336</color>
 
+    <color name="Color_e2e2e2">#e2e2e2</color>
+    <color name="Color_ff5555">#ff5555</color>
 </resources>

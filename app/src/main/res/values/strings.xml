@@ -39,4 +39,6 @@
     <string name="hint_ward">Ward *</string>
     <string name="hint_username">Enter username *</string>
     <string name="name_wrong">Please enter full name.</string>
+    <string name="wash_iron"><![CDATA[Wash & Iron]]></string>
+    <string name="price">Price</string>
 </resources>

@@ -8,16 +8,17 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class BaseAdapter extends RecyclerView.Adapter<BaseAdapter.BaseVH<Object>> {
 
     public static final int INVALID_RESOURCE = -1;
-    private List<Object> mDataList;
+    protected List<Object> dataList;
 
     @Override
     public int getItemCount() {
-        return mDataList.size();
+        return dataList != null ? dataList.size() : 0;
     }
 
     protected abstract int getLayoutResource(int viewType);
@@ -25,6 +26,8 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseAdapter.BaseV
     protected abstract Object getDataInPosition(int position);
 
     protected abstract BaseVH<?> onCreateVH(int viewType, ViewDataBinding viewDataBinding);
+
+    public abstract void submitList(List<? extends Object> list);
 
     @NonNull
     @Override
@@ -48,33 +51,37 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseAdapter.BaseV
         }
     }
 
-    public void setDataList(List<Object> list) {
-        this.mDataList = list;
+    // sử dụng để set list
+    protected void setDataList(List<Object> list) {
+        this.dataList = list;
         notifyDataSetChanged();
     }
 
-    public List<Object> getDataList() {
-        return mDataList;
+    // sử dụng để reset list display về object
+    protected void resetDataList(List<? extends BaseDisplay> list){
+        List<Object> dataSet = new ArrayList<>();
+        dataSet.addAll(list);
+        setDataList(dataSet);
     }
 
     public void add(Object item) {
-        this.mDataList.add(item);
+        this.dataList.add(item);
         notifyItemInserted(getItemCount());
     }
 
     public void add(Object item, int position) {
-        this.mDataList.add(position, item);
+        this.dataList.add(position, item);
         notifyItemInserted(position);
         notifyItemRangeChanged(position, getItemCount());
     }
 
     public void update(Object item, int position) {
-        this.mDataList.set(position, item);
+        this.dataList.set(position, item);
         notifyItemChanged(position);
     }
 
     public void delete(Object item, int position) {
-        this.mDataList.remove(item);
+        this.dataList.remove(item);
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, getItemCount());
     }

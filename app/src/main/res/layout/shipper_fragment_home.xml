@@ -24,12 +24,34 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_200">
 
+                    <androidx.viewpager.widget.ViewPager
+                        android:id="@+id/viewPager"
+                        android:layout_width="match_parent"
+                        android:layout_height="140dp">
+
+                    </androidx.viewpager.widget.ViewPager>
+
+                    <!--library https://github.com/tommybuonomo/dotsindicator-->
+                    <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
+                        android:id="@+id/worm_dots_indicator"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/viewPager"
+                        android:layout_centerHorizontal="true"
+                        app:dotsColor="@color/com_facebook_blue"
+                        app:dotsCornerRadius="@dimen/dp_8"
+                        app:dotsSize="@dimen/dp_8"
+                        app:dotsSpacing="@dimen/dp_4"
+                        app:dotsStrokeColor="@color/white"
+                        app:dotsStrokeWidth="@dimen/dp_2" />
+
                 </RelativeLayout>
+
                 <androidx.cardview.widget.CardView
-                    android:layout_marginTop="@dimen/dp_160"
                     android:layout_width="@dimen/dp_260"
                     android:layout_height="@dimen/dp_160"
                     android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/dp_160"
                     android:background="@color/white"
                     app:cardCornerRadius="@dimen/dp_8"
                     app:cardElevation="@dimen/dp_4">
@@ -41,6 +63,7 @@
                         android:background="@drawable/shaper_button_green"
                         android:text="Login" />
                 </androidx.cardview.widget.CardView>
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -50,7 +73,6 @@
                     <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="500dp">
-
                     </FrameLayout>
                 </RelativeLayout>
 

@@ -2,6 +2,7 @@ package com.laundry.app.control;
 
 import com.laundry.app.data.APIConstant;
 import com.laundry.app.data.ApiService;
+import com.laundry.app.dto.serviceall.ServiceAllBody;
 import com.laundry.app.dto.authentication.RegisterRequest;
 import com.laundry.app.dto.authentication.RegisterResponse;
 
@@ -30,5 +31,8 @@ public class DataController {
         call.enqueue(new ApiServiceOperator<>(listener));
     }
 
-
+    public void getServicesAll(ApiServiceOperator.OnResponseListener<ServiceAllBody> listener) {
+        Call<ServiceAllBody> call = service.getServicesAll();
+        call.enqueue(new ApiServiceOperator<>(listener));
+    }
 }

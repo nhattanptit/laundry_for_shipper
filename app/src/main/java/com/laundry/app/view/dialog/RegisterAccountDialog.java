@@ -1,5 +1,6 @@
 package com.laundry.app.view.dialog;
 
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
@@ -28,8 +29,18 @@ public class RegisterAccountDialog extends BaseDialog<RegisterAccountDialogBindi
 
     private static final String TAG = RegisterAccountDialog.class.getSimpleName();
     private final DataController controller = new DataController();
+    private String currentTab;
 
     private RegisterRequest mRegisterRequest = new RegisterRequest();
+
+    public static RegisterAccountDialog newInstance(String currentTab) {
+        RegisterAccountDialog registerAccountDialog = new RegisterAccountDialog();
+        Bundle bundle = new Bundle();
+        bundle.putString(Constant.CURRENT_TAB, currentTab);
+        registerAccountDialog.setArguments(bundle);
+
+        return registerAccountDialog;
+    }
 
     @Override
     protected int getLayoutResource() {
@@ -38,6 +49,10 @@ public class RegisterAccountDialog extends BaseDialog<RegisterAccountDialogBindi
 
     @Override
     public void onInitView() {
+        if (getArguments() != null) {
+            currentTab = getArguments().getString(Constant.CURRENT_TAB);
+        }
+
         loadCityList();
     }
 
@@ -48,7 +63,12 @@ public class RegisterAccountDialog extends BaseDialog<RegisterAccountDialogBindi
         }));
 
         binding.backToLogin.setOnClickListener(new SingleTapListener(view -> {
-            LoginDialog loginDialog = new LoginDialog();
+            LoginDialog loginDialog;
+            if (!TextUtils.isEmpty(currentTab)) {
+                loginDialog = LoginDialog.newInstance(currentTab);
+            } else {
+                loginDialog = new LoginDialog();
+            }
             loginDialog.show(getMyActivity().getSupportFragmentManager(), LoginDialog.class.getSimpleName());
             this.dismiss();
         }));
@@ -63,7 +83,12 @@ public class RegisterAccountDialog extends BaseDialog<RegisterAccountDialogBindi
     public void onSuccess(RegisterResponse body) {
         int returnCd = Integer.parseInt(body.status);
         if (returnCd == 200) {
-            LoginDialog loginDialog = new LoginDialog();
+            LoginDialog loginDialog;
+            if (!TextUtils.isEmpty(currentTab)) {
+                loginDialog = LoginDialog.newInstance(currentTab);
+            } else {
+                loginDialog = new LoginDialog();
+            }
             loginDialog.show(getMyActivity().getSupportFragmentManager(), LoginDialog.class.getSimpleName());
             this.dismiss();
         } else {

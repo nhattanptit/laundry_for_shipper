@@ -68,12 +68,12 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
         });
 
         binding.login.setOnClickListener(new SingleTapListener(view -> {
-            LoginDialog loginDialog = new LoginDialog();
+            LoginDialog loginDialog = LoginDialog.newInstance(HomeFragment.class.getSimpleName());
             loginDialog.show(getMyActivity().getSupportFragmentManager(), LoginDialog.class.getSimpleName());
         }));
 
         binding.signUp.setOnClickListener(new SingleTapListener(view -> {
-            RegisterAccountDialog registerAccountDialog = new RegisterAccountDialog();
+            RegisterAccountDialog registerAccountDialog = RegisterAccountDialog.newInstance(HomeFragment.class.getSimpleName());
             registerAccountDialog.show(getMyActivity().getSupportFragmentManager(), RegisterAccountDialog.class.getSimpleName());
         }));
     }

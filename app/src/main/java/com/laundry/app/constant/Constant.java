@@ -33,4 +33,5 @@ public class Constant {
     public static final String ADDRESS_WRONG = "Please enter address.";
 
 
+    public static final String CURRENT_TAB = "current_tab";
 }

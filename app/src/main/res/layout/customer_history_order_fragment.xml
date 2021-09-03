@@ -8,66 +8,20 @@
         android:layout_height="match_parent"
         tools:context=".view.fragment.customer.home.HomeFragment">
 
-        <androidx.core.widget.NestedScrollView
+        <RelativeLayout
+            android:id="@+id/register_login_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/green_8cc63e">
+            android:visibility="gone">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:weightSum="4">
+            <include
+                android:id="@+id/register_login_fragment"
+                layout="@layout/register_login_fragment" />
+        </RelativeLayout>
 
-                <RelativeLayout
-                    android:id="@+id/banner"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_200">
-
-                    <androidx.viewpager.widget.ViewPager
-                        android:id="@+id/viewPager"
-                        android:layout_width="match_parent"
-                        android:layout_height="140dp">
-
-                    </androidx.viewpager.widget.ViewPager>
-
-                    <!--library https://github.com/tommybuonomo/dotsindicator-->
-                    <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
-                        android:id="@+id/worm_dots_indicator"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/viewPager"
-                        android:layout_centerHorizontal="true"
-                        app:dotsColor="@color/white"
-                        app:dotsCornerRadius="@dimen/dp_8"
-                        app:dotsSize="@dimen/dp_4"
-                        app:dotsSpacing="@dimen/dp_4"
-                        app:dotsStrokeColor="@color/white"
-                        app:dotsStrokeWidth="@dimen/dp_2" />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_below="@+id/banner"
-                    android:background="@drawable/card_background">
-
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="500dp">
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/productionRecycle"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:padding="@dimen/dp_20" />
-                    </FrameLayout>
-                </RelativeLayout>
-
-
-            </RelativeLayout>
-        </androidx.core.widget.NestedScrollView>
-
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/order_history_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </RelativeLayout>
 </layout>

@@ -10,6 +10,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.laundry.app.R;
 import com.laundry.app.databinding.ShipperFragmentHomeBinding;
+import com.laundry.app.dto.UserInfo;
 import com.laundry.app.dto.order.OrderItem;
 import com.laundry.app.view.adapter.BannerAdapter;
 import com.laundry.app.view.adapter.HomeOrderAdapter;
@@ -20,12 +21,14 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding> implements ViewPager.OnPageChangeListener, SwipeRefreshLayout.OnRefreshListener {
+public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding> implements ViewPager.OnPageChangeListener
+        , SwipeRefreshLayout.OnRefreshListener {
 
-    int[] mResources = {R.drawable.wash_and_iron_icon,
-            R.drawable.ironing_icon,
-            R.drawable.dry_cleaning_icon,
-            R.drawable.wash_blanket_icon};
+    int[] mResourcesBanner = {R.drawable.banner1,
+            R.drawable.banner2,
+            R.drawable.banner3,
+            R.drawable.banner4,
+            R.drawable.banner5};
     int currentPage = 0;
 
     private List<Object> mListNewOrder;
@@ -33,6 +36,8 @@ public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding
 
     private List<Object> mListHistoryOrder;
     private HomeOrderAdapter mHistoryOrderAdapter;
+
+    private List<Object> mListOrderAreShipping;
 
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
@@ -48,26 +53,43 @@ public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding
 
     @Override
     public void onInitView() {
-        BannerAdapter bannerAdapter = new BannerAdapter(getContext(), mResources);
+        BannerAdapter bannerAdapter = new BannerAdapter(getContext(), mResourcesBanner);
         binding.viewPager.setAdapter(bannerAdapter);
         binding.wormDotsIndicator.setViewPager(binding.viewPager);
         binding.pullToRefresh.setOnRefreshListener(this);
 
-
         autoSwipeBanner();
 
+        initOrderAreShipping();
         initNewOrder();
         initHistoryOrder();
 
+        callOrderAreShippingApi();
         callListNewOrderApi();
         callListHistoryOrderApi();
+
+        binding.homeStaffButtonLogin.setVisibility(UserInfo.getInstance().isLogin(getActivity()) ? View.GONE : View.VISIBLE);
+    }
+
+    /**
+     * call order are shipping api
+     */
+    private void callOrderAreShippingApi() {
+    }
+
+    /**
+     * List order are shipping
+     */
+    private void initOrderAreShipping() {
+        mListOrderAreShipping = new ArrayList<>();
     }
 
     @Override
     public void onViewClick() {
-
+        binding.homeStaffButtonLogin.setOnClickListener(v -> {
+            navigateTo(R.id.action_home_staff_to_navigation_login_account_dialog);
+        });
     }
-
 
 
     /**
@@ -78,7 +100,7 @@ public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding
         final Handler handler = new Handler();
         final Runnable runnable = new Runnable() {
             public void run() {
-                if (currentPage == mResources.length) {
+                if (currentPage == mResourcesBanner.length) {
                     currentPage = 0;
                 }
                 binding.viewPager.setCurrentItem(currentPage++, true);
@@ -101,7 +123,7 @@ public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding
 
     @Override
     public void onPageSelected(int position) {
-        int pageCount = mResources.length;
+        int pageCount = mResourcesBanner.length;
         if (position == 0) {
             binding.viewPager.setCurrentItem(pageCount - 2, false);
         } else if (position == pageCount - 1) {
@@ -118,6 +140,14 @@ public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding
     public void onRefresh() {
         callListNewOrderApi();
         binding.pullToRefresh.setRefreshing(false);
+    }
+
+
+
+    /**
+     * Handle onclick login
+     */
+    private void onClickLogin() {
     }
 
     /**
@@ -347,5 +377,4 @@ public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding
             binding.historyOrderHeadingLayout.setVisibility(View.GONE);
         }
     }
-
 }

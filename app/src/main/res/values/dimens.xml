@@ -38,4 +38,12 @@
     <dimen name="dp_600">600dp</dimen>
     <dimen name="dp_800">800dp</dimen>
     <dimen name="dp_24">24dp</dimen>
+    <dimen name="dp_300">300dp</dimen>
+    <dimen name="dp_150">150dp</dimen>
+    <dimen name="dp_250">250dp</dimen>
+    <dimen name="dp_72">72dp</dimen>
+    <dimen name="dp_96">96dp</dimen>
+    <dimen name="dp_48">48dp</dimen>
+    <dimen name="dp_100">100dp</dimen>
+    <dimen name="sp_8">8sp</dimen>
 </resources>

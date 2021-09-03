@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
@@ -22,6 +23,7 @@ public abstract class BaseFragment<DB extends ViewDataBinding> extends Fragment 
     protected DB binding;
     private OnBackPressedCallback mCallback;
     private BaseActivity mActivity;
+    protected LinearLayout mProgressBarView;
 
 
     protected abstract int getLayoutResource();

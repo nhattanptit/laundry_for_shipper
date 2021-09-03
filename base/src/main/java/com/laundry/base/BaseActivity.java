@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.InflateException;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,6 +22,7 @@ public abstract class BaseActivity<DB extends ViewDataBinding> extends AppCompat
     protected DB binding;
     private static final int REQUEST_PERMISSION = 10000;
     private ConfigPermission mConfigPermission;
+    protected LinearLayout mProgressBarView;
 
 
     protected abstract int getLayoutResource();

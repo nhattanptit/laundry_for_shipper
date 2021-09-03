@@ -53,4 +53,5 @@
     <string name="call">Call</string>
     <string name="done">Done</string>
     <string name="order_are_shipping">Order are shipping</string>
+    <string name="service_list_title">Service List</string>
 </resources>

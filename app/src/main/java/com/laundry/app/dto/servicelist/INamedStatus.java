@@ -1,4 +1,4 @@
-package com.laundry.app.dto.serviceall;
+package com.laundry.app.dto.servicelist;
 
 public interface INamedStatus {
     String getStatusName();

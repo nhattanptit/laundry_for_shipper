@@ -11,7 +11,7 @@ import com.laundry.app.dto.authentication.RegisterResponse;
 import com.laundry.app.dto.ordercreate.OrderDto;
 import com.laundry.app.dto.ordercreate.OrderResponse;
 import com.laundry.app.dto.ordercreate.OrderServiceDetailForm;
-import com.laundry.app.dto.serviceall.ServiceAllResponse;
+import com.laundry.app.dto.servicelist.ServiceListResponse;
 import com.laundry.app.dto.sevicedetail.ServicesDetailResponse;
 
 import java.util.List;
@@ -37,8 +37,8 @@ public class DataController {
 
     }
 
-    public void getServicesAll(ApiServiceOperator.OnResponseListener<ServiceAllResponse> listener) {
-        Call<ServiceAllResponse> call = service.getServicesAll();
+    public void getServicesAll(ApiServiceOperator.OnResponseListener<ServiceListResponse> listener) {
+        Call<ServiceListResponse> call = service.getServicesAll();
         call.enqueue(new ApiServiceOperator<>(listener));
     }
 

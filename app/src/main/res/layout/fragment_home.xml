@@ -51,6 +51,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_below="@+id/banner"
+                    android:layout_marginTop="@dimen/dp_8"
                     android:background="@drawable/card_background_gray"
                     android:includeFontPadding="true"
                     android:paddingBottom="@dimen/dp_56">
@@ -69,7 +70,7 @@
                             android:layout_height="wrap_content"
                             android:paddingEnd="@dimen/dp_8"
                             android:paddingStart="@dimen/dp_8"
-                            android:text="Service List"
+                            android:text="@string/service_list_title"
                             android:textColor="@color/green_8cc63e"
                             android:textSize="@dimen/sp_17"
                             android:textStyle="bold" />
@@ -79,10 +80,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:includeFontPadding="true"
+                            android:paddingBottom="@dimen/dp_8"
                             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                             app:spanCount="2"
-                            tools:listitem="@layout/service_all_item"
-                            android:paddingBottom="@dimen/dp_8"/>
+                            tools:listitem="@layout/service_item" />
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
                     <androidx.cardview.widget.CardView
@@ -102,7 +103,7 @@
                             android:orientation="horizontal"
                             android:padding="@dimen/dp_24">
 
-                            <Button
+                            <TextView
                                 android:id="@+id/sign_up"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
@@ -111,11 +112,14 @@
                                 android:layout_weight="1"
                                 android:background="@drawable/shaper_button_white"
                                 android:gravity="center"
+                                android:paddingBottom="@dimen/dp_8"
+                                android:paddingTop="@dimen/dp_8"
                                 android:text="@string/sign_up"
                                 android:textColor="@color/green_8cc63e"
-                                android:textSize="@dimen/sp_13" />
+                                android:textSize="@dimen/sp_13"
+                                android:textStyle="bold" />
 
-                            <Button
+                            <TextView
                                 android:id="@+id/login"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
@@ -123,9 +127,12 @@
                                 android:layout_weight="1"
                                 android:background="@drawable/shaper_button_green_big"
                                 android:gravity="center"
+                                android:paddingBottom="@dimen/dp_8"
+                                android:paddingTop="@dimen/dp_8"
                                 android:text="@string/login"
                                 android:textColor="@color/white"
-                                android:textSize="@dimen/sp_13" />
+                                android:textSize="@dimen/sp_13"
+                                android:textStyle="bold" />
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
                     </androidx.cardview.widget.CardView>

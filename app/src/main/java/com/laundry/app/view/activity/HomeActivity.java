@@ -5,8 +5,13 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
-import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
+
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 
 import com.facebook.FacebookSdk;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -14,7 +19,6 @@ import com.laundry.app.R;
 import com.laundry.app.constant.Constant;
 import com.laundry.app.databinding.HomeBinding;
 import com.laundry.app.dto.Role;
-import com.laundry.app.dto.UserInfo;
 import com.laundry.app.utils.SharePreferenceManager;
 import com.laundry.app.view.dialog.LoginDialog;
 import com.laundry.app.view.fragment.customer.CustomerOderHistoryListFragment;
@@ -23,12 +27,6 @@ import com.laundry.app.view.fragment.shipper.ShipperHomeFragment;
 import com.laundry.base.BaseActivity;
 
 import java.util.ArrayList;
-
-import androidx.navigation.NavController;
-import androidx.navigation.NavOptions;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 public class HomeActivity extends BaseActivity<HomeBinding> implements LoginDialog.LoginListener,
         ShipperHomeFragment.OnClickCallPhone, BaseActivity.ConfigPermission {
@@ -149,4 +147,13 @@ public class HomeActivity extends BaseActivity<HomeBinding> implements LoginDial
     public void onDenied() {
 
     }
+
+    public void showMenu() {
+        binding.navView.setVisibility(View.VISIBLE);
+    }
+
+    public void hideMenu() {
+        binding.navView.setVisibility(View.GONE);
+    }
+
 }

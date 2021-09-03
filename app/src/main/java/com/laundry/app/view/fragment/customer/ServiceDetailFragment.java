@@ -2,6 +2,7 @@ package com.laundry.app.view.fragment.customer;
 
 import android.annotation.SuppressLint;
 import android.util.Log;
+import android.view.View;
 
 import com.laundry.app.R;
 import com.laundry.app.control.ApiServiceOperator;
@@ -39,6 +40,7 @@ public class ServiceDetailFragment extends LaundryFragment<ServicesDetailsFragme
 
     @Override
     public void onInitView() {
+        beforeCallApi();
         binding.servicesDetailRecycle.setAdapter(mServiceDetailAdapter);
         if (mServiceListDto != null) {
             mDataController.getServicesDetail(mServiceListDto.id, new ApiServiceOperator.OnResponseListener<ServicesDetailResponse>() {
@@ -54,6 +56,7 @@ public class ServiceDetailFragment extends LaundryFragment<ServicesDetailsFragme
                 }
             });
         }
+        afterCallApi();
         mServiceDetailAdapter.setCallback(this);
     }
 
@@ -90,5 +93,13 @@ public class ServiceDetailFragment extends LaundryFragment<ServicesDetailsFragme
             totalPrice += list.get(i).totalPrice;
         }
         return totalPrice;
+    }
+
+    private void beforeCallApi() {
+        binding.progressBar.maskviewLayout.setVisibility(View.VISIBLE);
+    }
+
+    private void afterCallApi() {
+        binding.progressBar.maskviewLayout.setVisibility(View.GONE);
     }
 }

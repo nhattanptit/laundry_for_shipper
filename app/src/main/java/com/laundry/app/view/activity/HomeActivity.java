@@ -17,6 +17,8 @@ import com.laundry.app.dto.Role;
 import com.laundry.app.dto.UserInfo;
 import com.laundry.app.utils.SharePreferenceManager;
 import com.laundry.app.view.dialog.LoginDialog;
+import com.laundry.app.view.fragment.customer.CustomerOderHistoryListFragment;
+import com.laundry.app.view.fragment.customer.HomeFragment;
 import com.laundry.app.view.fragment.shipper.ShipperHomeFragment;
 import com.laundry.base.BaseActivity;
 
@@ -34,6 +36,7 @@ public class HomeActivity extends BaseActivity<HomeBinding> implements LoginDial
 
     private static final String TAG = HomeActivity.class.getSimpleName();
     private String mMode;
+    private NavController navController;
 
     @Override
     protected int getLayoutResource() {
@@ -69,7 +72,7 @@ public class HomeActivity extends BaseActivity<HomeBinding> implements LoginDial
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         navView.inflateMenu(isCustomer ? R.menu.customer_bottom_nav_menu : R.menu.shipper_bottom_nav_menu);
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         navController.setGraph(isCustomer ? R.navigation.customer_navigation : R.navigation.shipper_navigation);
         NavigationUI.setupWithNavController(navView, navController);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
@@ -96,7 +99,24 @@ public class HomeActivity extends BaseActivity<HomeBinding> implements LoginDial
 
     @Override
     public void onLoginSuccess() {
-        Log.d(TAG, "onLoginSuccess: ");
+
+    }
+
+    @Override
+    public void onLoginSuccess(String currentTab) {
+        if (TextUtils.equals(Role.CUSTOMER.role(), mMode)) {
+            if (TextUtils.equals(HomeFragment.class.getSimpleName(), currentTab)) {
+                navController.navigate(R.id.navigation_customer_home);
+            } else if (TextUtils.equals(CustomerOderHistoryListFragment.class.getSimpleName(), currentTab)) {
+                navController.navigate(R.id.navigation_customer_order_list);
+            } else {
+                navController.navigate(R.id.navigation_customer_user);
+            }
+        } else {
+            navController.navigate(R.id.navigation_shipper_home);
+            navController.navigate(R.id.navigation_shipper_info);
+        }
+
     }
 
     @SuppressLint("MissingPermission")

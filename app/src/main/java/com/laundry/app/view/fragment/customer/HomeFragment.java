@@ -2,14 +2,19 @@ package com.laundry.app.view.fragment.customer;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.laundry.app.R;
 import com.laundry.app.control.ApiServiceOperator;
 import com.laundry.app.control.DataController;
 import com.laundry.app.databinding.FragmentHomeBinding;
+import com.laundry.app.dto.UserInfo;
 import com.laundry.app.dto.servicelist.ServiceListResponse;
+import com.laundry.app.utils.SingleTapListener;
 import com.laundry.app.view.adapter.BannerAdapter;
 import com.laundry.app.view.adapter.ServiceListAdapter;
+import com.laundry.app.view.dialog.LoginDialog;
+import com.laundry.app.view.dialog.RegisterAccountDialog;
 import com.laundry.base.BaseFragment;
 
 public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
@@ -59,6 +64,8 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
 
         // Service all list
         binding.serviceList.setAdapter(serviceListAdapter);
+
+        createLoginLayout();
     }
 
     @Override
@@ -68,6 +75,23 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
             bundle.putSerializable(ServiceDetailFragment.KEY_SEND_DATA, item);
             navigateTo(R.id.action_navigation_customer_home_to_navigation_serviceDetailFragment, bundle);
         });
+
+        binding.login.setOnClickListener(new SingleTapListener(view -> {
+            LoginDialog loginDialog = new LoginDialog();
+            loginDialog.show(getMyActivity().getSupportFragmentManager(), "LoginDialog");
+        }));
+
+        binding.signUp.setOnClickListener(new SingleTapListener(view -> {
+            RegisterAccountDialog registerAccountDialog = new RegisterAccountDialog();
+            registerAccountDialog.show(getMyActivity().getSupportFragmentManager(), "RegisterAccountDialog");
+        }));
+    }
+
+    /**
+     * Create login or register are
+     */
+    private void createLoginLayout() {
+        binding.registerLoginLayout.setVisibility(UserInfo.getInstance().isLogin(getMyActivity()) ? View.GONE : View.VISIBLE);
     }
 
 }

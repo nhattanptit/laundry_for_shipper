@@ -12,7 +12,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="@dimen/dp_16"
-            android:background="#FFFFFF"
+            android:background="@color/white"
             android:paddingHorizontal="@dimen/dp_16">
 
             <androidx.appcompat.widget.AppCompatImageView
@@ -20,7 +20,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="80dp"
+                android:layout_marginTop="@dimen/dp_24"
                 android:src="@drawable/logo"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -45,8 +45,10 @@
                 android:layout_marginTop="@dimen/dp_12"
                 android:background="@drawable/shaper_button_green_big"
                 android:gravity="center"
-                android:padding="@dimen/dp_12"
+                android:padding="@dimen/dp_8"
                 android:text="@string/login"
+                android:textStyle="bold"
+                android:textSize="@dimen/sp_17"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -87,6 +89,28 @@
 <!--                app:layout_constraintTop_toBottomOf="@+id/loginWithFacebook" />-->
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/account_username_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_16"
+                app:layout_constraintTop_toBottomOf="@+id/logo">
+                <requestFocus/>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/account_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
+                    android:hint="@string/hint_username"
+                    android:inputType="textFilter"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="@color/green_8cc63e"
+                    android:textColorHint="@color/green_8cc63e"
+                    android:textSize="@dimen/sp_13" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/account_password_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -108,29 +132,18 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/account_username_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_16"
-                app:layout_constraintTop_toBottomOf="@+id/logo">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/account_username"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
-                    android:hint="@string/hint_username"
-                    android:inputType="textFilter"
-                    android:lines="1"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:textColor="@color/green_8cc63e"
-                    android:textColorHint="@color/green_8cc63e"
-                    android:textSize="@dimen/sp_13" />
-
-            </com.google.android.material.textfield.TextInputLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
+        <LinearLayout
+            android:id="@+id/maskview_layout"
+            style="@style/progressbar_style"
+            android:visibility="gone">
+
+            <ProgressBar
+                android:id="@+id/maskview_progressbar"
+                style="@style/Widget.AppCompat.ProgressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
     </FrameLayout>
 
     <data>

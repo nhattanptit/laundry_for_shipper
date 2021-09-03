@@ -2,6 +2,7 @@ package com.laundry.app.view.activity;
 
 import android.content.Intent;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.facebook.FacebookSdk;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -11,6 +12,7 @@ import com.laundry.app.databinding.HomeBinding;
 import com.laundry.app.dto.Role;
 import com.laundry.app.dto.UserInfo;
 import com.laundry.app.utils.SharePreferenceManager;
+import com.laundry.app.view.dialog.LoginDialog;
 import com.laundry.base.BaseActivity;
 
 import androidx.navigation.NavController;
@@ -19,8 +21,10 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-public class HomeActivity extends BaseActivity<HomeBinding> {
+public class HomeActivity extends BaseActivity<HomeBinding> implements LoginDialog.LoginListener {
 
+
+    private static final String TAG = HomeActivity.class.getSimpleName();
     private String mMode;
 
     @Override
@@ -77,5 +81,10 @@ public class HomeActivity extends BaseActivity<HomeBinding> {
     @Override
     public void onViewClick() {
 
+    }
+
+    @Override
+    public void onLoginSuccess() {
+        Log.d(TAG, "onLoginSuccess: ");
     }
 }

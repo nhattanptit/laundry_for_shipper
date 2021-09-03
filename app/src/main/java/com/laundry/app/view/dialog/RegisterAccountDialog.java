@@ -18,6 +18,7 @@ import com.laundry.app.dto.address.DistrictResponseDto;
 import com.laundry.app.dto.address.WardResponseDto;
 import com.laundry.app.dto.authentication.RegisterRequest;
 import com.laundry.app.dto.authentication.RegisterResponse;
+import com.laundry.app.utils.SingleTapListener;
 import com.laundry.base.BaseDialog;
 
 import java.util.ArrayList;
@@ -37,26 +38,22 @@ public class RegisterAccountDialog extends BaseDialog<RegisterAccountDialogBindi
 
     @Override
     public void onInitView() {
+        mProgressBarView = getMyActivity().findViewById(R.id.maskview_layout);
         loadCityList();
     }
 
     @Override
     public void onViewClick() {
-        binding.registerButton.setOnClickListener(view -> {
-            Log.d(TAG, "onViewClick: ");
+        binding.registerButton.setOnClickListener(new SingleTapListener(view -> {
             registerAccount();
-        });
-    }
+        }));
 
-    /**
-     * Call api register
-     */
-    private void registerAccount() {
-        if (validate()) {
-            controller.register(mRegisterRequest, this);
-        }
+        binding.backToLogin.setOnClickListener(new SingleTapListener(view -> {
+            LoginDialog loginDialog = new LoginDialog();
+            loginDialog.show(getMyActivity().getSupportFragmentManager(), "LoginDialog");
+            this.dismiss();
+        }));
     }
-
 
     @Override
     protected boolean dismissByTouchOutside() {
@@ -73,11 +70,30 @@ public class RegisterAccountDialog extends BaseDialog<RegisterAccountDialogBindi
         } else {
 
         }
+        afterCallApi();
     }
 
     @Override
     public void onFailure(Throwable t) {
+        afterCallApi();
+    }
 
+    /**
+     * Call api register
+     */
+    private void registerAccount() {
+        if (validate()) {
+            beforeCallApi();
+            controller.register(mRegisterRequest, this);
+        }
+    }
+
+    private void beforeCallApi() {
+        mProgressBarView.setVisibility(View.VISIBLE);
+    }
+
+    private void afterCallApi() {
+        mProgressBarView.setVisibility(View.GONE);
     }
 
     /**

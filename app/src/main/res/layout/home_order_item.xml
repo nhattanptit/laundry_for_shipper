@@ -18,8 +18,8 @@
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/order_item_customer_avatar"
-                android:layout_width="@dimen/dp_36"
-                android:layout_height="@dimen/dp_36"
+                android:layout_width="@dimen/dp_48"
+                android:layout_height="@dimen/dp_48"
                 android:layout_marginStart="@dimen/dp_8"
                 android:layout_centerVertical="true"
                 android:src="@color/com_facebook_blue" />

@@ -49,8 +49,9 @@ public class HomeActivity extends BaseActivity<HomeBinding> implements LoginDial
         mMode = intent.getStringExtra(Constant.ROLE_SWITCH);
         if (TextUtils.isEmpty(mMode)) {
             mMode = SharePreferenceManager.getMode(this);
+        } else {
+            SharePreferenceManager.setMode(this, mMode);
         }
-
         boolean isCustomer = TextUtils.equals(Role.CUSTOMER.role(), mMode);
         AppBarConfiguration appBarConfiguration;
         if (isCustomer) {
@@ -84,13 +85,7 @@ public class HomeActivity extends BaseActivity<HomeBinding> implements LoginDial
             return false;
         });
 
-        if (TextUtils.equals(Role.CUSTOMER.role(), mMode)) {
-            if (!UserInfo.getInstance().isLogin(this)) {
-                navController.navigate(R.id.navigation_register_or_login, null, new NavOptions.Builder()
-                        .setPopUpTo(R.id.navigation_customer_user, true)
-                        .build());
-            }
-        }
+        SharePreferenceManager.hasVisitedHome(this, true);
 
     }
 

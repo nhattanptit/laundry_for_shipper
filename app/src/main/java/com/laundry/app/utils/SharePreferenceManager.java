@@ -14,6 +14,8 @@ public class SharePreferenceManager {
 
     private static final String PREFERENCE_KEY_ROLE = "role";
 
+    private static final String PREFERENCE_VISITED_HOME = "visited_home";
+
     private static SharedPreferences getSharedPreferences(Context context) {
         return context.getSharedPreferences(PREFERENCE_FILE_NAME,
                 Activity.MODE_PRIVATE);
@@ -52,6 +54,18 @@ public class SharePreferenceManager {
         SharedPreferences preference = getSharedPreferences(context);
         SharedPreferences.Editor editor = preference.edit();
         editor.putString(PREFERENCE_KEY_ROLE, mode);
+        editor.apply();
+    }
+
+    public static boolean getVisitedHomeScreen(Context context) {
+        SharedPreferences preference = getSharedPreferences(context);
+        return preference.getBoolean(PREFERENCE_VISITED_HOME, false);
+    }
+
+    public static void hasVisitedHome(Context context, boolean hasVisited) {
+        SharedPreferences preference = getSharedPreferences(context);
+        SharedPreferences.Editor editor = preference.edit();
+        editor.putBoolean(PREFERENCE_VISITED_HOME, hasVisited);
         editor.apply();
     }
 

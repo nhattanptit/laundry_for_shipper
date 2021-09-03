@@ -38,7 +38,6 @@ public class RegisterAccountDialog extends BaseDialog<RegisterAccountDialogBindi
 
     @Override
     public void onInitView() {
-        mProgressBarView = getMyActivity().findViewById(R.id.maskview_layout);
         loadCityList();
     }
 
@@ -89,11 +88,11 @@ public class RegisterAccountDialog extends BaseDialog<RegisterAccountDialogBindi
     }
 
     private void beforeCallApi() {
-        mProgressBarView.setVisibility(View.VISIBLE);
+        binding.progressBar.maskviewLayout.setVisibility(View.VISIBLE);
     }
 
     private void afterCallApi() {
-        mProgressBarView.setVisibility(View.GONE);
+        binding.progressBar.maskviewLayout.setVisibility(View.GONE);
     }
 
     /**
@@ -331,7 +330,6 @@ public class RegisterAccountDialog extends BaseDialog<RegisterAccountDialogBindi
             binding.accountAddressLayout.setError(null);
             binding.accountAddressLayout.setErrorEnabled(false);
         }
-
 
         return isValid;
     }

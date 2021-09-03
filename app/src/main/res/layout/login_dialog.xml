@@ -133,17 +133,9 @@
             </com.google.android.material.textfield.TextInputLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-        <LinearLayout
-            android:id="@+id/maskview_layout"
-            style="@style/progressbar_style"
-            android:visibility="gone">
-
-            <ProgressBar
-                android:id="@+id/maskview_progressbar"
-                style="@style/Widget.AppCompat.ProgressBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
+        <include
+            android:id="@+id/progress_bar"
+            layout="@layout/progressbar_layout"/>
     </FrameLayout>
 
     <data>

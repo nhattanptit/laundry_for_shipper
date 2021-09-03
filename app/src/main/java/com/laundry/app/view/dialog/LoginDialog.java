@@ -65,11 +65,11 @@ public class LoginDialog extends BaseDialog<LoginDialogBinding> implements ApiSe
     }
 
     private void beforeCallApi() {
-        binding.maskviewLayout.setVisibility(View.VISIBLE);
+        binding.progressBar.maskviewLayout.setVisibility(View.VISIBLE);
     }
 
     private void afterCallApi() {
-        binding.maskviewLayout.setVisibility(View.GONE);
+        binding.progressBar.maskviewLayout.setVisibility(View.GONE);
     }
 
     /**

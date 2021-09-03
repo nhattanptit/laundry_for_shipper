@@ -42,17 +42,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
 
     @Override
     public void onPreInitView() {
-        mController.getServicesAll(new ApiServiceOperator.OnResponseListener<ServiceListResponse>() {
-            @Override
-            public void onSuccess(ServiceListResponse body) {
-                serviceListAdapter.submitList(body.getServicesList());
-            }
 
-            @Override
-            public void onFailure(Throwable t) {
-                Log.e(TAG, "onFailure: " + t.getMessage());
-            }
-        });
     }
 
     @Override
@@ -65,6 +55,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
         // Service all list
         binding.serviceList.setAdapter(serviceListAdapter);
 
+        getServiceList();
         createLoginLayout();
     }
 
@@ -88,10 +79,46 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
     }
 
     /**
+     * ServiceListCallBack
+     */
+    private class ServiceListCallBack implements ApiServiceOperator.OnResponseListener<ServiceListResponse> {
+
+        @Override
+        public void onSuccess(ServiceListResponse body) {
+            serviceListAdapter.submitList(body.getServicesList());
+            afterCallApi();
+        }
+
+        @Override
+        public void onFailure(Throwable t) {
+            Log.e(TAG, "onFailure: " + t.getMessage());
+            afterCallApi();
+        }
+    }
+
+    private void createDisplay() {
+
+    }
+
+    private void getServiceList() {
+        beforeCallApi();
+        mController.getServicesAll(new ServiceListCallBack());
+    }
+
+    /**
      * Create login or register are
      */
     private void createLoginLayout() {
         binding.registerLoginLayout.setVisibility(UserInfo.getInstance().isLogin(getMyActivity()) ? View.GONE : View.VISIBLE);
+    }
+
+    private void beforeCallApi() {
+        binding.progressBar.maskviewLayout.setVisibility(View.VISIBLE);
+    }
+
+    private void afterCallApi() {
+        binding.progressBar.maskviewLayout.setVisibility(View.GONE);
+        binding.homeContent.setVisibility(View.VISIBLE);
     }
 
 }

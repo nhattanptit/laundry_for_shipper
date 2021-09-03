@@ -9,12 +9,20 @@
         android:id="@+id/navigation_shipper_home"
         android:name="com.laundry.app.view.fragment.shipper.ShipperHomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/shipper_fragment_home" />
+        tools:layout="@layout/shipper_fragment_home" >
+        <action
+            android:id="@+id/action_home_staff_to_navigation_login_account_dialog"
+            app:destination="@id/navigation_login_account_dialog" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_shipper_info"
         android:name="com.laundry.app.view.fragment.shipper.ShipperInfoFragment"
         android:label="@string/title_information"
         tools:layout="@layout/shipper_fragment_info" />
-
+    <dialog
+        android:id="@+id/navigation_login_account_dialog"
+        android:name="com.laundry.app.view.dialog.LoginDialog"
+        android:label="@string/login"
+        tools:layout="@layout/login_dialog" />
 </navigation>

@@ -37,4 +37,9 @@
     <string name="delivery_date_time"><![CDATA[Delivery Date & Time]]></string>
     <string name="delivery_address">Delivery Address</string>
     <string name="price">Price</string>
+    <string name="phone_number">Phone Number: </string>
+    <string name="delivering">Delivering</string>
+    <string name="call">Call</string>
+    <string name="done">Done</string>
+    <string name="order_are_shipping">Order are shipping</string>
 </resources>

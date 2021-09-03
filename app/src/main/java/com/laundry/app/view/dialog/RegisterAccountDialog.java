@@ -1,5 +1,6 @@
 package com.laundry.app.view.dialog;
 
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
@@ -18,6 +19,7 @@ import com.laundry.app.dto.address.DistrictResponseDto;
 import com.laundry.app.dto.address.WardResponseDto;
 import com.laundry.app.dto.authentication.RegisterRequest;
 import com.laundry.app.dto.authentication.RegisterResponse;
+import com.laundry.app.utils.SingleTapListener;
 import com.laundry.base.BaseDialog;
 
 import java.util.ArrayList;
@@ -27,8 +29,18 @@ public class RegisterAccountDialog extends BaseDialog<RegisterAccountDialogBindi
 
     private static final String TAG = RegisterAccountDialog.class.getSimpleName();
     private final DataController controller = new DataController();
+    private String currentTab;
 
     private RegisterRequest mRegisterRequest = new RegisterRequest();
+
+    public static RegisterAccountDialog newInstance(String currentTab) {
+        RegisterAccountDialog registerAccountDialog = new RegisterAccountDialog();
+        Bundle bundle = new Bundle();
+        bundle.putString(Constant.CURRENT_TAB, currentTab);
+        registerAccountDialog.setArguments(bundle);
+
+        return registerAccountDialog;
+    }
 
     @Override
     protected int getLayoutResource() {
@@ -37,26 +49,30 @@ public class RegisterAccountDialog extends BaseDialog<RegisterAccountDialogBindi
 
     @Override
     public void onInitView() {
+        if (getArguments() != null) {
+            currentTab = getArguments().getString(Constant.CURRENT_TAB);
+        }
+
         loadCityList();
     }
 
     @Override
     public void onViewClick() {
-        binding.registerButton.setOnClickListener(view -> {
-            Log.d(TAG, "onViewClick: ");
+        binding.registerButton.setOnClickListener(new SingleTapListener(view -> {
             registerAccount();
-        });
-    }
+        }));
 
-    /**
-     * Call api register
-     */
-    private void registerAccount() {
-        if (validate()) {
-            controller.register(mRegisterRequest, this);
-        }
+        binding.backToLogin.setOnClickListener(new SingleTapListener(view -> {
+            LoginDialog loginDialog;
+            if (!TextUtils.isEmpty(currentTab)) {
+                loginDialog = LoginDialog.newInstance(currentTab);
+            } else {
+                loginDialog = new LoginDialog();
+            }
+            loginDialog.show(getMyActivity().getSupportFragmentManager(), LoginDialog.class.getSimpleName());
+            this.dismiss();
+        }));
     }
-
 
     @Override
     protected boolean dismissByTouchOutside() {
@@ -67,17 +83,41 @@ public class RegisterAccountDialog extends BaseDialog<RegisterAccountDialogBindi
     public void onSuccess(RegisterResponse body) {
         int returnCd = Integer.parseInt(body.status);
         if (returnCd == 200) {
-            LoginDialog loginDialog = new LoginDialog();
-            loginDialog.show(getMyActivity().getSupportFragmentManager(), "LoginDialog");
+            LoginDialog loginDialog;
+            if (!TextUtils.isEmpty(currentTab)) {
+                loginDialog = LoginDialog.newInstance(currentTab);
+            } else {
+                loginDialog = new LoginDialog();
+            }
+            loginDialog.show(getMyActivity().getSupportFragmentManager(), LoginDialog.class.getSimpleName());
             this.dismiss();
         } else {
 
         }
+        afterCallApi();
     }
 
     @Override
     public void onFailure(Throwable t) {
+        afterCallApi();
+    }
 
+    /**
+     * Call api register
+     */
+    private void registerAccount() {
+        if (validate()) {
+            beforeCallApi();
+            controller.register(mRegisterRequest, this);
+        }
+    }
+
+    private void beforeCallApi() {
+        binding.progressBar.maskviewLayout.setVisibility(View.VISIBLE);
+    }
+
+    private void afterCallApi() {
+        binding.progressBar.maskviewLayout.setVisibility(View.GONE);
     }
 
     /**
@@ -315,7 +355,6 @@ public class RegisterAccountDialog extends BaseDialog<RegisterAccountDialogBindi
             binding.accountAddressLayout.setError(null);
             binding.accountAddressLayout.setErrorEnabled(false);
         }
-
 
         return isValid;
     }

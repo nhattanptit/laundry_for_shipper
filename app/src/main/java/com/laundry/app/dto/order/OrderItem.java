@@ -12,6 +12,29 @@ public class OrderItem implements Serializable {
     private String pickupAddress;
     private String deliveryDateTime;
     private String deliveryAddress;
+    private String phoneNumber;
+
+    public OrderItem(String orderId
+            , String customerImage
+            , String customerName
+            , String orderCode
+            , String orderName
+            , String pickupDateTime
+            , String pickupAddress
+            , String deliveryDateTime
+            , String deliveryAddress
+            , String phoneNumber) {
+        this.orderId = orderId;
+        this.customerImage = customerImage;
+        this.customerName = customerName;
+        this.orderCode = orderCode;
+        this.orderName = orderName;
+        this.pickupDateTime = pickupDateTime;
+        this.pickupAddress = pickupAddress;
+        this.deliveryDateTime = deliveryDateTime;
+        this.deliveryAddress = deliveryAddress;
+        this.phoneNumber = phoneNumber;
+    }
 
     public OrderItem(String orderId, String customerImage, String customerName, String orderCode, String orderName, String pickupDateTime, String pickupAddress, String deliveryDateTime, String deliveryAddress) {
         this.orderId = orderId;
@@ -23,6 +46,11 @@ public class OrderItem implements Serializable {
         this.pickupAddress = pickupAddress;
         this.deliveryDateTime = deliveryDateTime;
         this.deliveryAddress = deliveryAddress;
+    }
+
+    public OrderItem(String deliveryAddress, String phoneNumber) {
+        this.deliveryAddress = deliveryAddress;
+        this.phoneNumber = phoneNumber;
     }
 
     public OrderItem() {
@@ -98,5 +126,13 @@ public class OrderItem implements Serializable {
 
     public void setDeliveryAddress(String deliveryAddress) {
         this.deliveryAddress = deliveryAddress;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }

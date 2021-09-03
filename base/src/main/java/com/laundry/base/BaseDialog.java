@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
@@ -24,6 +25,7 @@ public abstract class BaseDialog<DB extends ViewDataBinding> extends DialogFragm
 
     protected DB binding;
     private BaseActivity mActivity;
+    protected LinearLayout mProgressBarView;
 
     protected abstract int getLayoutResource();
 

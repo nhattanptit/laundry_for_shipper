@@ -36,10 +36,7 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-
-                <include layout="@layout/progressbar_layout" />
             </RelativeLayout>
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

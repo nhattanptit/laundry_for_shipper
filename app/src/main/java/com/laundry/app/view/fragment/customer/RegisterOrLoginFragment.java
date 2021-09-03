@@ -2,9 +2,10 @@ package com.laundry.app.view.fragment.customer;
 
 import com.laundry.app.R;
 import com.laundry.app.databinding.RegisterLoginFragmentBinding;
+import com.laundry.app.view.fragment.LaundryTabFragment;
 import com.laundry.base.BaseFragment;
 
-public class RegisterOrLoginFragment extends BaseFragment<RegisterLoginFragmentBinding> {
+public class RegisterOrLoginFragment extends LaundryTabFragment<RegisterLoginFragmentBinding> {
     @Override
     protected int getLayoutResource() {
         return R.layout.register_login_fragment;

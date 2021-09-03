@@ -2,6 +2,7 @@ package com.laundry.app.view.activity;
 
 import android.content.Intent;
 import android.text.TextUtils;
+import android.view.View;
 
 import com.facebook.FacebookSdk;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -78,4 +79,13 @@ public class HomeActivity extends BaseActivity<HomeBinding> {
     public void onViewClick() {
 
     }
+
+    public void showMenu() {
+        binding.navView.setVisibility(View.VISIBLE);
+    }
+
+    public void hideMenu() {
+        binding.navView.setVisibility(View.GONE);
+    }
+
 }

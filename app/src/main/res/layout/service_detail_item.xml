@@ -1,50 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/dp_12">
+        android:layout_margin="@dimen/dp_8"
+        android:background="@drawable/cardview_background_white"
+        android:elevation="@dimen/dp_4"
+        app:cardCornerRadius="@dimen/dp_8">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/categoryImage"
-            android:layout_width="0dp"
-            android:layout_height="70dp"
-            android:padding="10dp"
-            android:scaleType="centerInside"
-            android:src="@drawable/wash_and_iron_icon"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/categoryText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_18"
-            android:text="@string/wash_iron"
-            android:textColor="@color/green_8cc63e"
-            android:textSize="@dimen/sp_15"
-            app:layout_constraintStart_toEndOf="@+id/categoryImage"
-            app:layout_constraintTop_toTopOf="parent" />
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/categoryImage"
+                android:layout_width="0dp"
+                android:layout_height="70dp"
+                android:padding="10dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/wash_and_iron_icon"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/priceText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_18"
-            android:text="@string/price"
-            android:textColor="@color/Color_ff5555"
-            android:textSize="@dimen/sp_12"
-            app:layout_constraintBottom_toBottomOf="@+id/categoryImage"
-            app:layout_constraintStart_toEndOf="@+id/categoryImage"
-            app:layout_constraintTop_toBottomOf="@+id/categoryText" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/categoryText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_18"
+                android:textColor="@color/green_8cc63e"
+                android:textSize="@dimen/sp_18"
+                app:layout_constraintBottom_toTopOf="@id/priceText"
+                app:layout_constraintStart_toEndOf="@id/categoryImage"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@string/wash_iron" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/priceText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_18"
+                android:textColor="@color/Color_ff5555"
+                android:textSize="@dimen/sp_15"
+                app:layout_constraintBottom_toBottomOf="@id/categoryImage"
+                app:layout_constraintStart_toEndOf="@id/categoryImage"
+                app:layout_constraintTop_toBottomOf="@id/categoryText"
+                tools:text="@string/price" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/minusImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dp_4"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_minus"
+                app:layout_constraintBottom_toBottomOf="@+id/categoryImage"
+                app:layout_constraintEnd_toStartOf="@+id/quantityText"
+                app:layout_constraintTop_toTopOf="@+id/categoryImage" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/quantityText"
+                android:layout_width="@dimen/dp_32"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:inputType="number"
+                android:maxLines="1"
+                android:padding="@dimen/dp_4"
+                android:text="0"
+                app:layout_constraintBottom_toBottomOf="@+id/minusImage"
+                app:layout_constraintEnd_toStartOf="@+id/addImage"
+                app:layout_constraintTop_toTopOf="@id/minusImage" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/addImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dp_16"
+                android:padding="@dimen/dp_4"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_add"
+                app:layout_constraintBottom_toBottomOf="@+id/categoryImage"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/categoryImage" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
 
 </layout>

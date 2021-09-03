@@ -5,13 +5,13 @@ import com.google.gson.annotations.SerializedName;
 
 public class OrderServiceDetailForm {
 
-    @SerializedName("quantity")
-    @Expose
-    private int quantity;
-
     @SerializedName("serviceDetailId")
     @Expose
-    private int serviceDetailId;
+    public int serviceDetailId;
+
+    @SerializedName("quantity")
+    @Expose
+    public int quantity;
 
     public OrderServiceDetailForm(int quantity, int serviceDetailId) {
         this.quantity = quantity;

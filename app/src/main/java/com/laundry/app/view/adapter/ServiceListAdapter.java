@@ -38,7 +38,7 @@ public class ServiceListAdapter extends BaseAdapter {
         List<ServiceListDisplay> displayList = new ArrayList<>();
         for (Object obj : list) {
             ServiceListDisplay display = new ServiceListDisplay();
-            display.setData((ServiceListDto) obj);
+            display.data = ((ServiceListDto) obj);
             displayList.add(display);
         }
         resetDataList(displayList);
@@ -54,7 +54,7 @@ public class ServiceListAdapter extends BaseAdapter {
 
             binding.getRoot().setOnClickListener(view -> {
                 ServiceListDisplay display = (ServiceListDisplay) getDataInPosition(getAbsoluteAdapterPosition());
-                ServiceListDto item = display.getData();
+                ServiceListDto item = display.data;
                 mCallback.onClickItem(getAbsoluteAdapterPosition(), item);
             });
         }
@@ -62,7 +62,7 @@ public class ServiceListAdapter extends BaseAdapter {
         @Override
         public void bind(ServiceListDisplay item) {
             binding.serviceImage.setImageResource(item.getIcon());
-            binding.serviceName.setText(item.getData().getName());
+            binding.serviceName.setText(item.data.name);
         }
     }
 

@@ -2,9 +2,10 @@ package com.laundry.app.view.fragment.customer;
 
 import com.laundry.app.R;
 import com.laundry.app.databinding.CustomerInfoFragmentBinding;
+import com.laundry.app.view.fragment.LaundryTabFragment;
 import com.laundry.base.BaseFragment;
 
-public class CustomerOderHistoryListFragment extends BaseFragment<CustomerInfoFragmentBinding> {
+public class CustomerOderHistoryListFragment extends LaundryTabFragment<CustomerInfoFragmentBinding> {
 
 
     @Override

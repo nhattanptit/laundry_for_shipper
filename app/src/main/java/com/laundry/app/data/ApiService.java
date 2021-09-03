@@ -4,7 +4,7 @@ import com.laundry.app.dto.authentication.LoginRequest;
 import com.laundry.app.dto.authentication.LoginResponseDto;
 import com.laundry.app.dto.authentication.RegisterRequest;
 import com.laundry.app.dto.authentication.RegisterResponse;
-import com.laundry.app.dto.ordercreate.OrderDto;
+import com.laundry.app.dto.ordercreate.OrderRequest;
 import com.laundry.app.dto.ordercreate.OrderResponse;
 import com.laundry.app.dto.servicelist.ServiceListResponse;
 import com.laundry.app.dto.sevicedetail.ServicesDetailResponse;
@@ -32,6 +32,6 @@ public interface ApiService {
     Call<ServicesDetailResponse> getServicesDetail(@Field("serviceId") int id);
 
     @POST(APIConstant.URL_ORDERS_CREATE)
-    Call<OrderResponse> createOrder(@Body OrderDto body);
+    Call<OrderResponse> createOrder(@Body OrderRequest body);
 
 }

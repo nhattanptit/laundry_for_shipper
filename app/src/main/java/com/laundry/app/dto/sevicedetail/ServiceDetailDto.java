@@ -4,7 +4,7 @@ import android.util.Log;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.laundry.app.dto.serviceall.INamedStatus;
+import com.laundry.app.dto.servicelist.INamedStatus;
 
 public class ServiceDetailDto {
 

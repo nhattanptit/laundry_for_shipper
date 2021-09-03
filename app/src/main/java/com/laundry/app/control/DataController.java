@@ -4,12 +4,14 @@ import androidx.annotation.IntRange;
 
 import com.laundry.app.data.APIConstant;
 import com.laundry.app.data.ApiService;
+import com.laundry.app.dto.authentication.LoginRequest;
+import com.laundry.app.dto.authentication.LoginResponseDto;
 import com.laundry.app.dto.authentication.RegisterRequest;
 import com.laundry.app.dto.authentication.RegisterResponse;
 import com.laundry.app.dto.ordercreate.OrderDto;
 import com.laundry.app.dto.ordercreate.OrderResponse;
 import com.laundry.app.dto.ordercreate.OrderServiceDetailForm;
-import com.laundry.app.dto.serviceall.ServiceAllResponse;
+import com.laundry.app.dto.servicelist.ServiceListResponse;
 import com.laundry.app.dto.sevicedetail.ServicesDetailResponse;
 
 import java.util.List;
@@ -20,29 +22,23 @@ public class DataController {
 
     private final ApiService service = APIConstant.getService();
 
-    public void register(String username,
-                         String password,
-                         String name,
-                         String email,
-                         String phoneNumber,
-                         String address,
+    public void register(RegisterRequest registerRequest,
                          ApiServiceOperator.OnResponseListener<RegisterResponse> listener) {
 
-        RegisterRequest request = new RegisterRequest();
-        request.setUsername(username);
-        request.setPassword(password);
-        request.setName(name);
-        request.setEmail(email);
-        request.setPhoneNumber(phoneNumber);
-        request.setAddress(address);
+        Call<RegisterResponse> call = service.signup(registerRequest);
+        call.enqueue(new ApiServiceOperator<>(listener));
+    }
 
-        Call<RegisterResponse> call = service.signup(request);
+    public void login(LoginRequest loginRequest,
+                      ApiServiceOperator.OnResponseListener<LoginResponseDto> listener) {
+
+        Call<LoginResponseDto> call = service.signin(loginRequest);
         call.enqueue(new ApiServiceOperator<>(listener));
 
     }
 
-    public void getServicesAll(ApiServiceOperator.OnResponseListener<ServiceAllResponse> listener) {
-        Call<ServiceAllResponse> call = service.getServicesAll();
+    public void getServicesAll(ApiServiceOperator.OnResponseListener<ServiceListResponse> listener) {
+        Call<ServiceListResponse> call = service.getServicesAll();
         call.enqueue(new ApiServiceOperator<>(listener));
     }
 

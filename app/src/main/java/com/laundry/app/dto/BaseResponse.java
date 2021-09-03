@@ -8,9 +8,5 @@ import java.io.Serializable;
 public class BaseResponse implements Serializable {
     @SerializedName("status")
     @Expose
-    private String status;
-
-    public String getStatus() {
-        return status;
-    }
+    public String status;
 }

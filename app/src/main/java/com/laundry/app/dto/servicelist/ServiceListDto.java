@@ -1,11 +1,11 @@
-package com.laundry.app.dto.serviceall;
+package com.laundry.app.dto.servicelist;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class ServiceAllDto implements Serializable {
+public class ServiceListDto implements Serializable {
 
     @SerializedName("id")
     @Expose

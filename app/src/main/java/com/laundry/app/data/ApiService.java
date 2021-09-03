@@ -1,10 +1,12 @@
 package com.laundry.app.data;
 
+import com.laundry.app.dto.authentication.LoginRequest;
+import com.laundry.app.dto.authentication.LoginResponseDto;
 import com.laundry.app.dto.authentication.RegisterRequest;
 import com.laundry.app.dto.authentication.RegisterResponse;
 import com.laundry.app.dto.ordercreate.OrderDto;
 import com.laundry.app.dto.ordercreate.OrderResponse;
-import com.laundry.app.dto.serviceall.ServiceAllResponse;
+import com.laundry.app.dto.servicelist.ServiceListResponse;
 import com.laundry.app.dto.sevicedetail.ServicesDetailResponse;
 
 import retrofit2.Call;
@@ -19,8 +21,11 @@ public interface ApiService {
     @POST(APIConstant.URL_SIGNUP)
     Call<RegisterResponse> signup(@Body RegisterRequest body);
 
+    @POST(APIConstant.URL_LOGIN)
+    Call<LoginResponseDto> signin(@Body LoginRequest loginRequest);
+
     @GET(APIConstant.URL_SERVICES_ALL)
-    Call<ServiceAllResponse> getServicesAll();
+    Call<ServiceListResponse> getServicesAll();
 
     @POST(APIConstant.URL_SERVICES_DETAILS)
     @FormUrlEncoded

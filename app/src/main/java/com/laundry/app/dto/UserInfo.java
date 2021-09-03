@@ -19,7 +19,7 @@ public class UserInfo {
     }
 
     public void setToken(Context context, String token) {
-        SharePreferenceManager.setUsername(context, token);
+        SharePreferenceManager.setToken(context, token);
     }
 
     public static UserInfo getInstance() {

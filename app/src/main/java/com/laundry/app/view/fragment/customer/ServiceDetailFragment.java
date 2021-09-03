@@ -8,7 +8,7 @@ import com.laundry.app.control.DataController;
 import com.laundry.app.databinding.ServicesDetailsFragmentBinding;
 import com.laundry.app.dto.ordercreate.OrderResponse;
 import com.laundry.app.dto.ordercreate.OrderServiceDetailForm;
-import com.laundry.app.dto.serviceall.ServiceAllDto;
+import com.laundry.app.dto.servicelist.ServiceListDto;
 import com.laundry.app.dto.sevicedetail.ServicesDetailResponse;
 import com.laundry.app.view.adapter.ServiceDetailAdapter;
 import com.laundry.base.BaseFragment;
@@ -21,7 +21,7 @@ public class ServiceDetailFragment extends BaseFragment<ServicesDetailsFragmentB
     private static final String TAG = "ServiceDetailFragment";
     public static final String KEY_SEND_DATA = "KEY_SEND_DATA";
     private DataController mDataController = new DataController();
-    private ServiceAllDto mServiceAllDto;
+    private ServiceListDto mServiceListDto;
     private ServiceDetailAdapter mServiceDetailAdapter = new ServiceDetailAdapter();
 
     @Override
@@ -31,14 +31,14 @@ public class ServiceDetailFragment extends BaseFragment<ServicesDetailsFragmentB
 
     @Override
     public void onPreInitView() {
-        mServiceAllDto = (ServiceAllDto) getArguments().getSerializable(KEY_SEND_DATA);
+        mServiceListDto = (ServiceListDto) getArguments().getSerializable(KEY_SEND_DATA);
     }
 
     @Override
     public void onInitView() {
         binding.servicesDetailRecycle.setAdapter(mServiceDetailAdapter);
-        if (mServiceAllDto != null) {
-            mDataController.getServicesDetail(mServiceAllDto.getId(), new ApiServiceOperator.OnResponseListener<ServicesDetailResponse>() {
+        if (mServiceListDto != null) {
+            mDataController.getServicesDetail(mServiceListDto.getId(), new ApiServiceOperator.OnResponseListener<ServicesDetailResponse>() {
                 @Override
                 public void onSuccess(ServicesDetailResponse body) {
                     mServiceDetailAdapter.submitList(body.getServiceDetailList());

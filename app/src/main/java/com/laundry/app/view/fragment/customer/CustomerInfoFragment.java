@@ -10,9 +10,10 @@ import com.laundry.app.dto.UserInfo;
 import com.laundry.app.utils.SharePreferenceManager;
 import com.laundry.app.view.dialog.LoginDialog;
 import com.laundry.app.view.dialog.RegisterAccountDialog;
+import com.laundry.app.view.fragment.LaundryTabFragment;
 import com.laundry.base.BaseFragment;
 
-public class CustomerInfoFragment extends BaseFragment<CustomerInfoFragmentBinding> {
+public class CustomerInfoFragment extends LaundryTabFragment<CustomerInfoFragmentBinding> {
 
     @Override
     protected int getLayoutResource() {

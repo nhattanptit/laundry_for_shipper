@@ -10,9 +10,9 @@ import com.laundry.app.dto.UserInfo;
 import com.laundry.app.utils.SharePreferenceManager;
 import com.laundry.app.view.dialog.LoginDialog;
 import com.laundry.app.view.dialog.RegisterAccountDialog;
-import com.laundry.app.view.fragment.LaundryFragment;
+import com.laundry.app.view.fragment.LaundryTabFragment;
 
-public class CustomerOderHistoryListFragment extends LaundryFragment<CustomerHistoryOrderFragmentBinding> {
+public class CustomerOderHistoryListFragment extends LaundryTabFragment<CustomerHistoryOrderFragmentBinding> {
 
 
     @Override

@@ -43,20 +43,8 @@ public class ServiceDetailFragment extends LaundryFragment<ServicesDetailsFragme
         beforeCallApi();
         binding.servicesDetailRecycle.setAdapter(mServiceDetailAdapter);
         if (mServiceListDto != null) {
-            mDataController.getServicesDetail(mServiceListDto.id, new ApiServiceOperator.OnResponseListener<ServicesDetailResponse>() {
-                @Override
-                public void onSuccess(ServicesDetailResponse body) {
-                    mServiceDetailAdapter.submitList(body.servicesDetails);
-                    mServiceDetails = body.servicesDetails;
-                }
-
-                @Override
-                public void onFailure(Throwable t) {
-
-                }
-            });
+            mDataController.getServicesDetail(mServiceListDto.id, new ServiceDetailCallBack());
         }
-        afterCallApi();
         mServiceDetailAdapter.setCallback(this);
     }
 
@@ -64,10 +52,8 @@ public class ServiceDetailFragment extends LaundryFragment<ServicesDetailsFragme
     public void onViewClick() {
         binding.bookButton.setOnClickListener(view -> {
             List<OrderServiceDetailForm> list = new ArrayList<>();
-
-            list.add(new OrderServiceDetailForm(3, 2));
-
-            mDataController.createOrder(11, list, 1, "Ha Noi", new ApiServiceOperator.OnResponseListener<OrderResponse>() {
+            list.add(new OrderServiceDetailForm(3, 1));
+            mDataController.createOrder(11, 1, list, "Ha Noi", new ApiServiceOperator.OnResponseListener<OrderResponse>() {
                 @Override
                 public void onSuccess(OrderResponse body) {
                     Log.d(TAG, "onSuccess: " + body.toString());
@@ -84,7 +70,7 @@ public class ServiceDetailFragment extends LaundryFragment<ServicesDetailsFragme
     @SuppressLint("SetTextI18n")
     @Override
     public void onClickItem(int position, ServiceDetailDto item) {
-        binding.money.setText(grandTotal(mServiceDetails) +"$");
+        binding.money.setText(grandTotal(mServiceDetails) + "$");
     }
 
     private Double grandTotal(List<ServiceDetailDto> list) {
@@ -100,6 +86,21 @@ public class ServiceDetailFragment extends LaundryFragment<ServicesDetailsFragme
     }
 
     private void afterCallApi() {
+        binding.PriceLayout.setVisibility(View.VISIBLE);
         binding.progressBar.maskviewLayout.setVisibility(View.GONE);
+    }
+
+    private class ServiceDetailCallBack implements ApiServiceOperator.OnResponseListener<ServicesDetailResponse> {
+        @Override
+        public void onSuccess(ServicesDetailResponse body) {
+            mServiceDetailAdapter.submitList(body.servicesDetails);
+            mServiceDetails = body.servicesDetails;
+            afterCallApi();
+        }
+
+        @Override
+        public void onFailure(Throwable t) {
+            afterCallApi();
+        }
     }
 }

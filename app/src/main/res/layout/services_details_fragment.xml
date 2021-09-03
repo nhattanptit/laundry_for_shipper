@@ -34,6 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="88dp"
             android:background="@color/blue_29aae3"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent">
 
             <androidx.appcompat.widget.AppCompatTextView

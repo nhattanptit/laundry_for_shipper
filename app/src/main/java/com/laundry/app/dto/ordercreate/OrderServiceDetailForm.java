@@ -13,8 +13,8 @@ public class OrderServiceDetailForm {
     @Expose
     public int quantity;
 
-    public OrderServiceDetailForm(int quantity, int serviceDetailId) {
-        this.quantity = quantity;
+    public OrderServiceDetailForm(int serviceDetailId, int quantity) {
         this.serviceDetailId = serviceDetailId;
+        this.quantity = quantity;
     }
 }

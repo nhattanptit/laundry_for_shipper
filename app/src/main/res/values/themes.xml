@@ -16,4 +16,19 @@
         <item name="colorPrimaryDark">@color/green_8cc63e</item>
         <item name="colorAccent">@color/green_8cc63e</item>
     </style>
+
+    <!-- shadow -->
+    <style name="shadow_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">4dp</item>
+        <item name="android:background">@drawable/shape_background_shadow</item>
+    </style>
+
+    <style name="progressbar_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/alpha_gray</item>
+        <item name="android:gravity">center</item>
+        <item name="android:orientation">vertical</item>
+    </style>
 </resources>

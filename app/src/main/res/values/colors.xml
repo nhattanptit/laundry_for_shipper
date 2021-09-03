@@ -12,4 +12,8 @@
 
     <color name="Color_e2e2e2">#e2e2e2</color>
     <color name="Color_ff5555">#ff5555</color>
+
+
+    <color name="alpha_8cc63e">#408cc63e</color>
+    <color name="alpha_gray">#99ffffff</color>
 </resources>

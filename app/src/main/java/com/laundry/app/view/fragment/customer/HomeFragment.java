@@ -59,18 +59,15 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
         binding.wormDotsIndicator.setViewPager(binding.viewPager);
 
         // Service all list
-        binding.serviceAllRecycle.setAdapter(serviceAllAdapter);
+        binding.serviceList.setAdapter(serviceAllAdapter);
     }
 
     @Override
     public void onViewClick() {
-        serviceAllAdapter.setCallback(new ServiceAllAdapter.IServiceAllCallback() {
-            @Override
-            public void onClickItem(int position, ServiceAllDto item) {
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(ServiceDetailFragment.KEY_SEND_DATA, item);
-                navigateTo(R.id.action_navigation_customer_home_to_navigation_serviceDetailFragment, bundle);
-            }
+        serviceAllAdapter.setCallback((position, item) -> {
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(ServiceDetailFragment.KEY_SEND_DATA, item);
+            navigateTo(R.id.action_navigation_customer_home_to_navigation_serviceDetailFragment, bundle);
         });
     }
 

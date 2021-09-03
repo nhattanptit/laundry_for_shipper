@@ -53,9 +53,9 @@ public class ServiceAllAdapter extends BaseAdapter {
             binding = (ServiceAllItemBinding) viewDataBinding;
 
             binding.getRoot().setOnClickListener(view -> {
-                ServiceAllDisplay display = (ServiceAllDisplay) getDataInPosition(getAdapterPosition());
+                ServiceAllDisplay display = (ServiceAllDisplay) getDataInPosition(getAbsoluteAdapterPosition());
                 ServiceAllDto item = display.getData();
-                mCallback.onClickItem(getAdapterPosition(), item);
+                mCallback.onClickItem(getAbsoluteAdapterPosition(), item);
             });
         }
 

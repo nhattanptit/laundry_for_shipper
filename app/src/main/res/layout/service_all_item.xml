@@ -10,8 +10,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/dp_12"
-        android:background="@drawable/cardview_background_white">
+        android:background="@drawable/cardview_background_white"
+        android:layout_margin="@dimen/dp_8">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/serviceAllImage"

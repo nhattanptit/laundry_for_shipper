@@ -16,6 +16,7 @@ import com.laundry.base.BaseActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 public class HomeActivity extends BaseActivity<HomeBinding> {
@@ -36,13 +37,32 @@ public class HomeActivity extends BaseActivity<HomeBinding> {
         }
 
         boolean isCustomer = TextUtils.equals(Role.CUSTOMER.role(), mMode);
+        AppBarConfiguration appBarConfiguration;
+        if (isCustomer) {
+            appBarConfiguration = new AppBarConfiguration.Builder(
+                    R.id.navigation_customer_home,
+                    R.id.navigation_customer_order_list,
+                    R.id.navigation_customer_user)
+                    .build();
+        } else {
+            appBarConfiguration = new AppBarConfiguration.Builder(
+                    R.id.navigation_shipper_home,
+                    R.id.navigation_shipper_info)
+                    .build();
+        }
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         navView.inflateMenu(isCustomer ? R.menu.customer_bottom_nav_menu : R.menu.shipper_bottom_nav_menu);
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         navController.setGraph(isCustomer ? R.navigation.customer_navigation : R.navigation.shipper_navigation);
         NavigationUI.setupWithNavController(navView, navController);
+        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         FacebookSdk.sdkInitialize(this);
+        navView.setOnItemSelectedListener(item -> {
+            if (item.getItemId() != binding.navView.getSelectedItemId())
+                NavigationUI.onNavDestinationSelected(item, navController);
+            return false;
+        });
 
         if (TextUtils.equals(Role.CUSTOMER.role(), mMode)) {
             if (!UserInfo.getInstance().isLogin(this)) {

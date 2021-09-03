@@ -97,6 +97,7 @@ public class HomeActivity extends BaseActivity<HomeBinding> implements LoginDial
 
     }
 
+
     @Override
     public void onLoginSuccess() {
 
@@ -119,6 +120,11 @@ public class HomeActivity extends BaseActivity<HomeBinding> implements LoginDial
 
     }
 
+    /**
+     * Call phone
+     *
+     * @param phoneNumber Phone number
+     */
     @SuppressLint("MissingPermission")
     private void callNow(String phoneNumber) {
         Intent callIntent = new Intent(Intent.ACTION_CALL);
@@ -137,6 +143,7 @@ public class HomeActivity extends BaseActivity<HomeBinding> implements LoginDial
         this.mPhoneNumber = phoneNumber;
         String[] simpleArray = new String[listPermission.size()];
         listPermission.toArray(simpleArray);
+        // Request permission
         doRequestPermission(simpleArray, this);
     }
 

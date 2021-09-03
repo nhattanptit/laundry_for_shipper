@@ -55,4 +55,5 @@
     <string name="order_are_shipping">Order are shipping</string>
     <string name="online">Online</string>
     <string name="service_list_title">Service List</string>
+    <string name="go_to_home_screen">Go to Home screen</string>
 </resources>

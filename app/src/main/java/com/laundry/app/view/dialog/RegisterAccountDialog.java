@@ -49,7 +49,7 @@ public class RegisterAccountDialog extends BaseDialog<RegisterAccountDialogBindi
 
         binding.backToLogin.setOnClickListener(new SingleTapListener(view -> {
             LoginDialog loginDialog = new LoginDialog();
-            loginDialog.show(getMyActivity().getSupportFragmentManager(), "LoginDialog");
+            loginDialog.show(getMyActivity().getSupportFragmentManager(), LoginDialog.class.getSimpleName());
             this.dismiss();
         }));
     }
@@ -64,7 +64,7 @@ public class RegisterAccountDialog extends BaseDialog<RegisterAccountDialogBindi
         int returnCd = Integer.parseInt(body.status);
         if (returnCd == 200) {
             LoginDialog loginDialog = new LoginDialog();
-            loginDialog.show(getMyActivity().getSupportFragmentManager(), "LoginDialog");
+            loginDialog.show(getMyActivity().getSupportFragmentManager(), LoginDialog.class.getSimpleName());
             this.dismiss();
         } else {
 

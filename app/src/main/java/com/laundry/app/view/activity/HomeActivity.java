@@ -1,7 +1,17 @@
 package com.laundry.app.view.activity;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.net.Uri;
 import android.text.TextUtils;
+import android.widget.Toast;
+
+import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 import android.util.Log;
 
 import com.facebook.FacebookSdk;
@@ -13,24 +23,24 @@ import com.laundry.app.dto.Role;
 import com.laundry.app.dto.UserInfo;
 import com.laundry.app.utils.SharePreferenceManager;
 import com.laundry.app.view.dialog.LoginDialog;
+import com.laundry.app.view.fragment.shipper.ShipperHomeFragment;
+import com.laundry.app.view.fragment.shipper.ShipperHomeFragment;
 import com.laundry.base.BaseActivity;
 
-import androidx.navigation.NavController;
-import androidx.navigation.NavOptions;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
+import java.util.ArrayList;
 
-public class HomeActivity extends BaseActivity<HomeBinding> implements LoginDialog.LoginListener {
+public class HomeActivity extends BaseActivity<HomeBinding> implements LoginDialog.LoginListener, ShipperHomeFragment.OnClickCallPhone, BaseActivity.ConfigPermission {
 
 
     private static final String TAG = HomeActivity.class.getSimpleName();
     private String mMode;
-
     @Override
     protected int getLayoutResource() {
         return R.layout.home;
     }
+
+    private String mPhoneNumber;
+    private ArrayList<String> listPermission = new ArrayList<>();
 
     @Override
     public void onInitView() {
@@ -62,6 +72,11 @@ public class HomeActivity extends BaseActivity<HomeBinding> implements LoginDial
         NavigationUI.setupWithNavController(navView, navController);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         FacebookSdk.sdkInitialize(this);
+
+        // Add permission
+        listPermission.add(Manifest.permission.CALL_PHONE);
+
+
         navView.setOnItemSelectedListener(item -> {
             if (item.getItemId() != binding.navView.getSelectedItemId())
                 NavigationUI.onNavDestinationSelected(item, navController);
@@ -86,5 +101,36 @@ public class HomeActivity extends BaseActivity<HomeBinding> implements LoginDial
     @Override
     public void onLoginSuccess() {
         Log.d(TAG, "onLoginSuccess: ");
+    }
+
+    @SuppressLint("MissingPermission")
+    private void callNow(String phoneNumber) {
+        Intent callIntent = new Intent(Intent.ACTION_CALL);
+        callIntent.setData(Uri.parse("tel:" + phoneNumber));
+        try {
+            this.startActivity(callIntent);
+        } catch (Exception ex) {
+            Toast.makeText(this, "Your call failed... " + ex.getMessage(),
+                    Toast.LENGTH_LONG).show();
+            ex.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onCall(String phoneNumber) {
+        this.mPhoneNumber = phoneNumber;
+        String[] simpleArray = new String[ listPermission.size() ];
+        listPermission.toArray( simpleArray );
+        doRequestPermission(simpleArray, this);
+    }
+
+    @Override
+    public void onAllow() {
+        this.callNow(mPhoneNumber);
+    }
+
+    @Override
+    public void onDenied() {
+
     }
 }

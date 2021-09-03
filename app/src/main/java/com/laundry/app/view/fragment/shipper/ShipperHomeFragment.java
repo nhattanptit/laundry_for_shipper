@@ -1,8 +1,10 @@
 package com.laundry.app.view.fragment.shipper;
 
+import android.content.Context;
 import android.os.Handler;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -14,7 +16,10 @@ import com.laundry.app.dto.UserInfo;
 import com.laundry.app.dto.order.OrderItem;
 import com.laundry.app.view.adapter.BannerAdapter;
 import com.laundry.app.view.adapter.HomeOrderAdapter;
+import com.laundry.app.view.adapter.HomeOrderAreShippingAdapter;
 import com.laundry.base.BaseFragment;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +27,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding> implements ViewPager.OnPageChangeListener
-        , SwipeRefreshLayout.OnRefreshListener {
+        , SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
 
     int[] mResourcesBanner = {R.drawable.banner1,
             R.drawable.banner2,
@@ -38,8 +43,19 @@ public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding
     private HomeOrderAdapter mHistoryOrderAdapter;
 
     private List<Object> mListOrderAreShipping;
+    private HomeOrderAreShippingAdapter mHomeOrderAreShippingAdapter;
 
-    private SwipeRefreshLayout mSwipeRefreshLayout;
+    OnClickCallPhone mOnClickCallPhone;
+
+    @Override
+    public void onAttach(@NonNull @NotNull Context context) {
+        super.onAttach(context);
+        try {
+            mOnClickCallPhone = (OnClickCallPhone) context;
+        } catch (ClassCastException e) {
+
+        }
+    }
 
     @Override
     protected int getLayoutResource() {
@@ -64,9 +80,11 @@ public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding
         initNewOrder();
         initHistoryOrder();
 
-        callOrderAreShippingApi();
+        if (UserInfo.getInstance().isLogin(getActivity())) {
+            callOrderAreShippingApi();
+            callListHistoryOrderApi();
+        }
         callListNewOrderApi();
-        callListHistoryOrderApi();
 
         binding.homeStaffButtonLogin.setVisibility(UserInfo.getInstance().isLogin(getActivity()) ? View.GONE : View.VISIBLE);
     }
@@ -75,6 +93,16 @@ public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding
      * call order are shipping api
      */
     private void callOrderAreShippingApi() {
+        mListOrderAreShipping.add(new OrderItem("Số 91-93 Đường số 5, Phường An Phú, Tp. Thủ Đức, Thành phố Hồ Chí Minh", "0984622312"));
+        mListOrderAreShipping.add(new OrderItem("Số 91-93 Đường số 5, Phường An Phú, Tp. Thủ Đức, Thành phố Hồ Chí Minh", "0984622312"));
+        mListOrderAreShipping.add(new OrderItem("Số 91-93 Đường số 5, Phường An Phú, Tp. Thủ Đức, Thành phố Hồ Chí Minh", "0984622312"));
+        mListOrderAreShipping.add(new OrderItem("Số 91-93 Đường số 5, Phường An Phú, Tp. Thủ Đức, Thành phố Hồ Chí Minh", "0984622312"));
+        mListOrderAreShipping.add(new OrderItem("Số 91-93 Đường số 5, Phường An Phú, Tp. Thủ Đức, Thành phố Hồ Chí Minh", "0984622312"));
+        mListOrderAreShipping.add(new OrderItem("Số 91-93 Đường số 5, Phường An Phú, Tp. Thủ Đức, Thành phố Hồ Chí Minh", "0984622312"));
+        mListOrderAreShipping.add(new OrderItem("Số 91-93 Đường số 5, Phường An Phú, Tp. Thủ Đức, Thành phố Hồ Chí Minh", "0984622312"));
+        mListOrderAreShipping.add(new OrderItem("Số 91-93 Đường số 5, Phường An Phú, Tp. Thủ Đức, Thành phố Hồ Chí Minh", "0984622312"));
+        mHomeOrderAreShippingAdapter.submitList(mListOrderAreShipping);
+        updateList();
     }
 
     /**
@@ -82,6 +110,14 @@ public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding
      */
     private void initOrderAreShipping() {
         mListOrderAreShipping = new ArrayList<>();
+        mHomeOrderAreShippingAdapter = new HomeOrderAreShippingAdapter(this);
+        binding.homeStaffOrderDeliveringRcv.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
+        binding.homeStaffOrderDeliveringRcv.setLayoutManager(linearLayoutManager);
+        binding.homeStaffOrderDeliveringRcv.setAdapter(mHomeOrderAreShippingAdapter);
+        mHomeOrderAreShippingAdapter.submitList(mListOrderAreShipping);
+        binding.homeStaffOrderDeliveringRcv.bringToFront();
     }
 
     @Override
@@ -140,14 +176,6 @@ public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding
     public void onRefresh() {
         callListNewOrderApi();
         binding.pullToRefresh.setRefreshing(false);
-    }
-
-
-
-    /**
-     * Handle onclick login
-     */
-    private void onClickLogin() {
     }
 
     /**
@@ -376,5 +404,47 @@ public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding
             binding.homeStaffHistoryOrderRcv.setVisibility(View.GONE);
             binding.historyOrderHeadingLayout.setVisibility(View.GONE);
         }
+
+        if (mListOrderAreShipping != null && !mListOrderAreShipping.isEmpty()) {
+            binding.homeStaffOrderDeliveringRcv.setVisibility(View.VISIBLE);
+            binding.orderDeliveringHeadingLayout.setVisibility(View.VISIBLE);
+        } else {
+            binding.homeStaffOrderDeliveringRcv.setVisibility(View.GONE);
+            binding.orderDeliveringHeadingLayout.setVisibility(View.GONE);
+        }
     }
+
+    @Override
+    public void onClick(View v) {
+        OrderItem item = (OrderItem) v.getTag();
+        switch (v.getId()) {
+            case R.id.home_staff_derivering_order_call_button:
+                onClickCallButton(item);
+                break;
+            case R.id.home_staff_derivering_order_done_button:
+                onClickDoneButton();
+                break;
+            default:
+                break;
+        }
+    }
+
+    /**
+     * Handle click call button in list order are shipping
+     */
+    private void onClickCallButton(OrderItem item) {
+        mOnClickCallPhone.onCall(item.getPhoneNumber());
+    }
+
+    /**
+     * Handle click done button in list order are shipping
+     */
+    private void onClickDoneButton() {
+
+    }
+
+    public interface OnClickCallPhone {
+        void onCall(String phoneNumber);
+    }
+
 }

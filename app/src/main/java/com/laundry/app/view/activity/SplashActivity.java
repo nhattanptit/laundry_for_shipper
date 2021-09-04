@@ -5,6 +5,7 @@ import android.text.TextUtils;
 
 import com.laundry.app.R;
 import com.laundry.app.databinding.SplashActivityBinding;
+import com.laundry.app.dto.AddressInfo;
 import com.laundry.app.dto.Role;
 import com.laundry.app.utils.SharePreferenceManager;
 import com.laundry.base.BaseActivity;
@@ -17,6 +18,10 @@ public class SplashActivity extends BaseActivity<SplashActivityBinding> {
 
     @Override
     public void onInitView() {
+
+        // Init address
+        AddressInfo.getInstance().init(this);
+
         Handler handler = new Handler();
         handler.postDelayed(() -> {
             String mode = SharePreferenceManager.getMode(this);

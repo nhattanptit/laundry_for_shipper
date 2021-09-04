@@ -30,15 +30,13 @@ public class SwitchModeActivity extends BaseActivity<ActivitySwitchModeBinding> 
 
     @Override
     public void onClick(View view) {
-        Intent intent = new Intent(this, HomeActivity.class);
+        Intent intent = new Intent(this, LoginOrRegisterActivity.class);
         switch (view.getId()) {
             case R.id.switch_to_customer:
                 intent.putExtra(Constant.ROLE_SWITCH, Role.CUSTOMER.role());
-                SharePreferenceManager.setMode(this, Role.CUSTOMER.role());
                 break;
             case R.id.switch_to_shipper:
                 intent.putExtra(Constant.ROLE_SWITCH, Role.SHIPPER.role());
-                SharePreferenceManager.setMode(this, Role.SHIPPER.role());
                 break;
             default:
                 break;

@@ -1,10 +1,10 @@
 package com.laundry.app.view.adapter;
 
 import com.laundry.app.R;
-import com.laundry.app.dto.serviceall.ServiceAllDto;
+import com.laundry.app.dto.servicelist.ServiceListDto;
 import com.laundry.base.BaseDisplay;
 
-public class ServiceAllDisplay extends BaseDisplay<ServiceAllDto> {
+public class ServiceListDisplay extends BaseDisplay<ServiceListDto> {
 
     @Override
     public int getIcon() {

@@ -28,6 +28,17 @@
     <string name="sign_in_with_google">Sign in with Google</string>
     <string name="sign_up">Sign Up</string>
     <string name="login_or_signup">Login and Sign Up</string>
+    <string name="hint_enter_name">Enter full name *</string>
+    <string name="hint_email_address">Enter email address *</string>
+    <string name="hint_phone_number">Enter phone number *</string>
+    <string name="hint_password">Enter password *</string>
+    <string name="hint_confirm_password">Enter confirm password *</string>
+    <string name="hint_city">City *</string>
+    <string name="hint_address">Enter address *</string>
+    <string name="hint_district">District *</string>
+    <string name="hint_ward">Ward *</string>
+    <string name="hint_username">Enter username *</string>
+    <string name="name_wrong">Please enter full name.</string>
     <string name="wash_iron"><![CDATA[Wash & Iron]]></string>
     <string name="new_order">New order</string>
     <string name="order_history">Order history</string>
@@ -37,4 +48,13 @@
     <string name="delivery_date_time"><![CDATA[Delivery Date & Time]]></string>
     <string name="delivery_address">Delivery Address</string>
     <string name="price">Price</string>
+    <string name="phone_number">Phone Number: </string>
+    <string name="delivering">Delivering</string>
+    <string name="call">Call</string>
+    <string name="done">Done</string>
+    <string name="order_are_shipping">Order are shipping</string>
+    <string name="online">Online</string>
+    <string name="service_list_title">Service List</string>
+    <string name="you_dont_have_order_yet">You don\'t have \n order yet</string>
+    <string name="go_to_home_screen">Go to Home screen</string>
 </resources>

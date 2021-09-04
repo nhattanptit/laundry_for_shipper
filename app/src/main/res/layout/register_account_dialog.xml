@@ -13,193 +13,314 @@
         android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="320dp"
-            android:layout_height="560dp"
+            android:layout_margin="@dimen/dp_16"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:background="#FFFFFF"
-            android:paddingHorizontal="15dp">
+            android:background="@color/white">
 
             <androidx.core.widget.NestedScrollView
+                android:paddingBottom="@dimen/dp_12"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/dp_12"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <LinearLayout
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/dp_8"
+                    android:paddingEnd="@dimen/dp_8"
+                    android:paddingTop="@dimen/dp_8">
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/logo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginTop="80dp"
+                        android:layout_marginTop="@dimen/dp_8"
                         android:src="@drawable/logo"
                         app:layout_constraintDimensionRatio="1:1"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
+                    <com.google.android.material.textfield.TextInputLayout
+                        app:layout_constraintTop_toBottomOf="@+id/logo"
+                        android:id="@+id/account_name_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:textColorHint="@color/green_8cc63e"
+                            android:textSize="@dimen/sp_13"
+                            android:id="@+id/account_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/green_8cc63e"
+                            android:maxLines="1"
+                            android:hint="@string/hint_enter_name"
+                            android:lines="1"
+                            android:singleLine="true"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        app:layout_constraintTop_toBottomOf="@+id/account_name_layout"
+                        android:id="@+id/account_username_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:textColorHint="@color/green_8cc63e"
+                            android:textSize="@dimen/sp_13"
+                            android:id="@+id/account_username"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
+                            android:inputType="textFilter"
+                            android:maxLines="1"
+                            android:hint="@string/hint_username"
+                            android:textColor="@color/green_8cc63e"
+                            android:lines="1"
+                            android:singleLine="true"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        app:layout_constraintTop_toBottomOf="@+id/account_username_layout"
+                        android:id="@+id/account_mail_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_4">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:textSize="@dimen/sp_13"
+                            android:id="@+id/account_mail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textEmailAddress"
+                            android:textColorHint="@color/green_8cc63e"
+                            android:textColor="@color/green_8cc63e"
+                            android:maxLines="1"
+                            android:hint="@string/hint_email_address"
+                            android:lines="1"
+                            android:singleLine="true"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        app:layout_constraintTop_toBottomOf="@+id/account_mail_layout"
+                        android:id="@+id/account_phone_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_4">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:textSize="@dimen/sp_13"
+                            android:id="@+id/account_phone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColorHint="@color/green_8cc63e"
+                            android:textColor="@color/green_8cc63e"
+                            android:inputType="numberSigned"
+                            android:maxLines="1"
+                            android:hint="@string/hint_phone_number"
+                            android:lines="1"
+                            android:singleLine="true"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        app:layout_constraintTop_toBottomOf="@+id/account_phone_layout"
+                        android:id="@+id/account_password_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_4">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:textSize="@dimen/sp_13"
+                            android:id="@+id/account_password"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textPassword"
+                            android:textColorHint="@color/green_8cc63e"
+                            android:textColor="@color/green_8cc63e"
+                            android:maxLines="1"
+                            android:hint="@string/hint_password"
+                            android:lines="1"
+                            android:singleLine="true"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        app:layout_constraintTop_toBottomOf="@+id/account_password_layout"
+                        android:id="@+id/account_confirm_password_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_4">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:textSize="@dimen/sp_13"
+                            android:id="@+id/account_confirm__password"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColorHint="@color/green_8cc63e"
+                            android:textColor="@color/green_8cc63e"
+                            android:inputType="textPassword"
+                            android:maxLines="1"
+                            android:hint="@string/hint_confirm_password"
+                            android:lines="1"
+                            android:singleLine="true"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <LinearLayout
+                        app:layout_constraintTop_toBottomOf="@+id/account_confirm_password_layout"
+                        android:id="@+id/account_city_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_4"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/green_8cc63e"
+                            android:textSize="@dimen/sp_13"
+                            android:text="@string/hint_city" />
+
+                        <androidx.appcompat.widget.AppCompatSpinner
+                            android:id="@+id/spinner_city"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            style="@style/Widget.AppCompat.Spinner.Underlined"/>
+
+                        <TextView
+                            android:visibility="gone"
+                            android:id="@+id/account_city_error"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/sp_12"
+                            android:textColor="@color/error_red"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        app:layout_constraintTop_toBottomOf="@+id/account_city_layout"
+                        android:id="@+id/account_district_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_4"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/green_8cc63e"
+                            android:textSize="@dimen/sp_13"
+                            android:text="@string/hint_district" />
+
+                        <androidx.appcompat.widget.AppCompatSpinner
+                            android:id="@+id/spinner_district"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            style="@style/Widget.AppCompat.Spinner.Underlined"/>
+
+                        <TextView
+                            android:visibility="gone"
+                            android:id="@+id/account_district_error"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/sp_12"
+                            android:textColor="@color/error_red"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        app:layout_constraintTop_toBottomOf="@+id/account_city_layout"
+                        android:id="@+id/account_ward_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_4"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/green_8cc63e"
+                            android:textSize="@dimen/sp_13"
+                            android:text="@string/hint_ward" />
+
+                        <androidx.appcompat.widget.AppCompatSpinner
+                            android:id="@+id/spinner_ward"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            style="@style/Widget.AppCompat.Spinner.Underlined"/>
+
+                        <TextView
+                            android:visibility="gone"
+                            android:id="@+id/account_ward_error"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/sp_12"
+                            android:textColor="@color/error_red"/>
+                    </LinearLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+                        app:layout_constraintTop_toBottomOf="@+id/account_ward_layout"
+                        android:id="@+id/account_address_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_4">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:textSize="@dimen/sp_13"
+                            android:id="@+id/account_address"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColorHint="@color/green_8cc63e"
+                            android:maxLines="1"
+                            android:hint="@string/hint_address"
+                            android:lines="1"
+                            android:singleLine="true"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/nameText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_12"
-                        android:text="@string/name"
-                        android:textColor="#8cc63e"
-                        android:textSize="@dimen/sp_10"
-                        app:layout_constraintTop_toBottomOf="@+id/logo" />
-
-                    <androidx.appcompat.widget.AppCompatEditText
-                        android:id="@+id/nameEditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_6"
-                        android:hint="Harry Potter"
-                        android:textColor="#777777"
-                        android:textSize="@dimen/sp_10"
-                        app:layout_constraintTop_toBottomOf="@+id/nameText" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/phoneText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_12"
-                        android:text="@string/phone"
-                        android:textColor="#8cc63e"
-                        android:textSize="@dimen/sp_10"
-                        app:layout_constraintTop_toBottomOf="@+id/nameEditText" />
-
-                    <androidx.appcompat.widget.AppCompatEditText
-                        android:id="@+id/phoneEditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_6"
-                        android:hint="Harry Potter"
-                        android:textColor="#777777"
-                        android:textSize="@dimen/sp_10"
-                        app:layout_constraintTop_toBottomOf="@+id/phoneText" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/passwordText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_12"
-                        android:text="@string/password"
-                        android:textColor="#8cc63e"
-                        android:textSize="@dimen/sp_10"
-                        app:layout_constraintTop_toBottomOf="@+id/phoneEditText" />
-
-                    <androidx.appcompat.widget.AppCompatEditText
-                        android:id="@+id/passwordEditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_6"
-                        android:hint="Harry Potter"
-                        android:textColor="#777777"
-                        android:textSize="@dimen/sp_10"
-                        app:layout_constraintTop_toBottomOf="@+id/passwordText" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/confirmPasswordText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_12"
-                        android:text="@string/confirm_password"
-                        android:textColor="#8cc63e"
-                        android:textSize="@dimen/sp_10"
-                        app:layout_constraintTop_toBottomOf="@+id/passwordEditText" />
-
-                    <androidx.appcompat.widget.AppCompatEditText
-                        android:id="@+id/confirmPasswordEditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_6"
-                        android:hint="Harry Potter"
-                        android:textColor="#777777"
-                        android:textSize="@dimen/sp_10"
-                        app:layout_constraintTop_toBottomOf="@+id/confirmPasswordText" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/addressText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_12"
-                        android:text="@string/address"
-                        android:textColor="#8cc63e"
-                        android:textSize="@dimen/sp_10"
-                        app:layout_constraintTop_toBottomOf="@+id/confirmPasswordEditText" />
-
-                    <androidx.appcompat.widget.AppCompatEditText
-                        android:id="@+id/addressEditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_6"
-                        android:hint="Harry Potter"
-                        android:textColor="#777777"
-                        android:textSize="@dimen/sp_10"
-                        app:layout_constraintTop_toBottomOf="@+id/addressText" />
-
-                    <androidx.appcompat.widget.AppCompatSpinner
-                        android:id="@+id/addressSpinner"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_6"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/addressText" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/detailAddressText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_12"
-                        android:text="@string/detail_address"
-                        android:textColor="#8cc63e"
-                        android:textSize="@dimen/sp_10"
-                        app:layout_constraintTop_toBottomOf="@+id/addressSpinner" />
-
-                    <androidx.appcompat.widget.AppCompatEditText
-                        android:id="@+id/detailAddressEditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_6"
-                        android:hint="Harry Potter"
-                        android:textColor="#777777"
-                        android:textSize="@dimen/sp_10"
-                        app:layout_constraintTop_toBottomOf="@+id/detailAddressText" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/backToLogin"
+                        android:layout_gravity="center"
+                        android:id="@+id/back_to_login"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dp_12"
                         android:padding="@dimen/dp_2"
                         android:text="@string/back_to_login"
+                        android:textStyle="italic"
                         android:textColor="@color/color_0087e6"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/detailAddressEditText" />
+                        app:layout_constraintTop_toBottomOf="@+id/account_address_layout" />
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/registerButton"
+                        android:id="@+id/register_button"
                         android:layout_width="@dimen/dp_240"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:layout_marginTop="@dimen/dp_12"
                         android:background="@drawable/shaper_button_green_big"
                         android:gravity="center"
-                        android:padding="@dimen/dp_12"
                         android:text="@string/register"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/sp_17"
                         android:textColor="@color/white"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/backToLogin" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                        app:layout_constraintTop_toBottomOf="@+id/back_to_login" />
+                </LinearLayout>
             </androidx.core.widget.NestedScrollView>
         </androidx.constraintlayout.widget.ConstraintLayout>
+        <include
+            android:id="@+id/progress_bar"
+            layout="@layout/progressbar_layout"/>
     </FrameLayout>
 
 </layout>

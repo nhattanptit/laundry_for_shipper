@@ -1,9 +1,11 @@
 package com.laundry.base;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
@@ -20,9 +22,25 @@ public abstract class BaseFragment<DB extends ViewDataBinding> extends Fragment 
 
     protected DB binding;
     private OnBackPressedCallback mCallback;
+    private BaseActivity mActivity;
+    protected LinearLayout mProgressBarView;
 
 
     protected abstract int getLayoutResource();
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        try {
+            mActivity = (BaseActivity) context;
+        } catch (ClassCastException e) {
+            throw e;
+        }
+    }
+
+    public BaseActivity getMyActivity() {
+        return this.mActivity != null ? this.mActivity : (BaseActivity) getActivity();
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -87,7 +105,7 @@ public abstract class BaseFragment<DB extends ViewDataBinding> extends Fragment 
         }
     }
 
-    protected final  void popBackStack(int idOfFragment, boolean inclusive) {
+    protected final void popBackStack(int idOfFragment, boolean inclusive) {
         try {
             NavHostFragment.findNavController(this).popBackStack(idOfFragment, inclusive);
         } catch (IllegalArgumentException e) {

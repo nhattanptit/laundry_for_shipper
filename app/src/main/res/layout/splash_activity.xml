@@ -6,6 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -15,8 +16,8 @@
 
             <ImageView
                 android:id="@+id/logo"
-                android:layout_width="@dimen/dp_180"
-                android:layout_height="@dimen/dp_180"
+                android:layout_width="@dimen/dp_160"
+                android:layout_height="@dimen/dp_160"
                 android:adjustViewBounds="true"
                 android:src="@drawable/logo" />
 
@@ -29,7 +30,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/my"
+                    android:text="@string/laundry"
                     android:textColor="@color/green_8cc63e"
                     android:textSize="@dimen/sp_32"
                     android:textStyle="bold" />
@@ -38,10 +39,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp_4"
-                    android:text="@string/laundry"
+                    android:text="@string/online"
                     android:textColor="@color/blue_29aae3"
                     android:textSize="@dimen/sp_32"
-                    android:textStyle="bold|italic" />
+                    android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
 

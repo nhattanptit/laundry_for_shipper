@@ -2,15 +2,19 @@ package com.laundry.app.view.fragment.customer;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.laundry.app.R;
 import com.laundry.app.control.ApiServiceOperator;
 import com.laundry.app.control.DataController;
 import com.laundry.app.databinding.FragmentHomeBinding;
-import com.laundry.app.dto.serviceall.ServiceAllDto;
-import com.laundry.app.dto.serviceall.ServiceAllResponse;
+import com.laundry.app.dto.UserInfo;
+import com.laundry.app.dto.servicelist.ServiceListResponse;
+import com.laundry.app.utils.SingleTapListener;
 import com.laundry.app.view.adapter.BannerAdapter;
-import com.laundry.app.view.adapter.ServiceAllAdapter;
+import com.laundry.app.view.adapter.ServiceListAdapter;
+import com.laundry.app.view.dialog.LoginDialog;
+import com.laundry.app.view.dialog.RegisterAccountDialog;
 import com.laundry.base.BaseFragment;
 
 public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
@@ -18,13 +22,13 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
     private static final String TAG = "HomeFragment";
     private final DataController mController = new DataController();
     private final int[] image = {
-            R.drawable.wash_and_iron_icon,
-            R.drawable.ironing_icon,
-            R.drawable.dry_cleaning_icon,
-            R.drawable.wash_blanket_icon};
+            R.drawable.banner1,
+            R.drawable.banner2,
+            R.drawable.banner3,
+            R.drawable.banner4,
+            R.drawable.banner5};
 
-    //    BannerAdapter bannerAdapter = new BannerAdapter(getContext(), image);
-    ServiceAllAdapter serviceAllAdapter = new ServiceAllAdapter();
+    ServiceListAdapter serviceListAdapter = new ServiceListAdapter();
 
     @Override
     protected int getLayoutResource() {
@@ -38,17 +42,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
 
     @Override
     public void onPreInitView() {
-        mController.getServicesAll(new ApiServiceOperator.OnResponseListener<ServiceAllResponse>() {
-            @Override
-            public void onSuccess(ServiceAllResponse body) {
-                serviceAllAdapter.submitList(body.getServicesAllList());
-            }
 
-            @Override
-            public void onFailure(Throwable t) {
-                Log.e(TAG, "onFailure: " + t.getMessage());
-            }
-        });
     }
 
     @Override
@@ -59,19 +53,72 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
         binding.wormDotsIndicator.setViewPager(binding.viewPager);
 
         // Service all list
-        binding.serviceAllRecycle.setAdapter(serviceAllAdapter);
+        binding.serviceList.setAdapter(serviceListAdapter);
+
+        getServiceList();
+        createLoginLayout();
     }
 
     @Override
     public void onViewClick() {
-        serviceAllAdapter.setCallback(new ServiceAllAdapter.IServiceAllCallback() {
-            @Override
-            public void onClickItem(int position, ServiceAllDto item) {
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(ServiceDetailFragment.KEY_SEND_DATA, item);
-                navigateTo(R.id.action_navigation_customer_home_to_navigation_serviceDetailFragment, bundle);
-            }
+        serviceListAdapter.setCallback((position, item) -> {
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(ServiceDetailFragment.KEY_SEND_DATA, item);
+            navigateTo(R.id.action_navigation_customer_home_to_navigation_serviceDetailFragment, bundle);
         });
+
+        binding.login.setOnClickListener(new SingleTapListener(view -> {
+            LoginDialog loginDialog = LoginDialog.newInstance(HomeFragment.class.getSimpleName());
+            loginDialog.show(getMyActivity().getSupportFragmentManager(), LoginDialog.class.getSimpleName());
+        }));
+
+        binding.signUp.setOnClickListener(new SingleTapListener(view -> {
+            RegisterAccountDialog registerAccountDialog = RegisterAccountDialog.newInstance(HomeFragment.class.getSimpleName());
+            registerAccountDialog.show(getMyActivity().getSupportFragmentManager(), RegisterAccountDialog.class.getSimpleName());
+        }));
+    }
+
+    /**
+     * ServiceListCallBack
+     */
+    private class ServiceListCallBack implements ApiServiceOperator.OnResponseListener<ServiceListResponse> {
+
+        @Override
+        public void onSuccess(ServiceListResponse body) {
+            serviceListAdapter.submitList(body.getServicesList());
+            afterCallApi();
+        }
+
+        @Override
+        public void onFailure(Throwable t) {
+            Log.e(TAG, "onFailure: " + t.getMessage());
+            afterCallApi();
+        }
+    }
+
+    private void createDisplay() {
+
+    }
+
+    private void getServiceList() {
+        beforeCallApi();
+        mController.getServicesAll(new ServiceListCallBack());
+    }
+
+    /**
+     * Create login or register are
+     */
+    private void createLoginLayout() {
+        binding.registerLoginLayout.setVisibility(UserInfo.getInstance().isLogin(getMyActivity()) ? View.GONE : View.VISIBLE);
+    }
+
+    private void beforeCallApi() {
+        binding.progressBar.maskviewLayout.setVisibility(View.VISIBLE);
+    }
+
+    private void afterCallApi() {
+        binding.progressBar.maskviewLayout.setVisibility(View.GONE);
+        binding.homeContent.setVisibility(View.VISIBLE);
     }
 
 }

@@ -1,6 +1,7 @@
 package com.laundry.base;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
@@ -22,8 +24,24 @@ import androidx.fragment.app.FragmentManager;
 public abstract class BaseDialog<DB extends ViewDataBinding> extends DialogFragment implements BaseView {
 
     protected DB binding;
+    private BaseActivity mActivity;
+    protected LinearLayout mProgressBarView;
 
     protected abstract int getLayoutResource();
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        try {
+            mActivity = (BaseActivity) context;
+        } catch (ClassCastException e) {
+            throw e;
+        }
+    }
+
+    public BaseActivity getMyActivity() {
+        return this.mActivity != null ? this.mActivity : (BaseActivity) getActivity();
+    }
 
     @Nullable
     @Override

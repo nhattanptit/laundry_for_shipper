@@ -30,12 +30,14 @@
                     <RelativeLayout
                         android:id="@+id/banner"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/dp_200">
+                        android:layout_height="@dimen/dp_240">
 
                         <androidx.viewpager.widget.ViewPager
                             android:id="@+id/viewPager"
                             android:layout_width="match_parent"
-                            android:layout_height="140dp">
+                            android:layout_height="@dimen/dp_200"
+                            android:paddingStart="@dimen/dp_16"
+                            android:paddingEnd="@dimen/dp_16">
 
                         </androidx.viewpager.widget.ViewPager>
 
@@ -60,34 +62,98 @@
                         android:layout_width="@dimen/dp_260"
                         android:layout_height="@dimen/dp_160"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginTop="@dimen/dp_160"
+                        android:layout_marginTop="@dimen/dp_250"
                         android:background="@color/white"
                         app:cardCornerRadius="@dimen/dp_24"
                         app:cardElevation="@dimen/dp_4">
 
+                        <LinearLayout
+                            android:id="@+id/no_have_order_notice_layout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:gravity="center_horizontal"
+                            android:layout_gravity="center"
+                            android:visibility="gone">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/not_yet_order_icon" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/you_dont_have_order_yet"
+                                android:textSize="@dimen/sp_22"
+                                android:textStyle="bold"
+                                android:gravity="center"
+                                android:layout_marginTop="@dimen/dp_12"
+                                android:textColor="@color/gray_9e9e9e" />
+                        </LinearLayout>
+
                         <Button
+                            android:id="@+id/home_staff_button_login"
                             android:layout_width="@dimen/dp_160"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
+                            android:textColor="@color/white"
                             android:background="@drawable/shaper_button_green"
+                            android:visibility="gone"
                             android:text="Login" />
                     </androidx.cardview.widget.CardView>
 
                     <RelativeLayout
+                        android:id="@+id/container_staff_home"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_below="@+id/banner"
                         android:background="@drawable/card_background_gray"
                         android:paddingBottom="@dimen/dp_64"
+                        android:layout_marginTop="@dimen/dp_96"
+                        android:paddingTop="@dimen/dp_110"
                         android:elevation="@dimen/dp_2">
+
+                        <LinearLayout
+                            android:id="@+id/order_delivering_heading_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dp_16"
+                            android:layout_marginEnd="@dimen/dp_16"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/oder_are_shipping_icon" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/dp_6"
+                                android:text="@string/order_are_shipping"
+                                android:textColor="@color/green_8cc63e"
+                                android:textSize="@dimen/sp_21"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/home_staff_order_delivering_rcv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/order_delivering_heading_layout"
+                            android:layout_marginTop="@dimen/dp_16"
+                            android:paddingEnd="@dimen/dp_12" />
 
                         <LinearLayout
                             android:id="@+id/new_order_heading_layout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/dp_16"
-                            android:layout_marginTop="@dimen/dp_128"
+                            android:layout_marginTop="@dimen/dp_32"
                             android:layout_marginEnd="@dimen/dp_16"
+                            android:layout_below="@+id/home_staff_order_delivering_rcv"
                             android:gravity="center_vertical"
                             android:orientation="horizontal">
 

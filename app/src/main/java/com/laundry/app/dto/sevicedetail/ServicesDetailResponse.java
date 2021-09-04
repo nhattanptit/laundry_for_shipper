@@ -10,9 +10,5 @@ public class ServicesDetailResponse extends BaseResponse {
 
     @SerializedName("data")
     @Expose
-    private List<ServiceDetailDto> servicesDetails;
-
-    public List<ServiceDetailDto> getServiceDetailList() {
-        return servicesDetails;
-    }
+    public List<ServiceDetailDto> servicesDetails;
 }

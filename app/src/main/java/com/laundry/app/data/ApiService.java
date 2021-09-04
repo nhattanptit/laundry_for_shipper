@@ -4,7 +4,7 @@ import com.laundry.app.dto.authentication.LoginRequest;
 import com.laundry.app.dto.authentication.LoginResponseDto;
 import com.laundry.app.dto.authentication.RegisterRequest;
 import com.laundry.app.dto.authentication.RegisterResponse;
-import com.laundry.app.dto.ordercreate.OrderDto;
+import com.laundry.app.dto.ordercreate.OrderRequest;
 import com.laundry.app.dto.ordercreate.OrderResponse;
 import com.laundry.app.dto.servicelist.ServiceListResponse;
 import com.laundry.app.dto.sevicedetail.ServicesDetailResponse;
@@ -14,6 +14,7 @@ import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 
 public interface ApiService {
@@ -32,6 +33,6 @@ public interface ApiService {
     Call<ServicesDetailResponse> getServicesDetail(@Field("serviceId") int id);
 
     @POST(APIConstant.URL_ORDERS_CREATE)
-    Call<OrderResponse> createOrder(@Body OrderDto body);
+    Call<OrderResponse> createOrder(@Header("Authorization") String token, @Body OrderRequest body);
 
 }

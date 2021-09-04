@@ -9,31 +9,19 @@ public class ServiceListDto implements Serializable {
 
     @SerializedName("id")
     @Expose
-    private int id;
+    public int id;
 
     @SerializedName("name")
     @Expose
-    private String name;
+    public String name;
 
     @SerializedName("serviceIcon")
     @Expose
-    private String serviceIcon;
+    public String serviceIcon;
 
     @SerializedName("description")
     @Expose
-    private String description;
-
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
+    public String description;
 
     public ServiceAllType getServiceType() {
         return ServiceAllType.getType(serviceIcon);

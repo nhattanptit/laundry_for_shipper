@@ -15,9 +15,9 @@ import com.laundry.app.view.adapter.BannerAdapter;
 import com.laundry.app.view.adapter.ServiceListAdapter;
 import com.laundry.app.view.dialog.LoginDialog;
 import com.laundry.app.view.dialog.RegisterAccountDialog;
-import com.laundry.base.BaseFragment;
+import com.laundry.app.view.fragment.LaundryTabFragment;
 
-public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
+public class HomeFragment extends LaundryTabFragment<FragmentHomeBinding> {
 
     private static final String TAG = "HomeFragment";
     private final DataController mController = new DataController();
@@ -85,7 +85,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
 
         @Override
         public void onSuccess(ServiceListResponse body) {
-            serviceListAdapter.submitList(body.getServicesList());
+            serviceListAdapter.submitList(body.servicesList);
             afterCallApi();
         }
 

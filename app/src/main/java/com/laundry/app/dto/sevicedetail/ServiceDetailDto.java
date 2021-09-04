@@ -10,39 +10,26 @@ public class ServiceDetailDto {
 
     @SerializedName("id")
     @Expose
-    private int id;
+    public int id;
 
     @SerializedName("name")
     @Expose
-    private String name;
+    public String name;
 
     @SerializedName("description")
     @Expose
-    private String description;
+    public String description;
 
     @SerializedName("price")
     @Expose
-    private Double price;
+    public Double price;
 
     @SerializedName("serviceDetailIcon")
     @Expose
-    private String serviceDetailIcon;
+    public String serviceDetailIcon;
 
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
+    public int quantity = 0;
+    public Double totalPrice = 0.0;
 
     public ServiceDetailType getServiceDetailType() {
         return ServiceDetailType.getType(serviceDetailIcon);

@@ -8,6 +8,5 @@ public class OrderResponse extends BaseResponse {
 
     @SerializedName("data")
     @Expose
-    private OrderDto data;
-
+    public Object data;
 }

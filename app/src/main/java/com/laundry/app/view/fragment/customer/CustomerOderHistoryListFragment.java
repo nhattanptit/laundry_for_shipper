@@ -4,17 +4,15 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.laundry.app.R;
-import com.laundry.app.constant.Constant;
 import com.laundry.app.databinding.CustomerHistoryOrderFragmentBinding;
-import com.laundry.app.databinding.CustomerInfoFragmentBinding;
 import com.laundry.app.dto.Role;
 import com.laundry.app.dto.UserInfo;
 import com.laundry.app.utils.SharePreferenceManager;
 import com.laundry.app.view.dialog.LoginDialog;
 import com.laundry.app.view.dialog.RegisterAccountDialog;
-import com.laundry.base.BaseFragment;
+import com.laundry.app.view.fragment.LaundryTabFragment;
 
-public class CustomerOderHistoryListFragment extends BaseFragment<CustomerHistoryOrderFragmentBinding> {
+public class CustomerOderHistoryListFragment extends LaundryTabFragment<CustomerHistoryOrderFragmentBinding> {
 
 
     @Override

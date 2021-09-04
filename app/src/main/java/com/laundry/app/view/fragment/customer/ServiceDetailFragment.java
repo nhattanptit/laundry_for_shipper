@@ -41,7 +41,7 @@ public class ServiceDetailFragment extends LaundryFragment<ServicesDetailsFragme
     @Override
     public void onInitView() {
         beforeCallApi();
-        binding.productsOfService.setAdapter(mServiceDetailAdapter);
+        binding.servicesDetailRecycle.setAdapter(mServiceDetailAdapter);
         if (mServiceListDto != null) {
             mDataController.getServicesDetail(mServiceListDto.id, new ServiceDetailCallBack());
         }
@@ -51,6 +51,7 @@ public class ServiceDetailFragment extends LaundryFragment<ServicesDetailsFragme
     @Override
     public void onViewClick() {
         binding.bookButton.setOnClickListener(view -> {
+            Log.d(TAG, "onViewClick: ");
             List<OrderServiceDetailForm> list = new ArrayList<>();
             list.add(new OrderServiceDetailForm(3, 1));
             mDataController.createOrder(getMyActivity(), 3, 1, list, "Ha Noi",

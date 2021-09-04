@@ -13,7 +13,6 @@ import java.util.List;
 public class ServiceDetailAdapter extends BaseAdapter {
 
     private IServiceDetailCallback mCallback;
-    public Double money = 0.0;
 
     public void setCallback(IServiceDetailCallback callback) {
         this.mCallback = callback;

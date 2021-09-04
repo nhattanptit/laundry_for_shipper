@@ -40,6 +40,7 @@ public class ServiceDetailFragment extends LaundryFragment<ServicesDetailsFragme
 
     @Override
     public void onInitView() {
+        binding.toolbar.setTitle(mServiceListDto.name);
         beforeCallApi();
         binding.servicesDetailRecycle.setAdapter(mServiceDetailAdapter);
         if (mServiceListDto != null) {
@@ -50,6 +51,9 @@ public class ServiceDetailFragment extends LaundryFragment<ServicesDetailsFragme
 
     @Override
     public void onViewClick() {
+        binding.toolbar.setToolbarListener(view -> {
+            onBackPressed();
+        });
         binding.bookButton.setOnClickListener(view -> {
             Log.d(TAG, "onViewClick: ");
             List<OrderServiceDetailForm> list = new ArrayList<>();

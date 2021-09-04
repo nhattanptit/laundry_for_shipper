@@ -41,7 +41,7 @@ public class ServiceDetailFragment extends LaundryFragment<ServicesDetailsFragme
     @Override
     public void onInitView() {
         beforeCallApi();
-        binding.servicesDetailRecycle.setAdapter(mServiceDetailAdapter);
+        binding.productsOfService.setAdapter(mServiceDetailAdapter);
         if (mServiceListDto != null) {
             mDataController.getServicesDetail(mServiceListDto.id, new ServiceDetailCallBack());
         }
@@ -53,17 +53,18 @@ public class ServiceDetailFragment extends LaundryFragment<ServicesDetailsFragme
         binding.bookButton.setOnClickListener(view -> {
             List<OrderServiceDetailForm> list = new ArrayList<>();
             list.add(new OrderServiceDetailForm(3, 1));
-            mDataController.createOrder(11, 1, list, "Ha Noi", new ApiServiceOperator.OnResponseListener<OrderResponse>() {
-                @Override
-                public void onSuccess(OrderResponse body) {
-                    Log.d(TAG, "onSuccess: " + body.toString());
-                }
+            mDataController.createOrder(getMyActivity(), 3, 1, list, "Ha Noi",
+                    new ApiServiceOperator.OnResponseListener<OrderResponse>() {
+                        @Override
+                        public void onSuccess(OrderResponse body) {
+                            Log.d(TAG, "onSuccess: " + body.toString());
+                        }
 
-                @Override
-                public void onFailure(Throwable t) {
-                    Log.e(TAG, "onFailure: " + t.getMessage());
-                }
-            });
+                        @Override
+                        public void onFailure(Throwable t) {
+                            Log.e(TAG, "onFailure: " + t.getMessage());
+                        }
+                    });
         });
     }
 
@@ -86,7 +87,7 @@ public class ServiceDetailFragment extends LaundryFragment<ServicesDetailsFragme
     }
 
     private void afterCallApi() {
-        binding.PriceLayout.setVisibility(View.VISIBLE);
+        binding.priceLayout.setVisibility(View.VISIBLE);
         binding.progressBar.maskviewLayout.setVisibility(View.GONE);
     }
 

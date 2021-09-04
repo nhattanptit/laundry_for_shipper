@@ -1,9 +1,12 @@
 package com.laundry.app.control;
 
+import android.content.Context;
+
 import androidx.annotation.IntRange;
 
 import com.laundry.app.data.APIConstant;
 import com.laundry.app.data.ApiService;
+import com.laundry.app.dto.UserInfo;
 import com.laundry.app.dto.authentication.LoginRequest;
 import com.laundry.app.dto.authentication.LoginResponseDto;
 import com.laundry.app.dto.authentication.RegisterRequest;
@@ -46,7 +49,7 @@ public class DataController {
         call.enqueue(new ApiServiceOperator<>(listener));
     }
 
-    public void createOrder(int distance,
+    public void createOrder(Context context, int distance,
                             int serviceID,
                             List<OrderServiceDetailForm> orderServiceDetailForms,
                             String address,
@@ -56,7 +59,7 @@ public class DataController {
         request.orderServiceDetailForms = orderServiceDetailForms;
         request.serviceId = serviceID;
         request.shippingAddress = address;
-        Call<OrderResponse> call = service.createOrder(request);
+        Call<OrderResponse> call = service.createOrder(UserInfo.getInstance().getToken(context), request);
         call.enqueue(new ApiServiceOperator<>(listener));
     }
 }

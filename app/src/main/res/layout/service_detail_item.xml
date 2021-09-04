@@ -3,17 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-    </data>
-
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/dp_8"
         android:background="@drawable/cardview_background_white"
         android:elevation="@dimen/dp_4"
-        app:cardCornerRadius="@dimen/dp_8">
+        app:cardCornerRadius="@dimen/dp_4">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -22,7 +18,7 @@
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/categoryImage"
                 android:layout_width="0dp"
-                android:layout_height="70dp"
+                android:layout_height="@dimen/dp_72"
                 android:padding="10dp"
                 android:scaleType="centerInside"
                 android:src="@drawable/wash_and_iron_icon"
@@ -30,11 +26,35 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/minusImage"
+                android:layout_width="@dimen/dp_24"
+                android:layout_height="@dimen/dp_24"
+                android:adjustViewBounds="true"
+                android:padding="@dimen/dp_4"
+                android:src="@drawable/icon_minus"
+                app:layout_constraintBottom_toBottomOf="@+id/categoryImage"
+                app:layout_constraintEnd_toStartOf="@+id/quantityText"
+                app:layout_constraintTop_toTopOf="@+id/categoryImage" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/addImage"
+                android:layout_width="@dimen/dp_24"
+                android:layout_height="@dimen/dp_24"
+                android:layout_marginEnd="@dimen/dp_16"
+                android:adjustViewBounds="true"
+                android:padding="@dimen/dp_4"
+                android:src="@drawable/icon_add"
+                app:layout_constraintBottom_toBottomOf="@+id/categoryImage"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/categoryImage" />
+
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/categoryText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp_18"
+                android:gravity="center"
                 android:textColor="@color/green_8cc63e"
                 android:textSize="@dimen/sp_18"
                 app:layout_constraintBottom_toTopOf="@id/priceText"
@@ -43,54 +63,38 @@
                 tools:text="@string/wash_iron" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/priceText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_18"
-                android:textColor="@color/Color_ff5555"
-                android:textSize="@dimen/sp_15"
-                app:layout_constraintBottom_toBottomOf="@id/categoryImage"
-                app:layout_constraintStart_toEndOf="@id/categoryImage"
-                app:layout_constraintTop_toBottomOf="@id/categoryText"
-                tools:text="@string/price" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/minusImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/dp_4"
-                android:scaleType="centerInside"
-                android:src="@drawable/ic_minus"
-                app:layout_constraintBottom_toBottomOf="@+id/categoryImage"
-                app:layout_constraintEnd_toStartOf="@+id/quantityText"
-                app:layout_constraintTop_toTopOf="@+id/categoryImage" />
-
-            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/quantityText"
                 android:layout_width="@dimen/dp_32"
                 android:layout_height="0dp"
+                android:enabled="false"
                 android:gravity="center"
                 android:inputType="number"
                 android:maxLines="1"
                 android:padding="@dimen/dp_4"
                 android:text="0"
+                android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="@+id/minusImage"
                 app:layout_constraintEnd_toStartOf="@+id/addImage"
                 app:layout_constraintTop_toTopOf="@id/minusImage" />
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/addImage"
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/priceText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/dp_16"
-                android:padding="@dimen/dp_4"
-                android:scaleType="centerInside"
-                android:src="@drawable/ic_add"
-                app:layout_constraintBottom_toBottomOf="@+id/categoryImage"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/categoryImage" />
+                android:layout_marginStart="@dimen/dp_18"
+                android:gravity="center"
+                android:textColor="@color/red"
+                android:textSize="@dimen/sp_15"
+                app:layout_constraintBottom_toBottomOf="@id/categoryImage"
+                app:layout_constraintStart_toEndOf="@id/categoryImage"
+                app:layout_constraintTop_toBottomOf="@id/categoryText"
+                tools:text="@string/price" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
+
+    <data>
+
+    </data>
 
 
 </layout>

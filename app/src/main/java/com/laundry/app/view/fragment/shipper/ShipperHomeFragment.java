@@ -76,17 +76,32 @@ public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding
 
         autoSwipeBanner();
 
+
         initOrderAreShipping();
         initNewOrder();
         initHistoryOrder();
 
+        loadData();
+    }
+
+    /**
+     * Load data
+     */
+    private void loadData() {
         if (UserInfo.getInstance().isLogin(getActivity())) {
             callOrderAreShippingApi();
             callListHistoryOrderApi();
         }
         callListNewOrderApi();
 
-        binding.homeStaffButtonLogin.setVisibility(UserInfo.getInstance().isLogin(getActivity()) ? View.GONE : View.VISIBLE);
+
+    }
+
+    /**
+     * Set visibility 0 order notice layout
+     */
+    private void setVisibilityNoOrderNoticeLayout() {
+
     }
 
     /**
@@ -404,14 +419,31 @@ public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding
             binding.homeStaffHistoryOrderRcv.setVisibility(View.GONE);
             binding.historyOrderHeadingLayout.setVisibility(View.GONE);
         }
-
-        if (mListOrderAreShipping != null && !mListOrderAreShipping.isEmpty()) {
-            binding.homeStaffOrderDeliveringRcv.setVisibility(View.VISIBLE);
-            binding.orderDeliveringHeadingLayout.setVisibility(View.VISIBLE);
+        if (UserInfo.getInstance().isLogin(getActivity())) {
+            binding.homeStaffButtonLogin.setVisibility(View.GONE);
+            if (mListOrderAreShipping != null && !mListOrderAreShipping.isEmpty()) {
+                binding.homeStaffOrderDeliveringRcv.setVisibility(View.VISIBLE);
+                binding.orderDeliveringHeadingLayout.setVisibility(View.VISIBLE);
+                binding.noHaveOrderNoticeLayout.setVisibility(View.GONE);
+            } else {
+                binding.noHaveOrderNoticeLayout.setVisibility(View.VISIBLE);
+                binding.homeStaffOrderDeliveringRcv.setVisibility(View.GONE);
+                binding.orderDeliveringHeadingLayout.setVisibility(View.GONE);
+            }
         } else {
-            binding.homeStaffOrderDeliveringRcv.setVisibility(View.GONE);
-            binding.orderDeliveringHeadingLayout.setVisibility(View.GONE);
+            binding.homeStaffButtonLogin.setVisibility(View.VISIBLE);
+            binding.noHaveOrderNoticeLayout.setVisibility(View.GONE);
         }
+
+        binding.noneLoginView.setVisibility(binding.homeStaffButtonLogin.getVisibility() == View.GONE
+                    && binding.homeStaffOrderDeliveringRcv.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+        int paddingTop = 0;
+        if (binding.noneLoginView.getVisibility() == View.GONE) {
+            paddingTop = getResources().getDimensionPixelOffset(R.dimen.dp_32);
+        } else {
+            paddingTop = getResources().getDimensionPixelOffset(R.dimen.dp_110);
+        }
+        binding.containerStaffHome.setPadding(binding.containerStaffHome.getPaddingLeft(),paddingTop, binding.containerStaffHome.getPaddingRight(), binding.containerStaffHome.getPaddingBottom() );
     }
 
     @Override

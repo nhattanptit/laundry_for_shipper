@@ -18,7 +18,7 @@
             android:name=".view.activity.HomeActivity"
             android:exported="true"
             android:label="@string/title_activity_home"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/Theme.Laundry" />
         <activity
             android:name=".view.activity.SwitchModeActivity"
             android:exported="true" />

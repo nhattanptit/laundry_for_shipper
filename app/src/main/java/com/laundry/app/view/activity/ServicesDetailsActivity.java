@@ -1,4 +1,4 @@
-package com.laundry.app.view.fragment.customer;
+package com.laundry.app.view.activity;
 
 import android.annotation.SuppressLint;
 import android.util.Log;
@@ -7,19 +7,19 @@ import android.view.View;
 import com.laundry.app.R;
 import com.laundry.app.control.ApiServiceOperator;
 import com.laundry.app.control.DataController;
-import com.laundry.app.databinding.ServicesDetailsFragmentBinding;
+import com.laundry.app.databinding.ServicesDetailsActivityBinding;
 import com.laundry.app.dto.ordercreate.OrderResponse;
 import com.laundry.app.dto.ordercreate.OrderServiceDetailForm;
 import com.laundry.app.dto.servicelist.ServiceListDto;
 import com.laundry.app.dto.sevicedetail.ServiceDetailDto;
 import com.laundry.app.dto.sevicedetail.ServicesDetailResponse;
 import com.laundry.app.view.adapter.ServiceDetailAdapter;
-import com.laundry.app.view.fragment.LaundryFragment;
+import com.laundry.base.BaseActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ServiceDetailFragment extends LaundryFragment<ServicesDetailsFragmentBinding> implements ServiceDetailAdapter.IServiceDetailCallback {
+public class ServicesDetailsActivity extends BaseActivity<ServicesDetailsActivityBinding> implements ServiceDetailAdapter.IServiceDetailCallback {
 
     private static final String TAG = "ServiceDetailFragment";
     public static final String KEY_SEND_DATA = "KEY_SEND_DATA";
@@ -30,16 +30,19 @@ public class ServiceDetailFragment extends LaundryFragment<ServicesDetailsFragme
 
     @Override
     protected int getLayoutResource() {
-        return R.layout.services_details_fragment;
+        return R.layout.services_details_activity;
     }
 
     @Override
     public void onPreInitView() {
-        mServiceListDto = (ServiceListDto) getArguments().getSerializable(KEY_SEND_DATA);
+        mServiceListDto = (ServiceListDto) getIntent().getSerializableExtra(KEY_SEND_DATA);
     }
 
     @Override
     public void onInitView() {
+        binding.toolbar.setToolbarListener(view -> {
+            onBackPressed();
+        });
         binding.toolbar.setTitle(mServiceListDto.name);
         beforeCallApi();
         binding.servicesDetailRecycle.setAdapter(mServiceDetailAdapter);
@@ -51,14 +54,11 @@ public class ServiceDetailFragment extends LaundryFragment<ServicesDetailsFragme
 
     @Override
     public void onViewClick() {
-        binding.toolbar.setToolbarListener(view -> {
-            onBackPressed();
-        });
         binding.bookButton.setOnClickListener(view -> {
             Log.d(TAG, "onViewClick: ");
             List<OrderServiceDetailForm> list = new ArrayList<>();
             list.add(new OrderServiceDetailForm(3, 1));
-            mDataController.createOrder(getMyActivity(), 3, 1, list, "Ha Noi",
+            mDataController.createOrder(this, 3, 1, list, "Ha Noi",
                     new ApiServiceOperator.OnResponseListener<OrderResponse>() {
                         @Override
                         public void onSuccess(OrderResponse body) {

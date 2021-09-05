@@ -1,5 +1,6 @@
 package com.laundry.app.view.fragment.customer;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,6 +12,8 @@ import com.laundry.app.databinding.FragmentHomeBinding;
 import com.laundry.app.dto.UserInfo;
 import com.laundry.app.dto.servicelist.ServiceListResponse;
 import com.laundry.app.utils.SingleTapListener;
+import com.laundry.app.view.activity.HomeActivity;
+import com.laundry.app.view.activity.ServicesDetailsActivity;
 import com.laundry.app.view.adapter.BannerAdapter;
 import com.laundry.app.view.adapter.ServiceListAdapter;
 import com.laundry.app.view.dialog.LoginDialog;
@@ -62,9 +65,9 @@ public class HomeFragment extends LaundryTabFragment<FragmentHomeBinding> {
     @Override
     public void onViewClick() {
         serviceListAdapter.setCallback((position, item) -> {
-            Bundle bundle = new Bundle();
-            bundle.putSerializable(ServiceDetailFragment.KEY_SEND_DATA, item);
-            navigateTo(R.id.action_navigation_customer_home_to_navigation_serviceDetailFragment, bundle);
+            Intent intent = new Intent(getActivity(), ServicesDetailsActivity.class);
+            intent.putExtra(ServicesDetailsActivity.KEY_SEND_DATA, item);
+            startActivity(intent);
         });
 
         binding.login.setOnClickListener(new SingleTapListener(view -> {

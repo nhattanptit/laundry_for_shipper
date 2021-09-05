@@ -47,7 +47,7 @@
     <string name="pickup_address">Pickup Address</string>
     <string name="delivery_date_time"><![CDATA[Delivery Date & Time]]></string>
     <string name="delivery_address">Delivery Address</string>
-    <string name="price">Price</string>
+    <string name="price">Price: </string>
     <string name="phone_number">Phone Number: </string>
     <string name="delivering">Delivering</string>
     <string name="call">Call</string>
@@ -57,6 +57,7 @@
     <string name="service_list_title">Service List</string>
     <string name="you_dont_have_order_yet">You don\'t have \n order yet</string>
     <string name="go_to_home_screen">Go to Home screen</string>
+    <string name="book">Book</string>
     <string name="book">Book</string>
     <string name="no">No</string>
     <string name="yes">Yes</string>

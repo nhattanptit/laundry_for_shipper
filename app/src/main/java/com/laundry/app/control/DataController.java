@@ -1,14 +1,17 @@
 package com.laundry.app.control;
 
+import android.content.Context;
+
 import androidx.annotation.IntRange;
 
 import com.laundry.app.data.APIConstant;
 import com.laundry.app.data.ApiService;
+import com.laundry.app.dto.UserInfo;
 import com.laundry.app.dto.authentication.LoginRequest;
 import com.laundry.app.dto.authentication.LoginResponseDto;
 import com.laundry.app.dto.authentication.RegisterRequest;
 import com.laundry.app.dto.authentication.RegisterResponse;
-import com.laundry.app.dto.ordercreate.OrderDto;
+import com.laundry.app.dto.ordercreate.OrderRequest;
 import com.laundry.app.dto.ordercreate.OrderResponse;
 import com.laundry.app.dto.ordercreate.OrderServiceDetailForm;
 import com.laundry.app.dto.servicelist.ServiceListResponse;
@@ -31,7 +34,6 @@ public class DataController {
 
     public void login(LoginRequest loginRequest,
                       ApiServiceOperator.OnResponseListener<LoginResponseDto> listener) {
-
         Call<LoginResponseDto> call = service.signin(loginRequest);
         call.enqueue(new ApiServiceOperator<>(listener));
 
@@ -47,17 +49,18 @@ public class DataController {
         call.enqueue(new ApiServiceOperator<>(listener));
     }
 
-    public void createOrder(String distance,
-                            List<OrderServiceDetailForm> orderServiceDetailForms,
+    public void createOrder(Context context,
+                            int distance,
                             int serviceID,
+                            List<OrderServiceDetailForm> orderServiceDetailForms,
                             String address,
                             ApiServiceOperator.OnResponseListener<OrderResponse> listener) {
-        OrderDto request = new OrderDto();
-        request.setDistance(distance);
-        request.setOrderServiceDetailForms(orderServiceDetailForms);
-        request.setServiceId(serviceID);
-        request.setShippingAddress(address);
-        Call<OrderResponse> call = service.createOrder(request);
+        OrderRequest request = new OrderRequest();
+        request.distance = distance;
+        request.orderServiceDetailForms = orderServiceDetailForms;
+        request.serviceId = serviceID;
+        request.shippingAddress = address;
+        Call<OrderResponse> call = service.createOrder(UserInfo.getInstance().getToken(context), request);
         call.enqueue(new ApiServiceOperator<>(listener));
     }
 }

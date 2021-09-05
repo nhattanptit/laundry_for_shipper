@@ -11,7 +11,31 @@
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/green_8cc63e">
+            android:background="@color/white">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <RelativeLayout
+                    android:id="@+id/register_login_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone">
+
+                    <include
+                        android:id="@+id/register_login_fragment"
+                        layout="@layout/register_login_fragment" />
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/account_infomation_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone">
+                    <include
+                        android:id="@+id/account_infomation_fragment"
+                        layout="@layout/account_infomation_layout"/>
+                </RelativeLayout>
+            </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>
 

@@ -2,6 +2,7 @@ package com.laundry.app.view.fragment.shipper;
 
 import android.content.Context;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.laundry.app.R;
 import com.laundry.app.databinding.ShipperFragmentHomeBinding;
 import com.laundry.app.dto.UserInfo;
@@ -21,6 +23,7 @@ import com.laundry.base.BaseFragment;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -56,6 +59,7 @@ public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding
 
         }
     }
+
 
     @Override
     protected int getLayoutResource() {
@@ -199,6 +203,7 @@ public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding
     private void initNewOrder() {
         mListNewOrder = new ArrayList<>();
         mNewOrderAdapter = new HomeOrderAdapter(true);
+        mNewOrderAdapter.setOnClickListener(this);
         binding.homeStaffNewOrderRcv.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
@@ -214,6 +219,7 @@ public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding
     private void initHistoryOrder() {
         mListHistoryOrder = new ArrayList<>();
         mHistoryOrderAdapter = new HomeOrderAdapter(false);
+        mHistoryOrderAdapter.setOnClickListener(this);
         binding.homeStaffHistoryOrderRcv.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
@@ -433,6 +439,7 @@ public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding
         } else {
             binding.homeStaffButtonLogin.setVisibility(View.VISIBLE);
             binding.noHaveOrderNoticeLayout.setVisibility(View.GONE);
+            binding.orderDeliveringHeadingLayout.setVisibility(View.GONE);
         }
 
         binding.noneLoginView.setVisibility(binding.homeStaffButtonLogin.getVisibility() == View.GONE
@@ -456,9 +463,19 @@ public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding
             case R.id.home_staff_derivering_order_done_button:
                 onClickDoneButton();
                 break;
+            case R.id.order_home_item_layout:
+                onClickOrderItem();
+                break;
             default:
                 break;
         }
+    }
+
+    /**
+     * Handle click order item
+     */
+    private void onClickOrderItem() {
+        navigateTo(R.id.action_home_staff_to_navigation_order_detail);
     }
 
     /**
@@ -477,6 +494,31 @@ public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding
 
     public interface OnClickCallPhone {
         void onCall(String phoneNumber);
+    }
+
+    public double calculationByDistance(double latStart, double longStart, double latEnd, double longEnd) {
+        int Radius = 6371;// radius of earth in Km
+        double lat1 = latStart;
+        double lat2 = latEnd;
+        double lon1 = longStart;
+        double lon2 = longEnd;
+        double dLat = Math.toRadians(lat2 - lat1);
+        double dLon = Math.toRadians(lon2 - lon1);
+        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2)
+                + Math.cos(Math.toRadians(lat1))
+                * Math.cos(Math.toRadians(lat2)) * Math.sin(dLon / 2)
+                * Math.sin(dLon / 2);
+        double c = 2 * Math.asin(Math.sqrt(a));
+        double valueResult = Radius * c;
+        double km = valueResult / 1;
+        DecimalFormat newFormat = new DecimalFormat("####");
+        int kmInDec = Integer.valueOf(newFormat.format(km));
+        double meter = valueResult % 1000;
+        int meterInDec = Integer.valueOf(newFormat.format(meter));
+        Log.i("Radius Value", "" + valueResult + "   KM  " + kmInDec
+                + " Meter   " + meterInDec);
+
+        return Radius * c;
     }
 
 }

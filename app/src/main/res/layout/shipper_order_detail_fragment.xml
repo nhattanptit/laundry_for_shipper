@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/pullToRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".view.fragment.customer.home.HomeFragment">
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/gray_e2e2e2"
+                android:fillViewport="true">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/dp_64">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_320"
+                        android:background="@drawable/shape_corner_bottom_green" />
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/order_view_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginStart="@dimen/dp_32"
+                        android:layout_marginTop="@dimen/dp_120"
+                        android:layout_marginEnd="@dimen/dp_32"
+                        android:background="@color/white"
+                        app:cardCornerRadius="@dimen/dp_32"
+                        app:cardElevation="@dimen/dp_4">
+
+                        <LinearLayout
+                            android:id="@+id/order_detail_item_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:paddingTop="@dimen/dp_24"
+                            android:paddingBottom="@dimen/dp_24">
+
+                            <RelativeLayout
+                                android:id="@+id/top_layout_item"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginTop="@dimen/dp_6"
+                                android:layout_marginBottom="@dimen/dp_6">
+
+                                <de.hdodenhof.circleimageview.CircleImageView
+                                    android:id="@+id/order_detail_item_customer_avatar"
+                                    android:layout_width="@dimen/dp_48"
+                                    android:layout_height="@dimen/dp_48"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginStart="@dimen/dp_8"
+                                    android:src="@color/com_facebook_blue" />
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignBottom="@+id/order_detail_item_customer_avatar"
+                                    android:layout_centerVertical="true"
+                                    android:layout_toRightOf="@+id/order_detail_item_customer_avatar"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/order_detail_item_customer_name"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="@dimen/dp_6"
+                                        android:textColor="@color/green_8cc63e"
+                                        android:textStyle="bold"
+                                        tools:text="Ngọc Trinh" />
+
+                                    <TextView
+                                        android:id="@+id/order_detail_item_order_code"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="@dimen/dp_6"
+                                        android:textColor="@color/gray_a4a4a4"
+                                        tools:text="#AHJ4562" />
+                                </LinearLayout>
+
+                                <Button
+                                    android:id="@+id/order_detail_staff_item_accept_button"
+                                    android:layout_width="@dimen/dp_128"
+                                    android:layout_height="@dimen/dp_32"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginStart="@dimen/dp_16"
+                                    android:layout_marginEnd="@dimen/dp_16"
+                                    android:layout_marginBottom="@dimen/dp_8"
+                                    android:background="@drawable/shaper_button_green"
+                                    android:text="@string/accept"
+                                    android:textAllCaps="false"
+                                    android:textColor="@color/white" />
+                            </RelativeLayout>
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/dp_1"
+                                android:background="@color/gray_a4a4a4" />
+
+                            <TextView
+                                android:id="@+id/home_order_detail_order_name"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/dp_8"
+                                android:layout_marginTop="@dimen/dp_8"
+                                android:layout_marginEnd="@dimen/dp_8"
+                                android:textColor="@color/red_ee5b5b"
+                                android:textStyle="bold"
+                                tools:text="WASHING AND IRONING" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/dp_8"
+                                android:layout_marginTop="@dimen/dp_8"
+                                android:layout_marginEnd="@dimen/dp_8"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal"
+                                android:weightSum="2">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="@string/picked_date_time"
+                                    android:textColor="@color/gray_807e7e"
+                                    android:textSize="@dimen/sp_10"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/order_detail_pickup_date_time"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:ellipsize="end"
+                                    android:gravity="end"
+                                    android:maxLines="1"
+                                    android:textColor="@color/green_8cc63e"
+                                    android:textSize="@dimen/sp_10"
+                                    android:textStyle="bold"
+                                    tools:text="12 Jan 2021, 10:30 AM" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/dp_8"
+                                android:layout_marginTop="@dimen/dp_8"
+                                android:layout_marginEnd="@dimen/dp_8"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal"
+                                android:weightSum="2">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="@string/pickup_address"
+                                    android:textColor="@color/gray_807e7e"
+                                    android:textSize="@dimen/sp_10"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/order_detail_pickup_address"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:ellipsize="end"
+                                    android:gravity="end"
+                                    android:maxLines="1"
+                                    android:textColor="@color/green_8cc63e"
+                                    android:textSize="@dimen/sp_10"
+                                    android:textStyle="bold"
+                                    tools:text="B 250 Basker Street..." />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/dp_8"
+                                android:layout_marginTop="@dimen/dp_8"
+                                android:layout_marginEnd="@dimen/dp_8"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal"
+                                android:weightSum="2">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="@string/delivery_date_time"
+                                    android:textColor="@color/gray_807e7e"
+                                    android:textSize="@dimen/sp_10"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/order_detail_delivery_date_time"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:ellipsize="end"
+                                    android:gravity="end"
+                                    android:maxLines="1"
+                                    android:textColor="@color/green_8cc63e"
+                                    android:textSize="@dimen/sp_10"
+                                    android:textStyle="bold"
+                                    tools:text="12 Jan 2021, 10:30 AM" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/dp_8"
+                                android:layout_marginTop="@dimen/dp_8"
+                                android:layout_marginEnd="@dimen/dp_8"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal"
+                                android:weightSum="2">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="@string/delivery_address"
+                                    android:textColor="@color/gray_807e7e"
+                                    android:textSize="@dimen/sp_10"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/order_detail_delivery_address"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:ellipsize="end"
+                                    android:gravity="end"
+                                    android:maxLines="1"
+                                    android:textColor="@color/green_8cc63e"
+                                    android:textSize="@dimen/sp_10"
+                                    android:textStyle="bold"
+                                    tools:text="B 250 Basker Street..." />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/dp_8"
+                                android:layout_marginTop="@dimen/dp_8"
+                                android:layout_marginEnd="@dimen/dp_8"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal"
+                                android:weightSum="2">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="@string/sub_total"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/sp_12"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/order_detail_sub_total_price"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="end"
+                                    tools:text="6666666 VNĐ"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/sp_12"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/dp_8"
+                                android:layout_marginTop="@dimen/dp_8"
+                                android:layout_marginEnd="@dimen/dp_8"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal"
+                                android:weightSum="2">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="@string/delivery"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/sp_12"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/order_detail_delivery_price"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="end"
+                                    tools:text="3333333 VNĐ"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/sp_12"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/dp_8"
+                                android:layout_marginTop="@dimen/dp_8"
+                                android:layout_marginEnd="@dimen/dp_8"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal"
+                                android:weightSum="2">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="@string/total_price"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/sp_17"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/order_detail_total_price"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="end"
+                                    tools:text="9999999 VNĐ"
+                                    android:textColor="@color/red_dc4747"
+                                    android:textSize="@dimen/sp_17"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+                            <com.google.android.gms.maps.MapView
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/dp_190"
+                                android:layout_marginTop="@dimen/dp_16"/>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <Button
+                        android:id="@+id/parcel_picked_up_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/order_view_layout"
+                        android:layout_marginStart="@dimen/dp_36"
+                        android:layout_marginTop="@dimen/dp_24"
+                        android:layout_marginEnd="@dimen/dp_36"
+                        android:background="@drawable/shaper_button_green_big"
+                        android:text="@string/parcel_picked_up_and_on_the_way"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/sp_18" />
+
+                    <Button
+                        android:id="@+id/order_delivered_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/parcel_picked_up_button"
+                        android:layout_marginStart="@dimen/dp_36"
+                        android:layout_marginTop="@dimen/dp_24"
+                        android:layout_marginEnd="@dimen/dp_36"
+                        android:background="@drawable/shape_border_button_green"
+                        android:text="@string/order_delivered"
+                        android:textAllCaps="false"
+                        android:textColor="@color/green_8cc63e"
+                        android:textSize="@dimen/sp_18" />
+                </RelativeLayout>
+            </androidx.core.widget.NestedScrollView>
+
+        </RelativeLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</layout>

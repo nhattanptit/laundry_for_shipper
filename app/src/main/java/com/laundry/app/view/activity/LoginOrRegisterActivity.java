@@ -1,7 +1,9 @@
 package com.laundry.app.view.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 
 import com.laundry.app.R;
@@ -13,9 +15,14 @@ import com.laundry.app.view.dialog.LoginDialog;
 import com.laundry.app.view.dialog.RegisterAccountDialog;
 import com.laundry.base.BaseActivity;
 
+import androidx.annotation.Nullable;
+
 public class LoginOrRegisterActivity extends BaseActivity<ActivityLoginOrRegisterBinding> implements LoginDialog.LoginListener {
 
+    private static final String TAG = LoginOrRegisterActivity.class.getSimpleName();
     private String mMode;
+    private String mCurrentTab;
+
 
     @Override
     protected int getLayoutResource() {
@@ -25,8 +32,11 @@ public class LoginOrRegisterActivity extends BaseActivity<ActivityLoginOrRegiste
     @Override
     public void onInitView() {
         mMode = getIntent().getStringExtra(Constant.ROLE_SWITCH);
-        if (TextUtils.equals(Role.CUSTOMER.role(), mMode)) {
-            binding.registerLoginLayout.signUp.setVisibility(View.VISIBLE);
+        mCurrentTab = getIntent().getStringExtra(Constant.CURRENT_TAB);
+        if (TextUtils.equals(Role.SHIPPER.role(), mMode)) {
+            binding.registerLoginLayout.signUp.setVisibility(View.GONE);
+            binding.registerLoginLayout.goToHomeScreen.setVisibility(View.GONE);
+        } else if (TextUtils.equals(Role.CUSTOMER.role(), mMode)) {
             binding.registerLoginLayout.goToHomeScreen.setVisibility(View.VISIBLE);
         }
     }
@@ -55,7 +65,7 @@ public class LoginOrRegisterActivity extends BaseActivity<ActivityLoginOrRegiste
 
     @Override
     public void onLoginSuccess(String currentTab) {
-
+        Log.d(TAG, "onLoginSuccess: " + currentTab);
     }
 
     private void gotoHome() {

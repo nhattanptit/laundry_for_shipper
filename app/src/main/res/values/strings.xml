@@ -57,5 +57,15 @@
     <string name="service_list_title">Service List</string>
     <string name="you_dont_have_order_yet">You don\'t have \n order yet</string>
     <string name="go_to_home_screen">Go to Home screen</string>
+    <string name="change_infomation">Change infomation</string>
+    <string name="history">History</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="logout">Logout</string>
+    <string name="order_detail">Order details</string>
+    <string name="parcel_picked_up_and_on_the_way"><![CDATA[Parcel Picked Up & On The Way]]></string>
+    <string name="order_delivered">Order Delivered</string>
+    <string name="sub_total">Sub total: </string>
+    <string name="delivery">Delivery: </string>
+    <string name="total_price">TOTAL PRICE:</string>
     <string name="book">Book</string>
 </resources>

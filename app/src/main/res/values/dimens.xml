@@ -55,4 +55,5 @@
     <dimen name="dp_220">220dp</dimen>
     <dimen name="dp_190">190dp</dimen>
     <dimen name="sp_20">20sp</dimen>
+    <dimen name="sp_18">18sp</dimen>
 </resources>

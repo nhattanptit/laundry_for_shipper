@@ -17,6 +17,8 @@ import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 
+import java.io.Serializable;
+
 public abstract class BaseActivity<DB extends ViewDataBinding> extends AppCompatActivity implements BaseView {
 
     protected DB binding;
@@ -68,16 +70,18 @@ public abstract class BaseActivity<DB extends ViewDataBinding> extends AppCompat
         return false;
     }
 
-    protected final void navigateTo(BaseActivity<?> source, Class<? extends BaseActivity<?>> destination) {
+    public final void navigateTo(BaseActivity<?> source, Class<? extends BaseActivity<?>> destination) {
         Intent intent = new Intent(source, destination);
         startActivity(intent);
-//        overridePendingTransition(R.animator.nav_default_enter_anim, R.animator.nav_default_exit_anim);
+        overridePendingTransition(com.laundry.base.R.anim.slide_pop_enter_right_to_left, com.laundry.base.R.anim.slide_pop_exit_left_to_right);
     }
 
-    protected final void navigateTo(BaseActivity<?> source, Class<BaseActivity<?>> destination, Bundle bundle) {
+    public final void navigateTo(BaseActivity<?> source,
+                                 Class<BaseActivity<?>> destination,
+                                 Bundle bundle) {
         Intent intent = new Intent(source, destination);
         startActivity(intent, bundle);
-//        overridePendingTransition(R.animator.nav_default_enter_anim, R.animator.nav_default_exit_anim);
+        overridePendingTransition(com.laundry.base.R.anim.slide_pop_enter_right_to_left, com.laundry.base.R.anim.slide_pop_exit_left_to_right);
     }
 
     protected final void doRequestPermission(String[] permissionList, ConfigPermission callback) {
@@ -104,6 +108,12 @@ public abstract class BaseActivity<DB extends ViewDataBinding> extends AppCompat
 
     private void setPortraitScreen() {
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(com.laundry.base.R.anim.slide_pop_enter_right_to_left, com.laundry.base.R.anim.slide_pop_exit_left_to_right);
     }
 
     public interface ConfigPermission {

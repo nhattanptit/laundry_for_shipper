@@ -1,8 +1,11 @@
 package com.laundry.app.view.adapter;
 
+import android.annotation.SuppressLint;
+
 import androidx.databinding.ViewDataBinding;
 
 import com.laundry.app.R;
+import com.laundry.app.databinding.OrderConfirmItemBinding;
 import com.laundry.app.databinding.ServiceDetailItemBinding;
 import com.laundry.app.dto.sevicedetail.ServiceDetailDto;
 import com.laundry.base.BaseAdapter;
@@ -10,9 +13,10 @@ import com.laundry.base.BaseAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ServiceDetailAdapter extends BaseAdapter {
+public class ServicesOrderAdapter extends BaseAdapter {
 
     private IServiceDetailCallback mCallback;
+    public SERVICES_DETAIL_VIEW_TYPE typeService = SERVICES_DETAIL_VIEW_TYPE.SERVICES_DETAIL;
 
     public void setCallback(IServiceDetailCallback callback) {
         this.mCallback = callback;
@@ -20,7 +24,14 @@ public class ServiceDetailAdapter extends BaseAdapter {
 
     @Override
     protected int getLayoutResource(int viewType) {
-        return R.layout.service_detail_item;
+        switch (typeService) {
+            case SERVICES_DETAIL:
+                return R.layout.service_detail_item;
+            case ORDER:
+                return R.layout.order_confirm_item;
+            default:
+                return INVALID_RESOURCE;
+        }
     }
 
     @Override
@@ -30,7 +41,11 @@ public class ServiceDetailAdapter extends BaseAdapter {
 
     @Override
     protected BaseVH<?> onCreateVH(int viewType, ViewDataBinding viewDataBinding) {
-        return new ServiceDetailVH(viewDataBinding);
+        if (typeService == SERVICES_DETAIL_VIEW_TYPE.SERVICES_DETAIL) {
+            return new ServiceDetailVH(viewDataBinding);
+        } else {
+            return new OrderConfirmVH(viewDataBinding);
+        }
     }
 
     @Override
@@ -69,7 +84,6 @@ public class ServiceDetailAdapter extends BaseAdapter {
             });
         }
 
-
         @Override
         public void bind(ServiceDetailDisplay item) {
             super.bind(item);
@@ -85,7 +99,34 @@ public class ServiceDetailAdapter extends BaseAdapter {
         }
     }
 
+    private static final String TAG = "ServiceDetailAdapter";
+
+    private class OrderConfirmVH extends BaseVH<ServiceDetailDisplay> {
+
+        private OrderConfirmItemBinding binding;
+
+        public OrderConfirmVH(ViewDataBinding viewDataBinding) {
+            super(viewDataBinding);
+            binding = (OrderConfirmItemBinding) viewDataBinding;
+        }
+
+        @SuppressLint("SetTextI18n")
+        @Override
+        public void bind(ServiceDetailDisplay item) {
+            super.bind(item);
+            binding.nameCategory.setText(item.data.name);
+            binding.quantityText.setText(String.valueOf(item.data.quantity));
+            binding.xText.setText(R.string.x);
+            binding.price.setText(item.data.price * item.data.quantity + "$");
+        }
+    }
+
     public interface IServiceDetailCallback {
         void onClickItem(int position, ServiceDetailDto item);
+    }
+
+    public enum SERVICES_DETAIL_VIEW_TYPE {
+        SERVICES_DETAIL,
+        ORDER
     }
 }

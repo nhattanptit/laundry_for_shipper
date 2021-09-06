@@ -1,6 +1,7 @@
 package com.laundry.app.view.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Address;
@@ -8,7 +9,6 @@ import android.location.Geocoder;
 import android.util.Log;
 import android.view.View;
 
-import com.google.code.geocoder.model.LatLng;
 import com.laundry.app.R;
 import com.laundry.app.control.ApiServiceOperator;
 import com.laundry.app.control.DataController;
@@ -19,43 +19,25 @@ import com.laundry.app.dto.ordercreate.OrderServiceDetailForm;
 import com.laundry.app.dto.servicelist.ServiceListDto;
 import com.laundry.app.dto.sevicedetail.ServiceDetailDto;
 import com.laundry.app.dto.sevicedetail.ServicesDetailResponse;
-import com.laundry.app.utils.ErrorDialog;
-import com.laundry.app.view.adapter.ServiceDetailAdapter;
+import com.laundry.app.view.adapter.ServicesOrderAdapter;
 import com.laundry.app.view.dialog.LoginDialog;
-import com.laundry.app.view.dialog.RegisterOrLoginFragment;
 import com.laundry.base.BaseActivity;
 
-import org.apache.commons.io.IOUtils;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.math.BigDecimal;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import androidx.appcompat.app.AlertDialog;
-
 public class ServicesDetailsActivity extends BaseActivity<ServicesDetailsActivityBinding>
-        implements ServiceDetailAdapter.IServiceDetailCallback, LoginDialog.LoginListener {
+        implements ServicesOrderAdapter.IServiceDetailCallback, LoginDialog.LoginListener {
 
     private static final String TAG = "ServiceDetailFragment";
     public static final String KEY_SEND_DATA = "KEY_SEND_DATA";
     private final DataController mDataController = new DataController();
     private ServiceListDto mServiceListDto;
     private List<ServiceDetailDto> mServiceDetails = new ArrayList<>();
-    private final ServiceDetailAdapter mServiceDetailAdapter = new ServiceDetailAdapter();
+    private final ServicesOrderAdapter mServicesOrderAdapter = new ServicesOrderAdapter();
 
     @Override
     protected int getLayoutResource() {
@@ -69,16 +51,18 @@ public class ServicesDetailsActivity extends BaseActivity<ServicesDetailsActivit
 
     @Override
     public void onInitView() {
+        beforeCallApi();
+        binding.servicesDetailRecycle.setAdapter(mServicesOrderAdapter);
+        if (mServiceListDto != null) {
+            binding.toolbar.setTitle(mServiceListDto.name);
+            mDataController.getServicesDetail(mServiceListDto.id, new ServiceDetailCallBack());
+        }
+
         binding.toolbar.setToolbarListener(view -> {
             onBackPressed();
         });
-        binding.toolbar.setTitle(mServiceListDto.name);
-        beforeCallApi();
-        binding.servicesDetailRecycle.setAdapter(mServiceDetailAdapter);
-        if (mServiceListDto != null) {
-            mDataController.getServicesDetail(mServiceListDto.id, new ServiceDetailCallBack());
-        }
-        mServiceDetailAdapter.setCallback(this);
+
+        mServicesOrderAdapter.setCallback(this);
     }
 
     @Override
@@ -106,6 +90,7 @@ public class ServicesDetailsActivity extends BaseActivity<ServicesDetailsActivit
             }
 
         });
+
     }
 
     private Map<Integer, OrderServiceDetailForm> mListItemSelected = new HashMap<>();
@@ -158,7 +143,7 @@ public class ServicesDetailsActivity extends BaseActivity<ServicesDetailsActivit
     private class ServiceDetailCallBack implements ApiServiceOperator.OnResponseListener<ServicesDetailResponse> {
         @Override
         public void onSuccess(ServicesDetailResponse body) {
-            mServiceDetailAdapter.submitList(body.servicesDetails);
+            mServicesOrderAdapter.submitList(body.servicesDetails);
             mServiceDetails = body.servicesDetails;
             afterCallApi();
         }

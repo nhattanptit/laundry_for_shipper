@@ -6,7 +6,9 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.laundry.app.dto.servicelist.INamedStatus;
 
-public class ServiceDetailDto {
+import java.io.Serializable;
+
+public class ServiceDetailDto implements Serializable {
 
     @SerializedName("id")
     @Expose
@@ -92,6 +94,7 @@ public class ServiceDetailDto {
         };
 
         private static final String TAG = "ServiceDetailType";
+
         static ServiceDetailType getType(String type) {
             Log.d(TAG, "getType: " + type);
             switch (type) {

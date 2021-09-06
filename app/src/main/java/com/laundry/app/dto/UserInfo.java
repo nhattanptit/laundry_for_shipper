@@ -49,6 +49,10 @@ public class UserInfo {
         return !TextUtils.isEmpty(username) && !TextUtils.isEmpty(token);
     }
 
+    /**
+     * Init Userinfo
+     * @param context
+     */
     public void init(Context context) {
         username = null;
         token = null;

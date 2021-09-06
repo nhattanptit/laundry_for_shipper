@@ -15,6 +15,11 @@ import java.util.List;
 public class HomeOrderAdapter extends BaseAdapter {
 
     private boolean mIsDisplayButtonAccept;
+    private View.OnClickListener mOnClickListener;
+
+    public void setOnClickListener(View.OnClickListener mOnClickListener) {
+        this.mOnClickListener = mOnClickListener;
+    }
 
     public HomeOrderAdapter(boolean isDisplayButtonAccept) {
         this.mIsDisplayButtonAccept = isDisplayButtonAccept;
@@ -68,6 +73,8 @@ public class HomeOrderAdapter extends BaseAdapter {
             binding.homeOrderPickupAddress.setText(item.getPickupAddress());
             binding.homeOrderDeliveryDateTime.setText(item.getDeliveryDateTime());
             binding.homeOrderDeliveryAddress.setText(item.getDeliveryAddress());
+            binding.orderHomeItemLayout.setOnClickListener(mOnClickListener);
+            binding.orderHomeItemLayout.setTag(item);
         }
     }
 }

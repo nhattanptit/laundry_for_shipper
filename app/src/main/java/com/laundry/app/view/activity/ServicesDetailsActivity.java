@@ -1,11 +1,6 @@
 package com.laundry.app.view.activity;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.location.Address;
-import android.location.Geocoder;
 import android.util.Log;
 import android.view.View;
 
@@ -19,15 +14,18 @@ import com.laundry.app.dto.ordercreate.OrderServiceDetailForm;
 import com.laundry.app.dto.servicelist.ServiceListDto;
 import com.laundry.app.dto.sevicedetail.ServiceDetailDto;
 import com.laundry.app.dto.sevicedetail.ServicesDetailResponse;
+import com.laundry.app.utils.ErrorDialog;
 import com.laundry.app.view.adapter.ServicesOrderAdapter;
 import com.laundry.app.view.dialog.LoginDialog;
+import com.laundry.app.view.dialog.RegisterOrLoginFragment;
 import com.laundry.base.BaseActivity;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import androidx.appcompat.app.AlertDialog;
 
 public class ServicesDetailsActivity extends BaseActivity<ServicesDetailsActivityBinding>
         implements ServicesOrderAdapter.IServiceDetailCallback, LoginDialog.LoginListener {

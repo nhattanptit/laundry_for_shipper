@@ -14,7 +14,11 @@ public final class APIConstant {
     public static final String URL_ADDRESS_UPDATE = "/addresses/update";
     public static final String URL_ADDRESS_DELETE = "/addresses/delete";
 
-    public static ApiService getService() {
-        return new RetrofitClient().getClient(BASE_URL).create(ApiService.class);
+    public static final String BASE_URL_MAP_BOX = "https://api.mapbox.com";
+    public static final String URL_DIRECTION_API = "/directions/v5/mapbox/cycling/{coordinate}";
+    public static final String MAPBOX_ACCESS_TOKEN = "pk.eyJ1Ijoid29ybXBob3RvIiwiYSI6ImNrdDZzeDl1aTBsczkybnF3ZHA2MnV5anMifQ.wRJ7E1r6BVtV5rG8Bj-gJw";
+
+    public static ApiService getService(String url) {
+        return new RetrofitClient().getClient(url).create(ApiService.class);
     }
 }

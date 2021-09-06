@@ -1,7 +1,6 @@
 package com.laundry.app.view.fragment.customer;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
@@ -12,15 +11,14 @@ import com.laundry.app.databinding.FragmentHomeBinding;
 import com.laundry.app.dto.UserInfo;
 import com.laundry.app.dto.servicelist.ServiceListResponse;
 import com.laundry.app.utils.SingleTapListener;
-import com.laundry.app.view.activity.HomeActivity;
 import com.laundry.app.view.activity.ServicesDetailsActivity;
 import com.laundry.app.view.adapter.BannerAdapter;
 import com.laundry.app.view.adapter.ServiceListAdapter;
 import com.laundry.app.view.dialog.LoginDialog;
 import com.laundry.app.view.dialog.RegisterAccountDialog;
-import com.laundry.app.view.fragment.LaundryTabFragment;
+import com.laundry.base.BaseFragment;
 
-public class HomeFragment extends LaundryTabFragment<FragmentHomeBinding> {
+public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
 
     private static final String TAG = "HomeFragment";
     private final DataController mController = new DataController();

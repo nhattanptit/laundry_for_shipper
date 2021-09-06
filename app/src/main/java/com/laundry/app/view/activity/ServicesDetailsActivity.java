@@ -1,6 +1,7 @@
 package com.laundry.app.view.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 
@@ -13,20 +14,21 @@ import com.laundry.app.dto.ordercreate.OrderServiceDetailForm;
 import com.laundry.app.dto.servicelist.ServiceListDto;
 import com.laundry.app.dto.sevicedetail.ServiceDetailDto;
 import com.laundry.app.dto.sevicedetail.ServicesDetailResponse;
-import com.laundry.app.view.adapter.ServiceDetailAdapter;
+import com.laundry.app.view.adapter.ServicesOrderAdapter;
 import com.laundry.base.BaseActivity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ServicesDetailsActivity extends BaseActivity<ServicesDetailsActivityBinding> implements ServiceDetailAdapter.IServiceDetailCallback {
+public class ServicesDetailsActivity extends BaseActivity<ServicesDetailsActivityBinding> implements ServicesOrderAdapter.IServiceDetailCallback {
 
     private static final String TAG = "ServiceDetailFragment";
     public static final String KEY_SEND_DATA = "KEY_SEND_DATA";
     private final DataController mDataController = new DataController();
     private ServiceListDto mServiceListDto;
     private List<ServiceDetailDto> mServiceDetails = new ArrayList<>();
-    private final ServiceDetailAdapter mServiceDetailAdapter = new ServiceDetailAdapter();
+    private final ServicesOrderAdapter mServicesOrderAdapter = new ServicesOrderAdapter();
 
     @Override
     protected int getLayoutResource() {
@@ -40,22 +42,32 @@ public class ServicesDetailsActivity extends BaseActivity<ServicesDetailsActivit
 
     @Override
     public void onInitView() {
+        beforeCallApi();
+        binding.servicesDetailRecycle.setAdapter(mServicesOrderAdapter);
+        if (mServiceListDto != null) {
+            binding.toolbar.setTitle(mServiceListDto.name);
+            mDataController.getServicesDetail(mServiceListDto.id, new ServiceDetailCallBack());
+        }
+
         binding.toolbar.setToolbarListener(view -> {
             onBackPressed();
         });
-        binding.toolbar.setTitle(mServiceListDto.name);
-        beforeCallApi();
-        binding.servicesDetailRecycle.setAdapter(mServiceDetailAdapter);
-        if (mServiceListDto != null) {
-            mDataController.getServicesDetail(mServiceListDto.id, new ServiceDetailCallBack());
-        }
-        mServiceDetailAdapter.setCallback(this);
+
+        mServicesOrderAdapter.setCallback(this);
     }
 
     @Override
     public void onViewClick() {
+
         binding.bookButton.setOnClickListener(view -> {
-            Log.d(TAG, "onViewClick: ");
+            List<ServiceDetailDto> serviceDetailDtos = new ArrayList<>();
+            Intent intent = new Intent(this, OrderConfirmActivity.class);
+            for (int i = 0; i < mServiceDetails.size(); i++) {
+                if (mServiceDetails.get(i).quantity > 0)
+                    serviceDetailDtos.add(mServiceDetails.get(i));
+            }
+            intent.putExtra("DTO", (Serializable) serviceDetailDtos);
+            startActivity(intent);
             List<OrderServiceDetailForm> list = new ArrayList<>();
             list.add(new OrderServiceDetailForm(3, 1));
             mDataController.createOrder(this, 3, 1, list, "Ha Noi",
@@ -71,6 +83,7 @@ public class ServicesDetailsActivity extends BaseActivity<ServicesDetailsActivit
                         }
                     });
         });
+
     }
 
     @SuppressLint("SetTextI18n")
@@ -99,7 +112,7 @@ public class ServicesDetailsActivity extends BaseActivity<ServicesDetailsActivit
     private class ServiceDetailCallBack implements ApiServiceOperator.OnResponseListener<ServicesDetailResponse> {
         @Override
         public void onSuccess(ServicesDetailResponse body) {
-            mServiceDetailAdapter.submitList(body.servicesDetails);
+            mServicesOrderAdapter.submitList(body.servicesDetails);
             mServiceDetails = body.servicesDetails;
             afterCallApi();
         }

@@ -7,9 +7,12 @@ import android.view.View;
 import com.laundry.app.R;
 import com.laundry.app.control.ApiServiceOperator;
 import com.laundry.app.control.DataController;
+import com.laundry.app.data.APIConstant;
 import com.laundry.app.databinding.FragmentHomeBinding;
 import com.laundry.app.dto.UserInfo;
+import com.laundry.app.dto.maps.MapDirectionResponse;
 import com.laundry.app.dto.servicelist.ServiceListResponse;
+import com.laundry.app.utils.MapUtils;
 import com.laundry.app.utils.SingleTapListener;
 import com.laundry.app.view.activity.ServicesDetailsActivity;
 import com.laundry.app.view.adapter.BannerAdapter;
@@ -30,6 +33,12 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
             R.drawable.banner5};
 
     ServiceListAdapter serviceListAdapter = new ServiceListAdapter();
+
+    private static final double LONG_START = 105.80816275382553;
+    private static final double LAT_START = 20.99954902778333;
+    private static final double LONG_END = 105.80974926197536;
+    private static final double LAT_END = 20.99936771818483;
+    private static final String GEOMETRIES = "geojson";
 
     @Override
     protected int getLayoutResource() {
@@ -58,6 +67,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
 
         getServiceList();
         createLoginLayout();
+        getDirectionApi();
     }
 
     @Override
@@ -87,6 +97,26 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
         @Override
         public void onSuccess(ServiceListResponse body) {
             serviceListAdapter.submitList(body.servicesList);
+
+            afterCallApi();
+        }
+
+        @Override
+        public void onFailure(Throwable t) {
+            Log.e(TAG, "onFailure: " + t.getMessage());
+            afterCallApi();
+        }
+    }
+
+    /**
+     * ServiceListCallBack
+     */
+    private class MapDirectionCallback implements ApiServiceOperator.OnResponseListener<MapDirectionResponse> {
+
+        @Override
+        public void onSuccess(MapDirectionResponse body) {
+            Log.d(TAG, "onSuccess: "+ body.toString());
+            Log.d(TAG, "Distance: " + body.getRoutes().get(0).getDistance()/1000 + " km");
             afterCallApi();
         }
 
@@ -104,6 +134,14 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
     private void getServiceList() {
         beforeCallApi();
         mController.getServicesAll(new ServiceListCallBack());
+    }
+
+    /**
+     * Get direction api
+     */
+    private void getDirectionApi() {
+
+        mController.getDirectionMaps(MapUtils.getCoordinate(LONG_START, LAT_START, LONG_END, LAT_END), GEOMETRIES, APIConstant.MAPBOX_ACCESS_TOKEN, new MapDirectionCallback());
     }
 
     /**

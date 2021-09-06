@@ -12,6 +12,7 @@ import com.laundry.app.dto.authentication.LoginRequest;
 import com.laundry.app.dto.authentication.LoginResponseDto;
 import com.laundry.app.dto.authentication.RegisterRequest;
 import com.laundry.app.dto.authentication.RegisterResponse;
+import com.laundry.app.dto.maps.MapDirectionResponse;
 import com.laundry.app.dto.ordercreate.OrderRequest;
 import com.laundry.app.dto.ordercreate.OrderResponse;
 import com.laundry.app.dto.ordercreate.OrderServiceDetailForm;
@@ -24,7 +25,8 @@ import retrofit2.Call;
 
 public class DataController {
 
-    private final ApiService service = APIConstant.getService();
+    private final ApiService service = APIConstant.getService(APIConstant.BASE_URL);
+    private final ApiService serviceMap = APIConstant.getService(APIConstant.BASE_URL_MAP_BOX);
 
     public void register(RegisterRequest registerRequest,
                          ApiServiceOperator.OnResponseListener<RegisterResponse> listener) {
@@ -65,9 +67,28 @@ public class DataController {
         call.enqueue(new ApiServiceOperator<>(listener));
     }
 
+    /**
+     * Get direction map
+     * @param listener
+     */
+    public void getDirectionMaps(String coordinate,
+                                 String geometries,
+                                String accessToken,
+            ApiServiceOperator.OnResponseListener<MapDirectionResponse> listener) {
+        Call<MapDirectionResponse> call = serviceMap.getDirectionMap(coordinate, geometries, accessToken);
+        call.enqueue(new ApiServiceOperator<MapDirectionResponse>(listener));
+    }
+
     public void getAddress(Context context, ApiServiceOperator.OnResponseListener<AddressRegisteredResponse> listener) {
         Call<AddressRegisteredResponse> call = service.getAddress(UserInfo.getInstance().getToken(context));
         call.enqueue(new ApiServiceOperator<>(listener));
     }
 
+
+    public void oderConfirm(Context context,
+                            List<OrderServiceDetailForm> orderServiceDetailForms,
+                            ApiServiceOperator.OnResponseListener<OrderResponse> listener) {
+        Call<OrderResponse> call = service.orderConfirm(UserInfo.getInstance().getToken(context), orderServiceDetailForms);
+        call.enqueue(new ApiServiceOperator<>(listener));
+    }
 }

@@ -5,10 +5,14 @@ import com.laundry.app.dto.authentication.LoginRequest;
 import com.laundry.app.dto.authentication.LoginResponseDto;
 import com.laundry.app.dto.authentication.RegisterRequest;
 import com.laundry.app.dto.authentication.RegisterResponse;
+import com.laundry.app.dto.maps.MapDirectionResponse;
 import com.laundry.app.dto.ordercreate.OrderRequest;
 import com.laundry.app.dto.ordercreate.OrderResponse;
+import com.laundry.app.dto.ordercreate.OrderServiceDetailForm;
 import com.laundry.app.dto.servicelist.ServiceListResponse;
 import com.laundry.app.dto.sevicedetail.ServicesDetailResponse;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -17,6 +21,8 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface ApiService {
 
@@ -33,8 +39,14 @@ public interface ApiService {
     @FormUrlEncoded
     Call<ServicesDetailResponse> getServicesDetail(@Field("serviceId") int id);
 
+    @POST(APIConstant.URL_ORDERS_CONFIRM)
+    Call<OrderResponse> orderConfirm(@Header("Authorization") String token, @Body List<OrderServiceDetailForm> body);
+
     @POST(APIConstant.URL_ORDERS_CREATE)
     Call<OrderResponse> createOrder(@Header("Authorization") String token, @Body OrderRequest body);
+
+    @GET(APIConstant.URL_DIRECTION_API)
+    Call<MapDirectionResponse> getDirectionMap(@Path("coordinate") String coordinate, @Query("geometries") String geometries, @Query("access_token") String accessToken);
 
     @GET(APIConstant.URL_ADDRESS_ALL)
     Call<AddressRegisteredResponse> getAddress(@Header("Authorization") String token);

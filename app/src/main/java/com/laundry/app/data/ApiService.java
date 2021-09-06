@@ -1,5 +1,6 @@
 package com.laundry.app.data;
 
+import com.laundry.app.dto.addressaccount.AddressRegisteredResponse;
 import com.laundry.app.dto.authentication.LoginRequest;
 import com.laundry.app.dto.authentication.LoginResponseDto;
 import com.laundry.app.dto.authentication.RegisterRequest;
@@ -35,4 +36,6 @@ public interface ApiService {
     @POST(APIConstant.URL_ORDERS_CREATE)
     Call<OrderResponse> createOrder(@Header("Authorization") String token, @Body OrderRequest body);
 
+    @GET(APIConstant.URL_ADDRESS_ALL)
+    Call<AddressRegisteredResponse> getAddress(@Header("Authorization") String token);
 }

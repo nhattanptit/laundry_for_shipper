@@ -53,7 +53,6 @@
     <dimen name="dp_132">132dp</dimen>
     <dimen name="dp_98">98dp</dimen>
     <dimen name="dp_220">220dp</dimen>
-    <dimen name="sp_18">18sp</dimen>
     <dimen name="dp_190">190dp</dimen>
     <dimen name="sp_20">20sp</dimen>
 </resources>

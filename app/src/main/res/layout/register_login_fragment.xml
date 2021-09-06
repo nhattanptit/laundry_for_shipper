@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -20,7 +21,6 @@
                 android:src="@drawable/logo_icon" />
 
             <TextView
-                android:visibility="gone"
                 android:id="@+id/sign_up"
                 android:layout_width="@dimen/dp_280"
                 android:layout_height="wrap_content"
@@ -51,8 +51,8 @@
 
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/go_to_home_screen"
                 android:visibility="gone"
+                android:id="@+id/go_to_home_screen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
@@ -62,7 +62,7 @@
                 android:padding="@dimen/dp_2"
                 android:text="@string/go_to_home_screen"
                 android:textColor="@color/color_0087e6"
-                android:textStyle="italic|bold"
+                android:textStyle="italic"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/account_address_layout" />

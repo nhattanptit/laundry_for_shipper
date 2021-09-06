@@ -281,6 +281,7 @@
                             android:textColorHint="@color/green_8cc63e"
                             android:maxLines="1"
                             android:hint="@string/hint_address"
+                            android:textColor="@color/green_8cc63e"
                             android:lines="1"
                             android:singleLine="true"/>
 

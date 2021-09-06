@@ -25,6 +25,16 @@
         <item name="android:orientation">vertical</item>
     </style>
 
+    <style name="account_infomation_item_title_style">
+        <item name="android:layout_width">@dimen/dp_320</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/sp_13</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginStart">@dimen/dp_6</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
     <style name="line_straight_style">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">0.5dp</item>

@@ -2,6 +2,7 @@
 <layout>
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/order_home_item_layout"
         android:layout_width="@dimen/dp_320"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_home_order_item"

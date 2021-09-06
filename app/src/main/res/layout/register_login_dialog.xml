@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/backgroundDialog">
+        <RelativeLayout
+            android:layout_margin="@dimen/dp_16"
+            android:layout_gravity="center"
+            android:background="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:padding="@dimen/dp_24"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/logo_icon"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/logo_icon" />
+
+                <TextView
+                    android:id="@+id/sign_up"
+                    android:layout_width="@dimen/dp_280"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/logo"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/dp_56"
+                    android:padding="@dimen/dp_8"
+                    android:background="@drawable/shaper_button_white"
+                    android:gravity="center"
+                    android:text="@string/sign_up"
+                    android:textStyle="bold"
+                    android:textColor="@color/green_8cc63e"
+                    android:textSize="@dimen/sp_17" />
+
+                <TextView
+                    android:padding="@dimen/dp_8"
+                    android:id="@+id/login"
+                    android:layout_width="@dimen/dp_280"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/dp_16"
+                    android:background="@drawable/shaper_button_green_big"
+                    android:gravity="center"
+                    android:text="@string/login"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/sp_17" />
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:visibility="gone"
+                    android:id="@+id/go_to_home_screen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:textSize="@dimen/sp_15"
+                    android:layout_marginEnd="@dimen/dp_32"
+                    android:layout_marginTop="@dimen/dp_12"
+                    android:padding="@dimen/dp_2"
+                    android:text="@string/go_to_home_screen"
+                    android:textColor="@color/color_0087e6"
+                    android:textStyle="italic"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/account_address_layout" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </RelativeLayout>
+    </FrameLayout>
+
+    <data>
+
+    </data>
+</layout>

@@ -64,7 +64,7 @@ public class ServiceDetailAdapter extends BaseAdapter {
                 if (item.quantity > 0) {
                     binding.quantityText.setText(String.valueOf(--item.quantity));
                     item.totalPrice = item.price * item.quantity;
-                    mCallback.onClickItem(getAbsoluteAdapterPosition(),item);
+                    mCallback.onClickItem(getAbsoluteAdapterPosition(), item);
                 }
             });
         }

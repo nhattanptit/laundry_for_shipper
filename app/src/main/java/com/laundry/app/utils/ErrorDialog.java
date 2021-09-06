@@ -1,4 +1,4 @@
-package com.laundry.app.view.dialog;
+package com.laundry.app.utils;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -7,7 +7,7 @@ import com.laundry.app.R;
 
 import androidx.appcompat.app.AlertDialog;
 
-public class ErrorAlertDialog {
+public class ErrorDialog {
 
     public static AlertDialog buildPopup(Context context, int messageId,
                                          DialogInterface.OnClickListener okListener) {

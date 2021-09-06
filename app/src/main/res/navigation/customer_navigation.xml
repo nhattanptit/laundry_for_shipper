@@ -5,41 +5,6 @@
     android:id="@+id/customer_navigation"
     app:startDestination="@+id/navigation_customer_home">
 
-    <fragment
-        android:id="@+id/navigation_customer_home"
-        android:name="com.laundry.app.view.fragment.customer.HomeFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" >
-        <action
-            android:id="@+id/action_navigation_customer_home_to_navigation_serviceDetailFragment"
-            app:destination="@id/navigation_serviceDetailFragment" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/navigation_customer_order_list"
-        android:name="com.laundry.app.view.fragment.customer.CustomerOderHistoryListFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/customer_history_order_fragment" />
-
-    <fragment
-        android:id="@+id/navigation_customer_user"
-        android:name="com.laundry.app.view.fragment.customer.CustomerInfoFragment"
-        android:label="@string/title_information"
-        tools:layout="@layout/customer_info_fragment" />
-
-    <fragment
-        android:id="@+id/navigation_register_or_login"
-        android:name="com.laundry.app.view.fragment.customer.RegisterOrLoginFragment"
-        android:label="@string/login_or_signup"
-        tools:layout="@layout/customer_info_fragment">
-        <action
-            android:id="@+id/action_navigation_register_or_login_to_navigation_register_account_dialog"
-            app:destination="@id/navigation_register_account_dialog" />
-        <action
-            android:id="@+id/action_navigation_register_or_login_to_navigation_login_account_dialog"
-            app:destination="@id/navigation_login_account_dialog" />
-    </fragment>
-
     <dialog
         android:id="@+id/navigation_register_account_dialog"
         android:name="com.laundry.app.view.dialog.RegisterAccountDialog"
@@ -53,8 +18,21 @@
         tools:layout="@layout/login_dialog" />
 
     <fragment
-        android:id="@+id/navigation_serviceDetailFragment"
-        android:name="com.laundry.app.view.fragment.customer.ServiceDetailFragment"
-        android:label="ServiceDetailFragment"
-        tools:layout="@layout/services_details_fragment" />
+        android:id="@+id/navigation_customer_user"
+        android:name="com.laundry.app.view.fragment.customer.CustomerInfoFragment"
+        android:label="@string/title_information"
+        tools:layout="@layout/customer_info_fragment" />
+
+    <fragment
+        android:id="@+id/navigation_customer_home"
+        android:name="com.laundry.app.view.fragment.customer.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/navigation_customer_order_list"
+        android:name="com.laundry.app.view.fragment.customer.CustomerOderHistoryListFragment"
+        android:label="@string/title_dashboard"
+        tools:layout="@layout/customer_history_order_fragment" />
+
 </navigation>

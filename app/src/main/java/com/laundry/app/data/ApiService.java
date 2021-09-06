@@ -6,8 +6,11 @@ import com.laundry.app.dto.authentication.RegisterRequest;
 import com.laundry.app.dto.authentication.RegisterResponse;
 import com.laundry.app.dto.ordercreate.OrderRequest;
 import com.laundry.app.dto.ordercreate.OrderResponse;
+import com.laundry.app.dto.ordercreate.OrderServiceDetailForm;
 import com.laundry.app.dto.servicelist.ServiceListResponse;
 import com.laundry.app.dto.sevicedetail.ServicesDetailResponse;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -31,6 +34,9 @@ public interface ApiService {
     @POST(APIConstant.URL_SERVICES_DETAILS)
     @FormUrlEncoded
     Call<ServicesDetailResponse> getServicesDetail(@Field("serviceId") int id);
+
+    @POST(APIConstant.URL_ORDERS_CONFIRM)
+    Call<OrderResponse> orderConfirm(@Header("Authorization") String token, @Body List<OrderServiceDetailForm> body);
 
     @POST(APIConstant.URL_ORDERS_CREATE)
     Call<OrderResponse> createOrder(@Header("Authorization") String token, @Body OrderRequest body);

@@ -63,4 +63,11 @@ public class DataController {
         Call<OrderResponse> call = service.createOrder(UserInfo.getInstance().getToken(context), request);
         call.enqueue(new ApiServiceOperator<>(listener));
     }
+
+    public void oderConfirm(Context context,
+                            List<OrderServiceDetailForm> orderServiceDetailForms,
+                            ApiServiceOperator.OnResponseListener<OrderResponse> listener) {
+        Call<OrderResponse> call = service.orderConfirm(UserInfo.getInstance().getToken(context), orderServiceDetailForms);
+        call.enqueue(new ApiServiceOperator<>(listener));
+    }
 }

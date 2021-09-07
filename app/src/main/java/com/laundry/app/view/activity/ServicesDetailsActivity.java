@@ -70,6 +70,9 @@ public class ServicesDetailsActivity extends BaseActivity<ServicesDetailsActivit
     @Override
     public void onViewClick() {
         binding.bookButton.setOnClickListener(view -> {
+            Intent intent = new Intent(this, OrderConfirmActivity.class);
+            intent.putExtra("DTO", (Serializable) mServiceDetails);
+            startActivity(intent);
             if (UserInfo.getInstance().isLogin(this)) {
                 mDataController.oderConfirm(this, getProductList(), new ApiServiceOperator.OnResponseListener<OrderConfirmResponseDto>() {
                     @Override

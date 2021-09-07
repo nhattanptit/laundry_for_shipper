@@ -5,6 +5,9 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.util.Log;
 import android.view.View;
+import android.content.Intent;
+
+import androidx.annotation.Nullable;
 
 import com.laundry.app.R;
 import com.laundry.app.constant.Constant;
@@ -19,6 +22,7 @@ import com.laundry.app.dto.addressaccount.User;
 import com.laundry.app.dto.maps.MapDirectionResponse;
 import com.laundry.app.dto.order.OrderConfirmDto;
 import com.laundry.app.dto.order.OrderConfirmResponseDto;
+import com.laundry.app.dto.addressall.AddressListlDto;
 import com.laundry.app.dto.sevicedetail.ServiceDetailDto;
 import com.laundry.app.dto.shippingfee.ShippingFeeResponseDto;
 import com.laundry.app.utils.MapUtils;
@@ -43,6 +47,8 @@ public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBindi
     private double subTotal;
     private double shippingFee;
     private double mDistance;
+    private AddressListlDto addressDto;
+    public static final int REQUEST_CODE_ADDRESS_SELECT = 1;
 
     @Override
     protected int getLayoutResource() {
@@ -51,6 +57,18 @@ public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBindi
 
     @Override
     public void onPreInitView() {
+        mServiceDetails = (List<ServiceDetailDto>) getIntent().getSerializableExtra("DTO");
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_ADDRESS_SELECT) {
+            if (resultCode == RESULT_OK) {
+                addressDto = (AddressListlDto) data.getSerializableExtra(BillingAddressActivity.RESULT_CODE_ADDRESS);
+                updateView();
+            }
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -72,6 +90,11 @@ public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBindi
         binding.momoButton.setOnClickListener(new SingleTapListener(view -> {
             binding.momoButton.setChecked(true);
             binding.cashPaymentButton.setChecked(false);
+        binding.shippingDetailIcon.setOnClickListener(view -> {
+            Intent intent = new Intent(this, BillingAddressActivity.class);
+            startActivityForResult(intent, REQUEST_CODE_ADDRESS_SELECT);
+        });
+    }
 
         }));
 
@@ -97,6 +120,13 @@ public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBindi
 
         getShippingFee();
     }
+    private void updateView() {
+        if (addressDto != null && addressDto.user != null) {
+            binding.nameShippingText.setText(addressDto.user.name);
+            binding.phoneShippingText.setText(addressDto.user.phoneNumber);
+        }
+    }
+}
 
     private void beforeCallApi() {
         binding.progressBar.maskviewLayout.setVisibility(View.VISIBLE);
@@ -151,7 +181,7 @@ public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBindi
     private class ShippingFeeCallback implements ApiServiceOperator.OnResponseListener<ShippingFeeResponseDto> {
         @Override
         public void onSuccess(ShippingFeeResponseDto body) {
-            
+
         }
 
         @Override

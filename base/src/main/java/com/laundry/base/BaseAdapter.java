@@ -52,7 +52,7 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseAdapter.BaseV
     }
 
     // sử dụng để set list
-    protected void setDataList(List<Object> list) {
+    public void setDataList(List<Object> list) {
         this.dataList = list;
         notifyDataSetChanged();
     }

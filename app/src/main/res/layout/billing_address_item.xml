@@ -15,62 +15,68 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/dp_6"
-            android:layout_marginStart="@dimen/dp_8">
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/local_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/location_icon"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            android:layout_marginStart="@dimen/dp_8"
+            android:background="@drawable/selector_press"
+            android:padding="@dimen/dp_8">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_8"
+                android:drawablePadding="10dp"
                 android:text="@string/address"
                 android:textColor="@color/black"
                 android:textSize="@dimen/sp_15"
-                app:layout_constraintBottom_toBottomOf="@id/local_icon"
-                app:layout_constraintStart_toEndOf="@id/local_icon"
-                app:layout_constraintTop_toTopOf="@id/local_icon" />
+                app:drawableStartCompat="@drawable/location_icon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/infomation_text"
-                android:layout_width="wrap_content"
+                android:id="@+id/information_text"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_8"
+                android:layout_marginEnd="60dp"
+                android:ellipsize="end"
+                android:singleLine="true"
                 android:textColor="@color/black"
                 android:textSize="@dimen/sp_13"
-                app:layout_constraintStart_toStartOf="@id/local_icon"
-                app:layout_constraintTop_toBottomOf="@id/local_icon"
-                tools:text="Name" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/selected_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/tick_address_icon"
-                android:visibility="visible"
-                app:layout_constraintBottom_toBottomOf="@id/infomation_text"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/infomation_text" />
+                app:layout_constraintStart_toStartOf="@id/title"
+                app:layout_constraintTop_toBottomOf="@id/title"
+                tools:text="Namemmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/address_detail"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_8"
-                android:lineSpacingExtra="@dimen/sp_5"
+                android:lineSpacingExtra="@dimen/dp_4"
+                android:maxLines="4"
                 android:textColor="@color/black"
                 android:textSize="@dimen/sp_13"
+                app:layout_constraintEnd_toEndOf="@id/information_text"
                 app:layout_constraintStart_toEndOf="@id/selected_icon"
-                app:layout_constraintStart_toStartOf="@id/local_icon"
-                app:layout_constraintTop_toBottomOf="@id/infomation_text"
-                tools:text="Address Detail" />
+                app:layout_constraintStart_toStartOf="@id/title"
+                app:layout_constraintTop_toBottomOf="@id/information_text"
+                tools:text="Address Detail Namemmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/selected_icon"
+                android:layout_width="@dimen/dp_36"
+                android:layout_height="@dimen/dp_36"
+                android:layout_marginEnd="@dimen/dp_10"
+                android:padding="@dimen/dp_2"
+                android:scaleType="centerInside"
+                android:src="@drawable/tick_address_icon"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/information_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/information_text"
+                tools:visibility="visible" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.cardview.widget.CardView>
 
 </layout>

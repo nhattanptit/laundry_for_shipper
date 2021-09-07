@@ -1,6 +1,7 @@
 package com.laundry.app.view.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 
@@ -11,7 +12,6 @@ import com.laundry.app.databinding.BillingAddressActivityBinding;
 import com.laundry.app.dto.AddressInfo;
 import com.laundry.app.dto.addressall.AddressListResponse;
 import com.laundry.app.dto.addressall.AddressListlDto;
-import com.laundry.app.dto.sevicedetail.ServiceDetailDto;
 import com.laundry.app.utils.SingleTapListener;
 import com.laundry.app.view.adapter.AddressAdapter;
 import com.laundry.app.view.dialog.AddAddressDialog;
@@ -27,6 +27,8 @@ public class BillingAddressActivity extends BaseActivity<BillingAddressActivityB
     private final DataController mDataController = new DataController();
     private final AddressAdapter addressAdapter = new AddressAdapter();
     private final List<Object> addressListlDtos = new ArrayList<>();
+    private AddressListlDto addressDto = new AddressListlDto();
+    public static final String RESULT_CODE_ADDRESS = "RESULT_CODE_ADDRESS";
 
     @Override
     protected int getLayoutResource() {
@@ -47,15 +49,24 @@ public class BillingAddressActivity extends BaseActivity<BillingAddressActivityB
 
     @Override
     public void onViewClick() {
+
         binding.addAddressButton.setOnClickListener(new SingleTapListener(view -> {
             AddAddressDialog addAddressDialog = new AddAddressDialog();
             addAddressDialog.show(getSupportFragmentManager(), LoginDialog.class.getSimpleName());
         }));
+
+        binding.doneButton.setOnClickListener(view -> {
+            Intent intent = new Intent();
+            intent.putExtra(RESULT_CODE_ADDRESS, addressDto);
+            setResult(RESULT_OK, intent);
+            finish();
+        });
     }
 
     @Override
     public void onClickItem(int position, AddressListlDto item) {
         Log.d(TAG, "onClickItem: " + item);
+        addressDto = item;
     }
 
     private class AddressCallBack implements ApiServiceOperator.OnResponseListener<AddressListResponse> {

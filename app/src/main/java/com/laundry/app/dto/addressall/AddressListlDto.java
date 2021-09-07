@@ -3,7 +3,9 @@ package com.laundry.app.dto.addressall;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class AddressListlDto {
+import java.io.Serializable;
+
+public class AddressListlDto implements Serializable {
 
     @SerializedName("id")
     @Expose

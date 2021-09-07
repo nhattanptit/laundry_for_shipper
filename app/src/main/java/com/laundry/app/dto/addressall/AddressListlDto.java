@@ -1,9 +1,9 @@
-package com.laundry.app.dto.addressaccount;
+package com.laundry.app.dto.addressall;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class AddressRegisteredDto {
+public class AddressListlDto {
 
     @SerializedName("id")
     @Expose

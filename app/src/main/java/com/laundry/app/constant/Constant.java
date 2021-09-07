@@ -34,4 +34,11 @@ public class Constant {
 
 
     public static final String CURRENT_TAB = "current_tab";
+    public static final String KEY_ORDER_CONFIRM_DTO = "order_confirm_dto";
+
+    public static final String PRICE_FORMAT = "%.2f$";
+
+    public static final String GEOMETRIES = "geojson";
+    public static final double LONG_START = 105.80816275382553;
+    public static final double LAT_START = 20.99954902778333;
 }

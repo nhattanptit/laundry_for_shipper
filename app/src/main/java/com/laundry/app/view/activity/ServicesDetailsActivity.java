@@ -1,14 +1,17 @@
 package com.laundry.app.view.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 
 import com.laundry.app.R;
+import com.laundry.app.constant.Constant;
 import com.laundry.app.control.ApiServiceOperator;
 import com.laundry.app.control.DataController;
 import com.laundry.app.databinding.ServicesDetailsActivityBinding;
 import com.laundry.app.dto.UserInfo;
+import com.laundry.app.dto.order.OrderConfirmResponseDto;
 import com.laundry.app.dto.ordercreate.OrderResponse;
 import com.laundry.app.dto.ordercreate.OrderServiceDetailForm;
 import com.laundry.app.dto.servicelist.ServiceListDto;
@@ -20,6 +23,7 @@ import com.laundry.app.view.dialog.LoginDialog;
 import com.laundry.app.view.dialog.RegisterOrLoginFragment;
 import com.laundry.base.BaseActivity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -67,10 +71,12 @@ public class ServicesDetailsActivity extends BaseActivity<ServicesDetailsActivit
     public void onViewClick() {
         binding.bookButton.setOnClickListener(view -> {
             if (UserInfo.getInstance().isLogin(this)) {
-                mDataController.oderConfirm(this, getProductList(), new ApiServiceOperator.OnResponseListener<OrderResponse>() {
+                mDataController.oderConfirm(this, getProductList(), new ApiServiceOperator.OnResponseListener<OrderConfirmResponseDto>() {
                     @Override
-                    public void onSuccess(OrderResponse body) {
-                        Log.d(TAG, "onSuccess: " + body.status);
+                    public void onSuccess(OrderConfirmResponseDto body) {
+                        Intent intent = new Intent(ServicesDetailsActivity.this, OrderConfirmActivity.class);
+                        intent.putExtra(Constant.KEY_ORDER_CONFIRM_DTO, (Serializable) body.data);
+                        startActivity(intent);
                     }
 
                     @Override

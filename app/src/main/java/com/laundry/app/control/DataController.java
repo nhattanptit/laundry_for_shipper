@@ -6,6 +6,7 @@ import androidx.annotation.IntRange;
 
 import com.laundry.app.data.APIConstant;
 import com.laundry.app.data.ApiService;
+import com.laundry.app.dto.BaseResponse;
 import com.laundry.app.dto.UserInfo;
 import com.laundry.app.dto.addressaccount.AddressRegisteredResponse;
 import com.laundry.app.dto.authentication.LoginRequest;
@@ -13,11 +14,13 @@ import com.laundry.app.dto.authentication.LoginResponseDto;
 import com.laundry.app.dto.authentication.RegisterRequest;
 import com.laundry.app.dto.authentication.RegisterResponse;
 import com.laundry.app.dto.maps.MapDirectionResponse;
+import com.laundry.app.dto.order.OrderConfirmResponseDto;
 import com.laundry.app.dto.ordercreate.OrderRequest;
 import com.laundry.app.dto.ordercreate.OrderResponse;
 import com.laundry.app.dto.ordercreate.OrderServiceDetailForm;
 import com.laundry.app.dto.servicelist.ServiceListResponse;
 import com.laundry.app.dto.sevicedetail.ServicesDetailResponse;
+import com.laundry.app.dto.shippingfee.ShippingFeeResponseDto;
 
 import java.util.List;
 
@@ -87,8 +90,15 @@ public class DataController {
 
     public void oderConfirm(Context context,
                             List<OrderServiceDetailForm> orderServiceDetailForms,
-                            ApiServiceOperator.OnResponseListener<OrderResponse> listener) {
-        Call<OrderResponse> call = service.orderConfirm(UserInfo.getInstance().getToken(context), orderServiceDetailForms);
+                            ApiServiceOperator.OnResponseListener<OrderConfirmResponseDto> listener) {
+        Call<OrderConfirmResponseDto> call = service.orderConfirm(UserInfo.getInstance().getToken(context), orderServiceDetailForms);
+        call.enqueue(new ApiServiceOperator<>(listener));
+    }
+
+    public void getShippingFee(Context context,
+                            String distance,
+                            ApiServiceOperator.OnResponseListener<ShippingFeeResponseDto> listener) {
+        Call<ShippingFeeResponseDto> call = service.getShippingFee(UserInfo.getInstance().getToken(context), distance);
         call.enqueue(new ApiServiceOperator<>(listener));
     }
 }

@@ -9,6 +9,7 @@ public final class APIConstant {
     public static final String URL_SERVICES_DETAILS = "/services/details";
     public static final String URL_ORDERS_CONFIRM ="/orders/services-bill";
     public static final String URL_ORDERS_CREATE = "/orders/create";
+    public static final String URL_ORDER_SHIPPING_FEE = "/orders/shipping-fee";
     public static final String URL_ADDRESS = "/addresses";
     public static final String URL_ADDRESS_ALL = "/addresses/all";
     public static final String URL_ADDRESS_NEW = "/addresses/new";

@@ -70,7 +70,7 @@
     <string name="shipping_address">Shipping address</string>
     <string name="order_confirm">Order confirm</string>
     <string name="shipping_fee">Shipping fee</string>
-    <string name="vat">VAT</string>
+    <string name="vat">VAT(10%)</string>
     <string name="select_delivery_date">Select Delivery Date</string>
     <string name="total_price">Total Price:</string>
     <string name="cash_payment">Cash Payment</string>
@@ -82,4 +82,6 @@
     <string name="yes">Yes</string>
     <string name="ok">OK</string>
     <string name="please_login_or_register">Please login or register.</string>
+    <string name="please_select_shipping_address">Please select shipping address.</string>
+    <string name="shipping_methods">Shipping methods</string>
 </resources>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.laundry.app.view.toolbar.LaundryToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_56"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/address_list_recycle"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toTopOf="@id/button_layout"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            tools:listitem="@layout/billing_address_item" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/button_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/alpha_8cc63e"
+            android:padding="@dimen/dp_16"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/add_address_button"
+                android:layout_width="@dimen/dp_280"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shaper_button_white"
+                android:gravity="center"
+                android:padding="@dimen/dp_8"
+                android:text="@string/add_address"
+                android:textColor="@color/green_8cc63e"
+                android:textSize="@dimen/sp_17"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/done_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/done_button"
+                android:layout_width="@dimen/dp_280"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_16"
+                android:background="@drawable/shaper_button_green_big"
+                android:gravity="center"
+                android:padding="@dimen/dp_8"
+                android:text="@string/done"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_17"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@id/add_address_button"
+                app:layout_constraintStart_toStartOf="@id/add_address_button"
+                app:layout_constraintTop_toBottomOf="@id/add_address_button" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <include
+            android:id="@+id/progress_bar"
+            layout="@layout/progressbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            tools:visibility="visible" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

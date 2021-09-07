@@ -1,6 +1,8 @@
 package com.laundry.app.data;
 
-import com.laundry.app.dto.addressaccount.AddressRegisteredResponse;
+import com.laundry.app.dto.addressall.AddressListResponse;
+import com.laundry.app.dto.addressnew.AddressAddRequest;
+import com.laundry.app.dto.addressnew.AddressAddResponse;
 import com.laundry.app.dto.authentication.LoginRequest;
 import com.laundry.app.dto.authentication.LoginResponseDto;
 import com.laundry.app.dto.authentication.RegisterRequest;
@@ -49,5 +51,8 @@ public interface ApiService {
     Call<MapDirectionResponse> getDirectionMap(@Path("coordinate") String coordinate, @Query("geometries") String geometries, @Query("access_token") String accessToken);
 
     @GET(APIConstant.URL_ADDRESS_ALL)
-    Call<AddressRegisteredResponse> getAddress(@Header("Authorization") String token);
+    Call<AddressListResponse> getAddress(@Header("Authorization") String token);
+
+    @POST(APIConstant.URL_ADDRESS_NEW)
+    Call<AddressAddResponse> addAddress(@Header("Authorization") String token, @Body AddressAddRequest body);
 }

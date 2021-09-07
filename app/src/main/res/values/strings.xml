@@ -78,8 +78,11 @@
     <string name="other_payment_menthods">Other payment methods</string>
     <string name="place_an_order">Place an order</string>
     <string name="x">x</string>
+    <string name="cancel">Cancel</string>
     <string name="no">No</string>
     <string name="yes">Yes</string>
     <string name="ok">OK</string>
     <string name="please_login_or_register">Please login or register.</string>
+    <string name="add_address">Add Address</string>
+    <string name="billing_address">Billing Address</string>
 </resources>

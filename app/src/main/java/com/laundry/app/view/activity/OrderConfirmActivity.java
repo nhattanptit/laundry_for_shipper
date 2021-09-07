@@ -1,16 +1,13 @@
 package com.laundry.app.view.activity;
 
 import android.annotation.SuppressLint;
-import android.util.Log;
-import android.view.View;
+import android.content.Intent;
+
+import androidx.annotation.Nullable;
 
 import com.laundry.app.R;
-import com.laundry.app.control.ApiServiceOperator;
-import com.laundry.app.control.DataController;
 import com.laundry.app.databinding.OrderConfirmActivityBinding;
-import com.laundry.app.dto.addressaccount.AddressRegisteredDto;
-import com.laundry.app.dto.addressaccount.AddressRegisteredResponse;
-import com.laundry.app.dto.addressaccount.User;
+import com.laundry.app.dto.addressall.AddressListlDto;
 import com.laundry.app.dto.sevicedetail.ServiceDetailDto;
 import com.laundry.app.view.adapter.ServicesOrderAdapter;
 import com.laundry.base.BaseActivity;
@@ -23,9 +20,9 @@ public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBindi
     private static final String TAG = "OrderConfirmActivity";
     private final ServicesOrderAdapter mServicesOrderAdapter = new ServicesOrderAdapter();
     private List<ServiceDetailDto> mServiceDetails = new ArrayList<>();
-    private ServiceDetailDto mOrder = new ServiceDetailDto();
-    private DataController mDataController = new DataController();
+    private AddressListlDto addressDto;
     private Double subTotal;
+    public static final int REQUEST_CODE_ADDRESS_SELECT = 1;
 
     @Override
     protected int getLayoutResource() {
@@ -35,8 +32,17 @@ public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBindi
     @Override
     public void onPreInitView() {
         mServiceDetails = (List<ServiceDetailDto>) getIntent().getSerializableExtra("DTO");
-        beforeCallApi();
-        mDataController.getAddress(this, new AddressCallBack());
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_ADDRESS_SELECT) {
+            if (resultCode == RESULT_OK) {
+                addressDto = (AddressListlDto) data.getSerializableExtra(BillingAddressActivity.RESULT_CODE_ADDRESS);
+                updateView();
+            }
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -58,34 +64,17 @@ public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBindi
 
     @Override
     public void onViewClick() {
-
+        binding.shippingDetailIcon.setOnClickListener(view -> {
+            Intent intent = new Intent(this, BillingAddressActivity.class);
+            startActivityForResult(intent, REQUEST_CODE_ADDRESS_SELECT);
+        });
     }
 
-    private class AddressCallBack implements ApiServiceOperator.OnResponseListener<AddressRegisteredResponse> {
-        @SuppressLint("SetTextI18n")
-        @Override
-        public void onSuccess(AddressRegisteredResponse body) {
-            Log.d(TAG, "onSuccess: " + body.addressRegisters.size());
-            if (body != null && body.addressRegisters != null && body.addressRegisters.size() > 0) {
-                binding.nameShippingText.setText(body.addressRegisters.get(0).user.name);
-                binding.phoneShippingText.setText(" - " + body.addressRegisters.get(0).user.phoneNumber);
-                binding.nestedLayout.setVisibility(View.VISIBLE);
-            }
-            afterCallApi();
+    private void updateView() {
+        if (addressDto != null && addressDto.user != null) {
+            binding.nameShippingText.setText(addressDto.user.name);
+            binding.phoneShippingText.setText(addressDto.user.phoneNumber);
         }
-
-        @Override
-        public void onFailure(Throwable t) {
-            Log.e(TAG, "onFailure: ");
-            afterCallApi();
-        }
-    }
-
-    private void beforeCallApi() {
-        binding.progressBar.maskviewLayout.setVisibility(View.VISIBLE);
-    }
-
-    private void afterCallApi() {
-        binding.progressBar.maskviewLayout.setVisibility(View.GONE);
     }
 }
+

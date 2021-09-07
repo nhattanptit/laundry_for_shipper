@@ -1,6 +1,7 @@
 package com.laundry.app.view.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 
@@ -20,6 +21,7 @@ import com.laundry.app.view.dialog.LoginDialog;
 import com.laundry.app.view.dialog.RegisterOrLoginFragment;
 import com.laundry.base.BaseActivity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -66,6 +68,9 @@ public class ServicesDetailsActivity extends BaseActivity<ServicesDetailsActivit
     @Override
     public void onViewClick() {
         binding.bookButton.setOnClickListener(view -> {
+            Intent intent = new Intent(this, OrderConfirmActivity.class);
+            intent.putExtra("DTO", (Serializable) mServiceDetails);
+            startActivity(intent);
             if (UserInfo.getInstance().isLogin(this)) {
                 mDataController.oderConfirm(this, getProductList(), new ApiServiceOperator.OnResponseListener<OrderResponse>() {
                     @Override

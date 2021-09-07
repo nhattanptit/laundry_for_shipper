@@ -8,11 +8,13 @@ import com.laundry.app.dto.authentication.LoginResponseDto;
 import com.laundry.app.dto.authentication.RegisterRequest;
 import com.laundry.app.dto.authentication.RegisterResponse;
 import com.laundry.app.dto.maps.MapDirectionResponse;
+import com.laundry.app.dto.order.OrderConfirmResponseDto;
 import com.laundry.app.dto.ordercreate.OrderRequest;
 import com.laundry.app.dto.ordercreate.OrderResponse;
 import com.laundry.app.dto.ordercreate.OrderServiceDetailForm;
 import com.laundry.app.dto.servicelist.ServiceListResponse;
 import com.laundry.app.dto.sevicedetail.ServicesDetailResponse;
+import com.laundry.app.dto.shippingfee.ShippingFeeResponseDto;
 
 import java.util.List;
 
@@ -42,7 +44,7 @@ public interface ApiService {
     Call<ServicesDetailResponse> getServicesDetail(@Field("serviceId") int id);
 
     @POST(APIConstant.URL_ORDERS_CONFIRM)
-    Call<OrderResponse> orderConfirm(@Header("Authorization") String token, @Body List<OrderServiceDetailForm> body);
+    Call<OrderConfirmResponseDto> orderConfirm(@Header("Authorization") String token, @Body List<OrderServiceDetailForm> body);
 
     @POST(APIConstant.URL_ORDERS_CREATE)
     Call<OrderResponse> createOrder(@Header("Authorization") String token, @Body OrderRequest body);
@@ -55,4 +57,8 @@ public interface ApiService {
 
     @POST(APIConstant.URL_ADDRESS_NEW)
     Call<AddressAddResponse> addAddress(@Header("Authorization") String token, @Body AddressAddRequest body);
+
+    @POST(APIConstant.URL_ORDER_SHIPPING_FEE)
+    @FormUrlEncoded
+    Call<ShippingFeeResponseDto> getShippingFee(@Header("Authorization") String token, @Field("distance") String distance);
 }

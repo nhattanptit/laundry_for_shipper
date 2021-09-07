@@ -10,17 +10,33 @@ public class OrderRequest implements Serializable {
 
     @SerializedName("distance")
     @Expose
-    public int distance;
+    public double distance;
 
     @SerializedName("serviceId")
     @Expose
     public int serviceId;
 
-    @SerializedName("orderServiceDetailForms")
+    @SerializedName("totalShipFee")
     @Expose
-    public List<OrderServiceDetailForm> orderServiceDetailForms;
+    public double totalShipFee;
+
+    @SerializedName("totalServiceFee")
+    @Expose
+    public double totalServiceFee;
+
+    @SerializedName("orderServiceDetails")
+    @Expose
+    public List<OrderServiceDetailForm> orderServiceDetails;
 
     @SerializedName("shippingAddress")
     @Expose
     public String shippingAddress;
+
+    @SerializedName("shippingPersonName")
+    @Expose
+    public String shippingPersonName;
+
+    @SerializedName("shippingPersonPhoneNumber")
+    @Expose
+    public String shippingPersonPhoneNumber;
 }

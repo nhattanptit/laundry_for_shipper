@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import androidx.databinding.ViewDataBinding;
 
 import com.laundry.app.R;
+import com.laundry.app.constant.Constant;
 import com.laundry.app.databinding.OrderConfirmItemBinding;
 import com.laundry.app.databinding.ServiceDetailItemBinding;
 import com.laundry.app.dto.sevicedetail.ServiceDetailDto;

@@ -58,16 +58,8 @@ public class DataController {
     }
 
     public void createOrder(Context context,
-                            int distance,
-                            int serviceID,
-                            List<OrderServiceDetailForm> orderServiceDetailForms,
-                            String address,
+                            OrderRequest request,
                             ApiServiceOperator.OnResponseListener<OrderResponse> listener) {
-        OrderRequest request = new OrderRequest();
-        request.distance = distance;
-        request.orderServiceDetailForms = orderServiceDetailForms;
-        request.serviceId = serviceID;
-        request.shippingAddress = address;
         Call<OrderResponse> call = service.createOrder(UserInfo.getInstance().getToken(context), request);
         call.enqueue(new ApiServiceOperator<>(listener));
     }
@@ -98,8 +90,8 @@ public class DataController {
     }
 
     public void getShippingFee(Context context,
-                            String distance,
-                            ApiServiceOperator.OnResponseListener<ShippingFeeResponseDto> listener) {
+                               String distance,
+                               ApiServiceOperator.OnResponseListener<ShippingFeeResponseDto> listener) {
         Call<ShippingFeeResponseDto> call = service.getShippingFee(UserInfo.getInstance().getToken(context), distance);
         call.enqueue(new ApiServiceOperator<>(listener));
     }

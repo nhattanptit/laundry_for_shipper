@@ -67,18 +67,12 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/shipping_fee_text" />
 
+
                 <View
                     android:id="@+id/line5"
                     style="@style/line_straight_style"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/vat_text" />
-
-
-                <View
-                    android:id="@+id/line7"
-                    style="@style/line_straight_style"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/total_price_fee" />
+                    app:layout_constraintTop_toBottomOf="@id/vat" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/sub_total_text"
@@ -131,32 +125,6 @@
                     tools:text="6$" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/vat_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_12"
-                    android:text="@string/vat"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/sp_15"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/line4" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/vat_fee"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dp_2"
-                    android:layout_marginTop="@dimen/dp_2"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/sp_13"
-                    app:layout_constraintBottom_toBottomOf="@id/vat_text"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/vat_text"
-                    tools:text="6$" />
-
-
-                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/total_price_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -166,7 +134,20 @@
                     android:textSize="@dimen/sp_20"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/line5" />
+                    app:layout_constraintTop_toBottomOf="@id/line4" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/vat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_4"
+                    android:text="No VAT(10%)"
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/sp_10"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="@dimen/dp_8"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/total_price_text" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/total_price_fee"
@@ -190,7 +171,7 @@
                     android:textSize="@dimen/sp_15"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/line7" />
+                    app:layout_constraintTop_toBottomOf="@id/line5" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/place_order_button"
@@ -232,22 +213,26 @@
                             android:id="@+id/name_and_phone_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
                             android:layout_below="@+id/address_shipping_text"
                             android:layout_marginStart="@dimen/dp_8"
                             android:layout_marginTop="@dimen/dp_2"
+                            android:layout_toStartOf="@+id/shipping_detail_icon"
                             android:text="@string/name"
                             android:textColor="@color/black"
                             android:textSize="@dimen/sp_13"
                             android:visibility="gone" />
 
                         <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/phone_shipping_address_text"
+                            android:id="@+id/shipping_address_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
                             android:layout_below="@+id/name_and_phone_text"
                             android:layout_marginStart="@dimen/dp_8"
                             android:layout_marginTop="@dimen/dp_2"
-                            android:text="@string/phone"
+                            android:layout_toStartOf="@+id/shipping_detail_icon"
+                            android:paddingEnd="@dimen/dp_8"
                             android:textColor="@color/black"
                             android:textSize="@dimen/sp_13"
                             android:visibility="gone" />
@@ -263,7 +248,8 @@
                             android:paddingTop="@dimen/dp_8"
                             android:text="@string/please_select_shipping_address"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/sp_13" />
+                            android:textSize="@dimen/sp_13"
+                            android:visibility="visible" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/address_shipping_text"

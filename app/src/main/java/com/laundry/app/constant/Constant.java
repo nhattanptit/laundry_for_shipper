@@ -39,6 +39,6 @@ public class Constant {
     public static final String PRICE_FORMAT = "%.2f$";
 
     public static final String GEOMETRIES = "geojson";
-    public static final double LONG_START = 105.80816275382553;
-    public static final double LAT_START = 20.99954902778333;
+    public static final double LONG_START = 105.782660;
+    public static final double LAT_START = 21.030900;
 }

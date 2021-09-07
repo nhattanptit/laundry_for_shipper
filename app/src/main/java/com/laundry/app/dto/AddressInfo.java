@@ -1,6 +1,7 @@
 package com.laundry.app.dto;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.laundry.app.dto.address.CityResponseDto;
 import com.laundry.app.dto.address.DistrictResponseDto;
@@ -75,6 +76,60 @@ public class AddressInfo {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    private ArrayList<DistrictResponseDto> getDistrictByCityId(String cityId) {
+        ArrayList<DistrictResponseDto> districtList = new ArrayList<>();
+        for (CityResponseDto dto : getCityList()) {
+            if (TextUtils.equals(cityId, dto.level1Id)) {
+                districtList.addAll(dto.level2s);
+                break;
+            }
+        }
+        return districtList;
+    }
+
+    private ArrayList<WardResponseDto> getWarByDistrictId(String cityId, String districtId) {
+        ArrayList<DistrictResponseDto> districtList = getDistrictByCityId(cityId);
+        ArrayList<WardResponseDto> list = new ArrayList<>();
+        for (DistrictResponseDto dto : districtList) {
+            if (TextUtils.equals(districtId, dto.level2Id)) {
+                list.addAll(dto.level3s);
+                break;
+            }
+        }
+        return list;
+    }
+
+    public String getCityNameById(String cityId) {
+        for (CityResponseDto dto : getCityList()) {
+            if (TextUtils.equals(cityId, dto.level1Id)) {
+                return dto.name;
+            }
+        }
+        return "";
+    }
+
+    public String getDistrictNameById(String cityId, String districtId) {
+        ArrayList<DistrictResponseDto> list = getDistrictByCityId(cityId);
+
+        for (DistrictResponseDto dto : list) {
+            if (TextUtils.equals(districtId, dto.level2Id)) {
+                return dto.name;
+            }
+        }
+        return "";
+    }
+
+    public String getWardNameById(String cityId, String districtId, String wardId) {
+        ArrayList<WardResponseDto> list = getWarByDistrictId(cityId, districtId);
+
+        for (WardResponseDto dto : list) {
+            if (TextUtils.equals(wardId, dto.level3Id)) {
+                return dto.name;
+            }
+        }
+        return "";
     }
 
     /**

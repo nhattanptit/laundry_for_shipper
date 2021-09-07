@@ -16,4 +16,6 @@ public class OrderConfirmDto implements Serializable {
     @SerializedName("serviceDetails")
     @Expose
     public List<ServiceDetailDto> products;
+
+    public int serviceParentId;
 }

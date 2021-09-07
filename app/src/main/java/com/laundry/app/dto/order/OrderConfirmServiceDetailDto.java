@@ -1,4 +1,4 @@
-package com.laundry.app.dto.sevicedetail;
+package com.laundry.app.dto.order;
 
 import android.util.Log;
 
@@ -8,11 +8,7 @@ import com.laundry.app.dto.servicelist.INamedStatus;
 
 import java.io.Serializable;
 
-public class ServiceDetailDto implements Serializable {
-
-    @SerializedName("id")
-    @Expose
-    public int id;
+public class OrderConfirmServiceDetailDto implements Serializable {
 
     @SerializedName("serviceDetailId")
     @Expose

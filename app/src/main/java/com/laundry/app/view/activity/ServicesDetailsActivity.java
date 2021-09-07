@@ -12,6 +12,7 @@ import com.laundry.app.control.DataController;
 import com.laundry.app.databinding.ServicesDetailsActivityBinding;
 import com.laundry.app.dto.UserInfo;
 import com.laundry.app.dto.order.OrderConfirmResponseDto;
+import com.laundry.app.dto.order.OrderConfirmServiceDetailDto;
 import com.laundry.app.dto.ordercreate.OrderResponse;
 import com.laundry.app.dto.ordercreate.OrderServiceDetailForm;
 import com.laundry.app.dto.servicelist.ServiceListDto;
@@ -40,6 +41,7 @@ public class ServicesDetailsActivity extends BaseActivity<ServicesDetailsActivit
     private ServiceListDto mServiceListDto;
     private List<ServiceDetailDto> mServiceDetails = new ArrayList<>();
     private final ServicesOrderAdapter mServicesOrderAdapter = new ServicesOrderAdapter();
+    private Map<Integer, OrderServiceDetailForm> mListItemSelected = new HashMap<>();
 
     @Override
     protected int getLayoutResource() {
@@ -70,13 +72,11 @@ public class ServicesDetailsActivity extends BaseActivity<ServicesDetailsActivit
     @Override
     public void onViewClick() {
         binding.bookButton.setOnClickListener(view -> {
-            Intent intent = new Intent(this, OrderConfirmActivity.class);
-            intent.putExtra("DTO", (Serializable) mServiceDetails);
-            startActivity(intent);
             if (UserInfo.getInstance().isLogin(this)) {
                 mDataController.oderConfirm(this, getProductList(), new ApiServiceOperator.OnResponseListener<OrderConfirmResponseDto>() {
                     @Override
                     public void onSuccess(OrderConfirmResponseDto body) {
+                        body.data.serviceParentId = mServiceListDto.id;
                         Intent intent = new Intent(ServicesDetailsActivity.this, OrderConfirmActivity.class);
                         intent.putExtra(Constant.KEY_ORDER_CONFIRM_DTO, (Serializable) body.data);
                         startActivity(intent);
@@ -100,14 +100,23 @@ public class ServicesDetailsActivity extends BaseActivity<ServicesDetailsActivit
 
     }
 
-    private Map<Integer, OrderServiceDetailForm> mListItemSelected = new HashMap<>();
-
     @SuppressLint("SetTextI18n")
     @Override
     public void onClickItem(int position, ServiceDetailDto item) {
         binding.money.setText(grandTotal(mServiceDetails) + "$");
         mListItemSelected.put(position, new OrderServiceDetailForm(item.id, item.quantity));
     }
+
+    @Override
+    public void onLoginSuccess() {
+
+    }
+
+    @Override
+    public void onLoginSuccess(String currentTab) {
+
+    }
+
 
     private List<OrderServiceDetailForm> getProductList() {
         List<OrderServiceDetailForm> list = new ArrayList<>();
@@ -137,15 +146,6 @@ public class ServicesDetailsActivity extends BaseActivity<ServicesDetailsActivit
         binding.progressBar.maskviewLayout.setVisibility(View.GONE);
     }
 
-    @Override
-    public void onLoginSuccess() {
-
-    }
-
-    @Override
-    public void onLoginSuccess(String currentTab) {
-
-    }
 
     private class ServiceDetailCallBack implements ApiServiceOperator.OnResponseListener<ServicesDetailResponse> {
         @Override

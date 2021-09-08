@@ -1,5 +1,6 @@
 package com.laundry.app.data;
 
+import com.laundry.app.dto.BaseResponse;
 import com.laundry.app.dto.addressall.AddressListResponse;
 import com.laundry.app.dto.addressnew.AddressAddRequest;
 import com.laundry.app.dto.addressnew.AddressAddResponse;
@@ -25,6 +26,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -61,4 +63,7 @@ public interface ApiService {
     @POST(APIConstant.URL_ORDER_SHIPPING_FEE)
     @FormUrlEncoded
     Call<ShippingFeeResponseDto> getShippingFee(@Header("Authorization") String token, @Field("distance") String distance);
+
+    @PUT(APIConstant.URL_ORDERS_CANCEL)
+    Call<BaseResponse> cancelOrder(@Header("Authorization") String token, @Query("orderId") String orderId);
 }

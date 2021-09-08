@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:mapbox="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/alpha_gray"
+        android:fitsSystemWindows="true">
+
+        <com.laundry.app.view.toolbar.LaundryToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_56"
+            android:layout_alignParentTop="true"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nested_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/toolbar"
+            android:visibility="visible"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            tools:visibility="visible">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.mapbox.mapboxsdk.maps.MapView
+                    android:id="@+id/mapView"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_320"
+                    app:mapbox_cameraZoom="18"
+                    mapbox:mapbox_cameraTargetLat="20.999618927492868"
+                    mapbox:mapbox_cameraTargetLng="105.80786501010924" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/mapView"
+                    android:layout_marginTop="-36dp"
+                    android:background="@drawable/card_background_gray"
+                    tools:layout_height="@dimen/dp_320">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/order_success_shipper_avatar"
+                        android:layout_width="@dimen/dp_72"
+                        android:layout_height="@dimen/dp_72"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/dp_36"
+                        android:src="@drawable/success_icon" />
+
+                    <TextView
+                        android:id="@+id/order_success_shipper_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/order_success_shipper_avatar"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginStart="@dimen/dp_12"
+                        android:layout_marginTop="@dimen/dp_6"
+                        android:layout_marginEnd="@dimen/dp_12"
+                        android:text="@string/congratulation"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/sp_25"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/order_success_shipper_arriving_notice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/order_success_shipper_name"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginStart="@dimen/dp_12"
+                        android:layout_marginTop="@dimen/dp_6"
+                        android:layout_marginEnd="@dimen/dp_12"
+                        android:text="@string/well_done"
+                        android:textColor="@color/red_ff735c"
+                        android:textSize="@dimen/sp_13"
+                        android:textStyle="bold" />
+
+
+                    <LinearLayout
+                        android:id="@+id/payment_method_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/phone_number_layout"
+                        android:layout_marginStart="@dimen/dp_8"
+                        android:layout_marginTop="@dimen/dp_8"
+                        android:layout_marginEnd="@dimen/dp_8"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/payment_method"
+                            android:textColor="@color/gray_807e7e"
+                            android:textSize="@dimen/sp_10"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/order_success_payment_method"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:ellipsize="end"
+                            android:gravity="end"
+                            android:maxLines="1"
+                            android:text="Cash Payment"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/sp_10"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/total_price_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/payment_method_layout"
+                        android:layout_marginStart="@dimen/dp_8"
+                        android:layout_marginTop="@dimen/dp_8"
+                        android:layout_marginEnd="@dimen/dp_8"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/total_price"
+                            android:textColor="@color/gray_807e7e"
+                            android:textSize="@dimen/sp_10"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/order_success_total_price"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:ellipsize="end"
+                            android:gravity="end"
+                            android:maxLines="1"
+                            android:text="$8"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/sp_10"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/phone_number_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/order_success_shipper_arriving_notice"
+                        android:layout_marginStart="@dimen/dp_8"
+                        android:layout_marginTop="@dimen/dp_8"
+                        android:layout_marginEnd="@dimen/dp_8"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/phone_number"
+                            android:textColor="@color/gray_807e7e"
+                            android:textSize="@dimen/sp_10"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/order_success_phone_number"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:ellipsize="end"
+                            android:gravity="end"
+                            android:maxLines="1"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/sp_10"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/order_success_billing_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/total_price_layout"
+                        android:layout_marginTop="@dimen/dp_6"
+                        android:padding="@dimen/dp_8">
+
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/shipping_address_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/address_shipping_text"
+                            android:layout_marginStart="@dimen/dp_8"
+                            android:layout_marginTop="@dimen/dp_2"
+                            android:paddingTop="@dimen/dp_8"
+                            android:paddingBottom="@dimen/dp_8"
+                            android:text="Số 91-93 Đường số 5, Phường An Phú, Tp. Thủ Đức,
+Thành phố Hồ Chí Minh, Việt Nam"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/sp_13"
+                            android:visibility="visible" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/address_shipping_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableStart="@drawable/location_icon"
+                            android:drawablePadding="@dimen/dp_8"
+                            android:text="@string/shipping_address"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/sp_15"
+                            android:textStyle="bold" />
+                    </RelativeLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/ordered_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/order_success_billing_address"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:layout_marginTop="@dimen/dp_12"
+                        android:layout_marginEnd="@dimen/dp_4"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/order_confirm_item" />
+
+                    <LinearLayout
+                        android:id="@+id/button_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/ordered_list"
+                        android:layout_marginTop="@dimen/dp_12"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/done_button"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dp_8"
+                            android:layout_marginEnd="@dimen/dp_4"
+                            android:layout_weight="1"
+                            android:background="@drawable/shaper_button_white"
+                            android:gravity="center"
+                            android:padding="@dimen/dp_8"
+                            android:text="@string/done"
+                            android:textColor="@color/green_8cc63e"
+                            android:textSize="@dimen/sp_17"
+                            android:textStyle="bold" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/cancel_order_button"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:layout_marginEnd="@dimen/dp_8"
+                            android:layout_weight="1"
+                            android:background="@drawable/shaper_button_green_big"
+                            android:gravity="center"
+                            android:padding="@dimen/dp_8"
+                            android:text="@string/cancel_order"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/sp_17"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+        <include
+            android:id="@+id/progress_bar"
+            layout="@layout/progressbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/toolbar"
+            tools:visibility="visible" />
+
+    </RelativeLayout>
+</layout>

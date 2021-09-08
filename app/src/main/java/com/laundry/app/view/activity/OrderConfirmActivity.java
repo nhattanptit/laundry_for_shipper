@@ -7,8 +7,11 @@ import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AlertDialog;
 
 import com.laundry.app.R;
 import com.laundry.app.constant.Constant;
@@ -34,10 +37,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AlertDialog;
-
 import static com.laundry.app.constant.Constant.PRICE_FORMAT;
 
 public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBinding> {
@@ -53,6 +52,12 @@ public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBindi
     private double mDistance = 0.0;
     double longitude = 0;
     double latitude = 0;
+
+    private MapDirectionResponse mMapDirectionResponse;
+
+    public void setMapDirectionResponse(MapDirectionResponse mapDirectionResponse) {
+        this.mMapDirectionResponse = mapDirectionResponse;
+    }
 
     @Override
     protected int getLayoutResource() {
@@ -119,6 +124,8 @@ public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBindi
             request.totalServiceFee = subTotal;
             request.totalShipFee = shippingFee;
             request.shippingPersonPhoneNumber = addressDto.receiverPhoneNumber;
+            request.longShipping = longitude +"";
+            request.latShipping = latitude +"";
 
             mDataController.createOrder(this, request, new OrderCreateCallback());
 
@@ -183,7 +190,7 @@ public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBindi
 
     private void getDistance() {
         mDataController.getDirectionMaps(MapUtils.getCoordinate(Constant.LONG_START, Constant.LAT_START, longitude, latitude), Constant.GEOMETRIES,
-                APIConstant.MAPBOX_ACCESS_TOKEN, new MapDirectionCallback());
+                APIConstant.MAPBOX_ACCESS_TOKEN, new MapDirectionCallback(this));
     }
 
     private void getLatLong(String fullAddress) {
@@ -209,9 +216,16 @@ public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBindi
     }
 
     private class MapDirectionCallback implements ApiServiceOperator.OnResponseListener<MapDirectionResponse> {
+        OrderConfirmActivity mActivity;
+
+        public MapDirectionCallback(OrderConfirmActivity mActivity) {
+            this.mActivity = mActivity;
+        }
+
         @Override
         public void onSuccess(MapDirectionResponse body) {
             mDistance = (body.getRoutes().get(0).getDistance() / 1000);
+            mActivity.setMapDirectionResponse(body);
             mDataController.getShippingFee(OrderConfirmActivity.this, String.valueOf(mDistance), new ShippingFeeCallback());
         }
 
@@ -243,11 +257,24 @@ public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBindi
         public void onSuccess(OrderResponseDto body) {
             body.data.latitude = latitude;
             body.data.longitude = longitude;
+
+
+            // Move to order success
+            if (TextUtils.equals("200", body.statusCd)) {
+                Intent intent = new Intent(OrderConfirmActivity.this, OrderSuccessActivity.class);
+                intent.putExtra(Constant.KEY_BUNDLE_MAP_DIRECTION_RESPONSE, mMapDirectionResponse);
+                intent.putExtra(Constant.KEY_BUNDLE_ORDER_RESPONSE, body);
+                intent.putExtra(Constant.KEY_BUNDLE_IS_CASH_PAYMENT_METHOD, binding.cashPaymentButton.isChecked());
+                startActivity(intent);
+                finish();
+            } else {
+                // Go to order fail
+            }
         }
 
         @Override
         public void onFailure(Throwable t) {
-
+                // Go to order fail
         }
     }
 }

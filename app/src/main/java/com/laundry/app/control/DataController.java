@@ -6,7 +6,6 @@ import androidx.annotation.IntRange;
 
 import com.laundry.app.data.APIConstant;
 import com.laundry.app.data.ApiService;
-import com.laundry.app.dto.BaseResponse;
 import com.laundry.app.dto.UserInfo;
 import com.laundry.app.dto.addressall.AddressListResponse;
 import com.laundry.app.dto.addressnew.AddressAddRequest;
@@ -18,7 +17,7 @@ import com.laundry.app.dto.authentication.RegisterResponse;
 import com.laundry.app.dto.maps.MapDirectionResponse;
 import com.laundry.app.dto.order.OrderConfirmResponseDto;
 import com.laundry.app.dto.ordercreate.OrderRequest;
-import com.laundry.app.dto.ordercreate.OrderResponse;
+import com.laundry.app.dto.ordercreate.OrderResponseDto;
 import com.laundry.app.dto.ordercreate.OrderServiceDetailForm;
 import com.laundry.app.dto.servicelist.ServiceListResponse;
 import com.laundry.app.dto.sevicedetail.ServicesDetailResponse;
@@ -59,8 +58,8 @@ public class DataController {
 
     public void createOrder(Context context,
                             OrderRequest request,
-                            ApiServiceOperator.OnResponseListener<OrderResponse> listener) {
-        Call<OrderResponse> call = service.createOrder(UserInfo.getInstance().getToken(context), request);
+                            ApiServiceOperator.OnResponseListener<OrderResponseDto> listener) {
+        Call<OrderResponseDto> call = service.createOrder(UserInfo.getInstance().getToken(context), request);
         call.enqueue(new ApiServiceOperator<>(listener));
     }
 

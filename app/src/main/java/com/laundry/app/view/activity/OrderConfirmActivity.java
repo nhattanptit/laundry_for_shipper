@@ -16,13 +16,11 @@ import com.laundry.app.control.ApiServiceOperator;
 import com.laundry.app.control.DataController;
 import com.laundry.app.data.APIConstant;
 import com.laundry.app.databinding.OrderConfirmActivityBinding;
-import com.laundry.app.dto.AddressInfo;
 import com.laundry.app.dto.addressall.AddressListlDto;
 import com.laundry.app.dto.maps.MapDirectionResponse;
 import com.laundry.app.dto.order.OrderConfirmDto;
-import com.laundry.app.dto.order.OrderConfirmServiceDetailDto;
 import com.laundry.app.dto.ordercreate.OrderRequest;
-import com.laundry.app.dto.ordercreate.OrderResponse;
+import com.laundry.app.dto.ordercreate.OrderResponseDto;
 import com.laundry.app.dto.ordercreate.OrderServiceDetailForm;
 import com.laundry.app.dto.sevicedetail.ServiceDetailDto;
 import com.laundry.app.dto.shippingfee.ShippingFeeResponseDto;
@@ -240,10 +238,11 @@ public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBindi
         }
     }
 
-    private class OrderCreateCallback implements ApiServiceOperator.OnResponseListener<OrderResponse> {
+    private class OrderCreateCallback implements ApiServiceOperator.OnResponseListener<OrderResponseDto> {
         @Override
-        public void onSuccess(OrderResponse body) {
-            Log.d(TAG, "onSuccess: " + body);
+        public void onSuccess(OrderResponseDto body) {
+            body.data.latitude = latitude;
+            body.data.longitude = longitude;
         }
 
         @Override

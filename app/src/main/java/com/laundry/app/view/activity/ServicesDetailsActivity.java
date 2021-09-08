@@ -2,7 +2,6 @@ package com.laundry.app.view.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.util.Log;
 import android.view.View;
 
 import com.laundry.app.R;
@@ -12,8 +11,6 @@ import com.laundry.app.control.DataController;
 import com.laundry.app.databinding.ServicesDetailsActivityBinding;
 import com.laundry.app.dto.UserInfo;
 import com.laundry.app.dto.order.OrderConfirmResponseDto;
-import com.laundry.app.dto.order.OrderConfirmServiceDetailDto;
-import com.laundry.app.dto.ordercreate.OrderResponse;
 import com.laundry.app.dto.ordercreate.OrderServiceDetailForm;
 import com.laundry.app.dto.servicelist.ServiceListDto;
 import com.laundry.app.dto.sevicedetail.ServiceDetailDto;
@@ -104,7 +101,7 @@ public class ServicesDetailsActivity extends BaseActivity<ServicesDetailsActivit
     @Override
     public void onClickItem(int position, ServiceDetailDto item) {
         binding.money.setText(grandTotal(mServiceDetails) + "$");
-        mListItemSelected.put(position, new OrderServiceDetailForm(item.id, item.quantity));
+        mListItemSelected.put(position, new OrderServiceDetailForm(item.serviceDetailId, item.quantity));
     }
 
     @Override

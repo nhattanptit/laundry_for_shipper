@@ -81,7 +81,7 @@ public class RegisterAccountDialog extends BaseDialog<RegisterAccountDialogBindi
 
     @Override
     public void onSuccess(RegisterResponse body) {
-        int returnCd = Integer.parseInt(body.status);
+        int returnCd = Integer.parseInt(body.statusCd);
         if (returnCd == 200) {
             LoginDialog loginDialog;
             if (!TextUtils.isEmpty(currentTab)) {

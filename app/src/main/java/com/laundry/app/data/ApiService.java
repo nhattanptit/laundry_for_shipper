@@ -10,7 +10,7 @@ import com.laundry.app.dto.authentication.RegisterResponse;
 import com.laundry.app.dto.maps.MapDirectionResponse;
 import com.laundry.app.dto.order.OrderConfirmResponseDto;
 import com.laundry.app.dto.ordercreate.OrderRequest;
-import com.laundry.app.dto.ordercreate.OrderResponse;
+import com.laundry.app.dto.ordercreate.OrderResponseDto;
 import com.laundry.app.dto.ordercreate.OrderServiceDetailForm;
 import com.laundry.app.dto.servicelist.ServiceListResponse;
 import com.laundry.app.dto.sevicedetail.ServicesDetailResponse;
@@ -47,7 +47,7 @@ public interface ApiService {
     Call<OrderConfirmResponseDto> orderConfirm(@Header("Authorization") String token, @Body List<OrderServiceDetailForm> body);
 
     @POST(APIConstant.URL_ORDERS_CREATE)
-    Call<OrderResponse> createOrder(@Header("Authorization") String token, @Body OrderRequest body);
+    Call<OrderResponseDto> createOrder(@Header("Authorization") String token, @Body OrderRequest body);
 
     @GET(APIConstant.URL_DIRECTION_API)
     Call<MapDirectionResponse> getDirectionMap(@Path("coordinate") String coordinate, @Query("geometries") String geometries, @Query("access_token") String accessToken);

@@ -3,7 +3,6 @@ package com.laundry.app.view.dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 
 import com.laundry.app.R;
@@ -14,7 +13,6 @@ import com.laundry.app.databinding.LoginDialogBinding;
 import com.laundry.app.dto.UserInfo;
 import com.laundry.app.dto.authentication.LoginRequest;
 import com.laundry.app.dto.authentication.LoginResponseDto;
-import com.laundry.app.dto.authentication.RegisterResponse;
 import com.laundry.base.BaseDialog;
 
 import androidx.annotation.NonNull;
@@ -132,7 +130,7 @@ public class LoginDialog extends BaseDialog<LoginDialogBinding> implements ApiSe
 
     @Override
     public void onSuccess(LoginResponseDto body) {
-        int returnCd = Integer.parseInt(body.status);
+        int returnCd = Integer.parseInt(body.statusCd);
         if (returnCd == 200) {
             UserInfo userInfo = UserInfo.getInstance();
             userInfo.setToken(getMyActivity(), String.format(Constant.TOKEN_FORMAT, body.data.type, body.data.token));

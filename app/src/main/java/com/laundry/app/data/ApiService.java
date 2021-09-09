@@ -1,8 +1,11 @@
 package com.laundry.app.data;
 
 import com.laundry.app.dto.addressall.AddressListResponse;
+import com.laundry.app.dto.addressdelete.AddressDeleteResponse;
 import com.laundry.app.dto.addressnew.AddressAddRequest;
 import com.laundry.app.dto.addressnew.AddressAddResponse;
+import com.laundry.app.dto.addressupdate.AddressUpdateRequest;
+import com.laundry.app.dto.addressupdate.AddressUpdateResponse;
 import com.laundry.app.dto.authentication.LoginRequest;
 import com.laundry.app.dto.authentication.LoginResponseDto;
 import com.laundry.app.dto.authentication.RegisterRequest;
@@ -20,11 +23,13 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -57,6 +62,12 @@ public interface ApiService {
 
     @POST(APIConstant.URL_ADDRESS_NEW)
     Call<AddressAddResponse> addAddress(@Header("Authorization") String token, @Body AddressAddRequest body);
+
+    @DELETE(APIConstant.URL_ADDRESS_DELETE)
+    Call<AddressDeleteResponse> deleteAddress(@Header("Authorization") String token, @Query("addressId") int id);
+
+    @PUT(APIConstant.URL_ADDRESS_UPDATE)
+    Call<AddressUpdateResponse> updateAddress(@Header("Authorization") String token, @Query("addressId") int id, @Body AddressUpdateRequest addressUpdateRequest);
 
     @POST(APIConstant.URL_ORDER_SHIPPING_FEE)
     @FormUrlEncoded

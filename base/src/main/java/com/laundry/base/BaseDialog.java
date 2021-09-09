@@ -43,6 +43,12 @@ public abstract class BaseDialog<DB extends ViewDataBinding> extends DialogFragm
         return this.mActivity != null ? this.mActivity : (BaseActivity) getActivity();
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        onPreInitView();
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

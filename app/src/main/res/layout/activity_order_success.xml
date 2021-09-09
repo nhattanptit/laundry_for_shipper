@@ -241,6 +241,7 @@ Thành phố Hồ Chí Minh, Việt Nam"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/ordered_list"
                         android:layout_marginTop="@dimen/dp_12"
+                        android:layout_marginBottom="@dimen/dp_24"
                         android:gravity="center"
                         android:orientation="horizontal"
                         android:weightSum="2">

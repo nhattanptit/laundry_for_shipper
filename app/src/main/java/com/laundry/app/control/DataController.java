@@ -9,8 +9,11 @@ import com.laundry.app.data.ApiService;
 import com.laundry.app.dto.BaseResponse;
 import com.laundry.app.dto.UserInfo;
 import com.laundry.app.dto.addressall.AddressListResponse;
+import com.laundry.app.dto.addressdelete.AddressDeleteResponse;
 import com.laundry.app.dto.addressnew.AddressAddRequest;
 import com.laundry.app.dto.addressnew.AddressAddResponse;
+import com.laundry.app.dto.addressupdate.AddressUpdateRequest;
+import com.laundry.app.dto.addressupdate.AddressUpdateResponse;
 import com.laundry.app.dto.authentication.LoginRequest;
 import com.laundry.app.dto.authentication.LoginResponseDto;
 import com.laundry.app.dto.authentication.RegisterRequest;
@@ -110,6 +113,16 @@ public class DataController {
      */
     public void cancelOrder(Context context, String orderId, ApiServiceOperator.OnResponseListener<BaseResponse> listener) {
         Call<BaseResponse> call = service.cancelOrder(UserInfo.getInstance().getToken(context), orderId);
+        call.enqueue(new ApiServiceOperator<>(listener));
+    }
+
+    public void deleteAddress(Context context, int id, ApiServiceOperator.OnResponseListener<AddressDeleteResponse> listener) {
+        Call<AddressDeleteResponse> call = service.deleteAddress(UserInfo.getInstance().getToken(context), id);
+        call.enqueue(new ApiServiceOperator<>(listener));
+    }
+
+    public void updateAddress(Context context, int id, AddressUpdateRequest updateAddressRequest, ApiServiceOperator.OnResponseListener<AddressUpdateResponse> listener) {
+        Call<AddressUpdateResponse> call = service.updateAddress(UserInfo.getInstance().getToken(context), id, updateAddressRequest);
         call.enqueue(new ApiServiceOperator<>(listener));
     }
 }

@@ -39,6 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.laundry.app.constant.Constant.PRICE_FORMAT;
+import static com.laundry.app.view.activity.BillingAddressActivity.KEY_ADDRESS_SELECTED;
 
 public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBinding> implements OrderFailDialog.OnDialogDissmissListener {
 
@@ -99,6 +100,9 @@ public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBindi
 
         binding.shippingAddressCardView.setOnClickListener(new SingleTapListener(view -> {
             Intent intent = new Intent(this, BillingAddressActivity.class);
+            if (addressDto != null) {
+                intent.putExtra(KEY_ADDRESS_SELECTED, addressDto);
+            }
             someActivityResultLauncher.launch(intent);
 
         }));
@@ -156,7 +160,9 @@ public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBindi
             result -> {
                 if (result.getResultCode() == Activity.RESULT_OK) {
                     Intent data = result.getData();
-                    addressDto = (AddressListlDto) data.getSerializableExtra(BillingAddressActivity.RESULT_CODE_ADDRESS);
+                    if (data != null) {
+                        addressDto = (AddressListlDto) data.getSerializableExtra(BillingAddressActivity.RESULT_CODE_ADDRESS);
+                    }
                     updateView();
                 }
             });
@@ -287,6 +293,7 @@ public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBindi
 
         @Override
         public void onFailure(Throwable t) {
+            afterCallApi();
 
         }
     }

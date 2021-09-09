@@ -63,17 +63,39 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/selected_icon"
-                android:layout_width="@dimen/dp_36"
-                android:layout_height="@dimen/dp_36"
-                android:layout_marginEnd="@dimen/dp_10"
+                android:layout_width="@dimen/dp_32"
+                android:layout_height="@dimen/dp_32"
+                android:layout_marginEnd="@dimen/dp_4"
                 android:padding="@dimen/dp_2"
                 android:scaleType="centerInside"
                 android:src="@drawable/tick_address_icon"
                 android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@id/information_text"
+                app:layout_constraintBottom_toBottomOf="@id/title"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/information_text"
+                app:layout_constraintTop_toTopOf="@id/title"
                 tools:visibility="visible" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/update_icon"
+                android:layout_width="@dimen/dp_32"
+                android:layout_height="@dimen/dp_32"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:scaleType="center"
+                android:src="@drawable/ic_edit"
+                app:layout_constraintBottom_toTopOf="@id/delete_icon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/information_text" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/delete_icon"
+                android:layout_width="@dimen/dp_32"
+                android:layout_height="@dimen/dp_32"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_delete"
+                app:layout_constraintBottom_toBottomOf="@id/address_detail"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/update_icon" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

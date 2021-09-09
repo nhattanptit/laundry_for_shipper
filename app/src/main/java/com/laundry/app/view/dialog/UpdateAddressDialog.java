@@ -14,28 +14,33 @@ import com.laundry.app.R;
 import com.laundry.app.constant.Constant;
 import com.laundry.app.control.ApiServiceOperator;
 import com.laundry.app.control.DataController;
-import com.laundry.app.databinding.AddressAddDialogBinding;
+import com.laundry.app.databinding.AddressUpdateDialogBinding;
 import com.laundry.app.dto.AddressInfo;
 import com.laundry.app.dto.address.CityResponseDto;
 import com.laundry.app.dto.address.DistrictResponseDto;
 import com.laundry.app.dto.address.WardResponseDto;
-import com.laundry.app.dto.addressnew.AddressAddRequest;
-import com.laundry.app.dto.addressnew.AddressAddResponse;
+import com.laundry.app.dto.addressall.AddressListlDto;
+import com.laundry.app.dto.addressupdate.AddressUpdateRequest;
+import com.laundry.app.dto.addressupdate.AddressUpdateResponse;
 import com.laundry.app.view.activity.BillingAddressActivity;
 import com.laundry.base.BaseDialog;
 
 import java.util.ArrayList;
 
-public class AddAddressDialog extends BaseDialog<AddressAddDialogBinding> {
+public class UpdateAddressDialog extends BaseDialog<AddressUpdateDialogBinding> {
 
-    private static final String TAG = "AddAddressDialog";
-    private final AddressAddRequest addAddressRequest = new AddressAddRequest();
+    private static final String TAG = UpdateAddressDialog.class.getSimpleName();
+    public static final String KEY_ADDRESS_UPDATE = "KEY_ADDRESS_UPDATE";
+    public static final String KEY_ADDRESS_POSITION = "KEY_ADDRESS_POSITION";
+    private final AddressUpdateRequest updateRequest = new AddressUpdateRequest();
     private final DataController mDataController = new DataController();
     private BillingAddressActivity activity;
+    private AddressListlDto addressDto = new AddressListlDto();
+    private int positionUpdate;
 
     @Override
     protected int getLayoutResource() {
-        return R.layout.address_add_dialog;
+        return R.layout.address_update_dialog;
     }
 
     @Override
@@ -45,30 +50,38 @@ public class AddAddressDialog extends BaseDialog<AddressAddDialogBinding> {
     }
 
     @Override
+    public void onPreInitView() {
+        if (getArguments() != null) {
+            addressDto = (AddressListlDto) getArguments().getSerializable(KEY_ADDRESS_UPDATE);
+            positionUpdate = getArguments().getInt(KEY_ADDRESS_POSITION);
+        }
+    }
+
+    @Override
     public void onInitView() {
-        Log.d(TAG, "onInitView: ");
+        if (addressDto != null && addressDto.user != null) {
+            binding.name.setText(addressDto.receiverName);
+            binding.accountPhone.setText(addressDto.receiverPhoneNumber);
+        }
         loadCityList();
     }
 
     @Override
     public void onViewClick() {
-        binding.doneButton.setOnClickListener(view -> {
-            addAddressNew();
-            dismissDialog();
-        });
-
-        binding.cancelButton.setOnClickListener(view -> {
-            dismissDialog();
+        binding.updateButton.setOnClickListener(view -> {
+            activity.beforeCallApi();
+            updateAddress();
         });
     }
 
     /**
-     * Call api add address
+     * Call api update address
      */
-    private void addAddressNew() {
-        if (validate()) {
+    private void updateAddress() {
+        if (validate() && addressDto != null) {
             activity.beforeCallApi();
-            mDataController.addAddress(getMyActivity(), addAddressRequest, new AddressAddCallBack());
+            mDataController.updateAddress(getMyActivity(), addressDto.id, updateRequest, new UpdateAddressCallBack());
+            dismissDialog();
         }
     }
 
@@ -88,10 +101,10 @@ public class AddAddressDialog extends BaseDialog<AddressAddDialogBinding> {
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
                 if (position == 0) {
                     Log.d(TAG, "onItemSelected: ");
-                    addAddressRequest.city = "";
+                    updateRequest.city = "";
                     return;
                 } else {
-                    addAddressRequest.city = cityList.get(position - 1).level1Id;
+                    updateRequest.city = cityList.get(position - 1).level1Id;
                     loadDistrictList(cityList.get(position - 1).level1Id);
                 }
             }
@@ -121,10 +134,10 @@ public class AddAddressDialog extends BaseDialog<AddressAddDialogBinding> {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
                 if (position == 0) {
-                    addAddressRequest.district = "";
+                    updateRequest.district = "";
                     return;
                 } else {
-                    addAddressRequest.district = districtList.get(position - 1).level2Id;
+                    updateRequest.district = districtList.get(position - 1).level2Id;
                     loadWardList(districtList.get(position - 1).level2Id, cityId);
                 }
             }
@@ -156,10 +169,10 @@ public class AddAddressDialog extends BaseDialog<AddressAddDialogBinding> {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
                 if (position == 0) {
-                    addAddressRequest.ward = "";
+                    updateRequest.ward = "";
                     return;
                 } else {
-                    addAddressRequest.ward = wardList.get(position - 1).level3Id;
+                    updateRequest.ward = wardList.get(position - 1).level3Id;
                 }
             }
 
@@ -181,19 +194,6 @@ public class AddAddressDialog extends BaseDialog<AddressAddDialogBinding> {
         return districtList;
     }
 
-    private class AddressAddCallBack implements ApiServiceOperator.OnResponseListener<AddressAddResponse> {
-        @Override
-        public void onSuccess(AddressAddResponse body) {
-            Log.d(TAG, "onSuccess: " + body.data);
-            activity.getAddress();
-        }
-
-        @Override
-        public void onFailure(Throwable t) {
-            Log.e(TAG, "onFailure: ");
-        }
-    }
-
     /**
      * Validation data input
      *
@@ -203,8 +203,8 @@ public class AddAddressDialog extends BaseDialog<AddressAddDialogBinding> {
         boolean isValid = true;
 
         // Validate full name
-        addAddressRequest.receiverName = binding.name.getText().toString();
-        if (TextUtils.isEmpty(addAddressRequest.receiverName)) {
+        updateRequest.receiverName = binding.name.getText().toString();
+        if (TextUtils.isEmpty(updateRequest.receiverName)) {
             isValid = false;
             binding.nameLayout.setError(Constant.FULL_NAME_WRONG);
         } else {
@@ -213,17 +213,17 @@ public class AddAddressDialog extends BaseDialog<AddressAddDialogBinding> {
         }
 
         // Validate phone number
-        addAddressRequest.receiverPhoneNumber = binding.accountPhone.getText().toString();
-        if (TextUtils.isEmpty(addAddressRequest.receiverPhoneNumber)) {
+        updateRequest.receiverPhoneNumber = binding.accountPhone.getText().toString();
+        if (TextUtils.isEmpty(updateRequest.receiverPhoneNumber)) {
             isValid = false;
             binding.accountPhoneLayout.setError(Constant.PHONE_WRONG);
-        } else if (addAddressRequest.receiverPhoneNumber.length() < 10) {
+        } else if (updateRequest.receiverPhoneNumber.length() < 10) {
             isValid = false;
             binding.accountPhoneLayout.setError(Constant.PHONE_LESS_WRONG);
-        } else if (addAddressRequest.receiverPhoneNumber.length() > 12) {
+        } else if (updateRequest.receiverPhoneNumber.length() > 12) {
             isValid = false;
             binding.accountPhoneLayout.setError(Constant.PHONE_MORE_WRONG);
-        } else if (!addAddressRequest.receiverPhoneNumber.matches(Patterns.PHONE.pattern())) {
+        } else if (!updateRequest.receiverPhoneNumber.matches(Patterns.PHONE.pattern())) {
             isValid = false;
             binding.accountPhoneLayout.setError(Constant.PHONE_INVALID_WRONG);
         } else {
@@ -231,7 +231,7 @@ public class AddAddressDialog extends BaseDialog<AddressAddDialogBinding> {
             binding.accountPhoneLayout.setErrorEnabled(false);
         }
 
-        if (TextUtils.isEmpty(addAddressRequest.city)) {
+        if (TextUtils.isEmpty(updateRequest.city)) {
             isValid = false;
             binding.accountCityError.setText(Constant.CITY_WRONG);
             binding.accountCityError.setVisibility(View.VISIBLE);
@@ -239,7 +239,7 @@ public class AddAddressDialog extends BaseDialog<AddressAddDialogBinding> {
             binding.accountCityError.setVisibility(View.GONE);
         }
 
-        if (TextUtils.isEmpty(addAddressRequest.district)) {
+        if (TextUtils.isEmpty(updateRequest.district)) {
             isValid = false;
             binding.accountDistrictError.setText(Constant.DISTRICT_WRONG);
             binding.accountDistrictError.setVisibility(View.VISIBLE);
@@ -247,7 +247,7 @@ public class AddAddressDialog extends BaseDialog<AddressAddDialogBinding> {
             binding.accountDistrictError.setVisibility(View.GONE);
         }
 
-        if (TextUtils.isEmpty(addAddressRequest.ward)) {
+        if (TextUtils.isEmpty(updateRequest.ward)) {
             isValid = false;
             binding.accountWardError.setText(Constant.WARD_WRONG);
             binding.accountWardError.setVisibility(View.VISIBLE);
@@ -256,8 +256,8 @@ public class AddAddressDialog extends BaseDialog<AddressAddDialogBinding> {
         }
 
         // Validate address
-        addAddressRequest.address = binding.accountAddress.getText().toString();
-        if (TextUtils.isEmpty(addAddressRequest.address)) {
+        updateRequest.address = binding.accountAddress.getText().toString();
+        if (TextUtils.isEmpty(updateRequest.address)) {
             isValid = false;
             binding.accountAddressLayout.setError(Constant.ADDRESS_WRONG);
         } else {
@@ -266,4 +266,17 @@ public class AddAddressDialog extends BaseDialog<AddressAddDialogBinding> {
         }
         return isValid;
     }
+
+    private class UpdateAddressCallBack implements ApiServiceOperator.OnResponseListener<AddressUpdateResponse> {
+        @Override
+        public void onSuccess(AddressUpdateResponse body) {
+            activity.getAddress();
+        }
+
+        @Override
+        public void onFailure(Throwable t) {
+            activity.afterCallApi();
+        }
+    }
 }
+

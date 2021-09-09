@@ -19,6 +19,7 @@ import com.laundry.app.control.ApiServiceOperator;
 import com.laundry.app.control.DataController;
 import com.laundry.app.data.APIConstant;
 import com.laundry.app.databinding.OrderConfirmActivityBinding;
+import com.laundry.app.dto.AddressInfo;
 import com.laundry.app.dto.addressall.AddressListlDto;
 import com.laundry.app.dto.maps.MapDirectionResponse;
 import com.laundry.app.dto.order.OrderConfirmDto;
@@ -39,6 +40,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.laundry.app.constant.Constant.PRICE_FORMAT;
+import static com.laundry.app.view.activity.BillingAddressActivity.KEY_ADDRESS_SELECTED;
 
 public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBinding> implements OrderFailDialog.OnDialogDissmissListener {
 
@@ -99,6 +101,9 @@ public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBindi
 
         binding.shippingAddressCardView.setOnClickListener(new SingleTapListener(view -> {
             Intent intent = new Intent(this, BillingAddressActivity.class);
+            if (addressDto != null) {
+                intent.putExtra(KEY_ADDRESS_SELECTED, addressDto);
+            }
             someActivityResultLauncher.launch(intent);
 
         }));
@@ -133,8 +138,8 @@ public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBindi
         request.totalServiceFee = subTotal;
         request.totalShipFee = shippingFee;
         request.shippingPersonPhoneNumber = addressDto.receiverPhoneNumber;
-        request.longShipping = longitude +"";
-        request.latShipping = latitude +"";
+        request.longShipping = longitude + "";
+        request.latShipping = latitude + "";
         beforeCallApi();
         mDataController.createOrder(this, request, new OrderCreateCallback());
     }
@@ -156,15 +161,20 @@ public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBindi
             result -> {
                 if (result.getResultCode() == Activity.RESULT_OK) {
                     Intent data = result.getData();
-                    addressDto = (AddressListlDto) data.getSerializableExtra(BillingAddressActivity.RESULT_CODE_ADDRESS);
+                    if (data != null) {
+                        addressDto = (AddressListlDto) data.getSerializableExtra(BillingAddressActivity.RESULT_CODE_ADDRESS);
+                    }
                     updateView();
                 }
             });
 
     private void updateView() {
         if (addressDto != null && addressDto.user != null) {
-
-            String fullAddress = String.format(getString(R.string.address_format), addressDto.address, addressDto.ward, addressDto.district, addressDto.city);
+            String fullAddress = String.format(getString(R.string.address_format),
+                    addressDto.address,
+                    AddressInfo.getInstance().getWardNameById(addressDto.city, addressDto.district, addressDto.ward),
+                    AddressInfo.getInstance().getDistrictNameById(addressDto.city, addressDto.district),
+                    AddressInfo.getInstance().getCityNameById(addressDto.city));
             binding.nameAndPhoneText.setText(String.format(getString(R.string.name_and_phone_format),
                     addressDto.receiverName, addressDto.receiverPhoneNumber));
             binding.shippingAddressText.setText(fullAddress);
@@ -287,6 +297,7 @@ public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBindi
 
         @Override
         public void onFailure(Throwable t) {
+            afterCallApi();
 
         }
     }
@@ -315,7 +326,7 @@ public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBindi
 
         @Override
         public void onFailure(Throwable t) {
-                // Go to order fail
+            // Go to order fail
             showDialogOrderFail();
             afterCallApi();
         }

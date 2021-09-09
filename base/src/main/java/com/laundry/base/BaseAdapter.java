@@ -1,5 +1,6 @@
 package com.laundry.base;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -15,6 +16,7 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseAdapter.BaseV
 
     public static final int INVALID_RESOURCE = -1;
     protected List<Object> dataList;
+    protected Context context;
 
     @Override
     public int getItemCount() {
@@ -32,6 +34,7 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseAdapter.BaseV
     @NonNull
     @Override
     public BaseVH<Object> onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        context = parent.getContext();
         ViewDataBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), getLayoutResource(viewType), parent, false);
         return (BaseVH<Object>) onCreateVH(viewType, binding);
     }

@@ -1,11 +1,8 @@
 package com.laundry.app.view.activity;
 
-import android.content.Intent;
 import android.graphics.BitmapFactory;
-import android.location.Address;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
@@ -34,7 +31,6 @@ import com.mapbox.geojson.Feature;
 import com.mapbox.geojson.FeatureCollection;
 import com.mapbox.geojson.Point;
 import com.mapbox.mapboxsdk.Mapbox;
-import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.maps.Style;
@@ -117,6 +113,7 @@ public class OrderSuccessActivity extends BaseActivity<ActivityOrderSuccessBindi
         });
 
 
+        // Handle click button
         binding.cancelOrderButton.setOnClickListener(new SingleTapListener(v -> {
             callCancelOrderApi();
         }));
@@ -125,7 +122,7 @@ public class OrderSuccessActivity extends BaseActivity<ActivityOrderSuccessBindi
             finish();
         }));
 
-
+        // get call back of mapview
         binding.mapView.getMapAsync(this);
 
     }

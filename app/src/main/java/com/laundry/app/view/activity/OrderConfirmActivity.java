@@ -7,8 +7,11 @@ import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AlertDialog;
 
 import com.laundry.app.R;
 import com.laundry.app.constant.Constant;
@@ -28,20 +31,17 @@ import com.laundry.app.utils.ErrorDialog;
 import com.laundry.app.utils.MapUtils;
 import com.laundry.app.utils.SingleTapListener;
 import com.laundry.app.view.adapter.ServicesOrderAdapter;
+import com.laundry.app.view.dialog.OrderFailDialog;
 import com.laundry.base.BaseActivity;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AlertDialog;
-
 import static com.laundry.app.constant.Constant.PRICE_FORMAT;
 import static com.laundry.app.view.activity.BillingAddressActivity.KEY_ADDRESS_SELECTED;
 
-public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBinding> {
+public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBinding> implements OrderFailDialog.OnDialogDissmissListener {
 
     private static final String TAG = OrderConfirmActivity.class.getSimpleName();
     private final ServicesOrderAdapter mServicesOrderAdapter = new ServicesOrderAdapter();
@@ -54,6 +54,14 @@ public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBindi
     private double mDistance = 0.0;
     double longitude = 0;
     double latitude = 0;
+
+    private OrderFailDialog mOrderFailDialog;
+
+    private MapDirectionResponse mMapDirectionResponse;
+
+    public void setMapDirectionResponse(MapDirectionResponse mapDirectionResponse) {
+        this.mMapDirectionResponse = mapDirectionResponse;
+    }
 
     @Override
     protected int getLayoutResource() {
@@ -100,33 +108,39 @@ public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBindi
         }));
 
         binding.placeOrderButton.setOnClickListener(new SingleTapListener(view -> {
-
-
-            if (addressDto == null || TextUtils.isEmpty(addressDto.city) || TextUtils.isEmpty(addressDto.district)
-                    || TextUtils.isEmpty(addressDto.ward) || TextUtils.isEmpty(addressDto.city)) {
-                AlertDialog alertDialog = ErrorDialog.buildPopupOnlyPositive(OrderConfirmActivity.this, getString(R.string.please_select_shipping_address), R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
-                });
-                alertDialog.show();
-                return;
-            }
-            String address = String.format(getString(R.string.address_format), addressDto.address, addressDto.ward, addressDto.district, addressDto.city);
-            OrderRequest request = new OrderRequest();
-            request.distance = mDistance;
-            request.orderServiceDetails = formatProductList();
-            request.serviceId = responseDto.serviceParentId;
-            request.shippingPersonName = addressDto.receiverName;
-            request.shippingAddress = address;
-            request.totalServiceFee = subTotal;
-            request.totalShipFee = shippingFee;
-            request.shippingPersonPhoneNumber = addressDto.receiverPhoneNumber;
-
-            mDataController.createOrder(this, request, new OrderCreateCallback());
-
+            onClickPlaceAnOrder();
         }));
+    }
+
+    /**
+     * Handle onClick place an order button
+     */
+    private void onClickPlaceAnOrder() {
+        if (addressDto == null || TextUtils.isEmpty(addressDto.city) || TextUtils.isEmpty(addressDto.district)
+                || TextUtils.isEmpty(addressDto.ward) || TextUtils.isEmpty(addressDto.city)) {
+            AlertDialog alertDialog = ErrorDialog.buildPopupOnlyPositive(OrderConfirmActivity.this, getString(R.string.please_select_shipping_address), R.string.ok, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+
+                }
+            });
+            alertDialog.show();
+            return;
+        }
+        String address = String.format(getString(R.string.address_format), addressDto.address, addressDto.ward, addressDto.district, addressDto.city);
+        OrderRequest request = new OrderRequest();
+        request.distance = mDistance;
+        request.orderServiceDetails = formatProductList();
+        request.serviceId = responseDto.serviceParentId;
+        request.shippingPersonName = addressDto.receiverName;
+        request.shippingAddress = address;
+        request.totalServiceFee = subTotal;
+        request.totalShipFee = shippingFee;
+        request.shippingPersonPhoneNumber = addressDto.receiverPhoneNumber;
+        request.longShipping = longitude +"";
+        request.latShipping = latitude +"";
+        beforeCallApi();
+        mDataController.createOrder(this, request, new OrderCreateCallback());
     }
 
     private void createDisplay() {
@@ -173,6 +187,27 @@ public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBindi
         }
     }
 
+    /**
+     * Show dialog order fail
+     */
+    private void showDialogOrderFail() {
+        mOrderFailDialog = OrderFailDialog.newInstance();
+        if (!mOrderFailDialog.isVisible()) {
+            mOrderFailDialog.show(getSupportFragmentManager(), OrderFailDialog.class.getSimpleName());
+        }
+    }
+
+    /**
+     * Hidden dialog order fail
+     */
+    private void hiddenDialogOrderFail() {
+        if (mOrderFailDialog != null) {
+            if (mOrderFailDialog.isVisible()) {
+                mOrderFailDialog.dismiss();
+            }
+        }
+    }
+
     private void beforeCallApi() {
         binding.progressBar.maskviewLayout.setVisibility(View.VISIBLE);
     }
@@ -189,7 +224,7 @@ public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBindi
 
     private void getDistance() {
         mDataController.getDirectionMaps(MapUtils.getCoordinate(Constant.LONG_START, Constant.LAT_START, longitude, latitude), Constant.GEOMETRIES,
-                APIConstant.MAPBOX_ACCESS_TOKEN, new MapDirectionCallback());
+                APIConstant.MAPBOX_ACCESS_TOKEN, new MapDirectionCallback(this));
     }
 
     private void getLatLong(String fullAddress) {
@@ -214,10 +249,28 @@ public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBindi
         return list;
     }
 
+    @Override
+    public void onCancel() {
+        hiddenDialogOrderFail();
+    }
+
+    @Override
+    public void onAllow() {
+        hiddenDialogOrderFail();
+        onClickPlaceAnOrder();
+    }
+
     private class MapDirectionCallback implements ApiServiceOperator.OnResponseListener<MapDirectionResponse> {
+        OrderConfirmActivity mActivity;
+
+        public MapDirectionCallback(OrderConfirmActivity mActivity) {
+            this.mActivity = mActivity;
+        }
+
         @Override
         public void onSuccess(MapDirectionResponse body) {
             mDistance = (body.getRoutes().get(0).getDistance() / 1000);
+            mActivity.setMapDirectionResponse(body);
             mDataController.getShippingFee(OrderConfirmActivity.this, String.valueOf(mDistance), new ShippingFeeCallback());
         }
 
@@ -250,11 +303,28 @@ public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBindi
         public void onSuccess(OrderResponseDto body) {
             body.data.latitude = latitude;
             body.data.longitude = longitude;
+
+
+            // Move to order success
+            if (TextUtils.equals("200", body.statusCd)) {
+                Intent intent = new Intent(OrderConfirmActivity.this, OrderSuccessActivity.class);
+                intent.putExtra(Constant.KEY_BUNDLE_MAP_DIRECTION_RESPONSE, mMapDirectionResponse);
+                intent.putExtra(Constant.KEY_BUNDLE_ORDER_RESPONSE, body);
+                intent.putExtra(Constant.KEY_BUNDLE_IS_CASH_PAYMENT_METHOD, binding.cashPaymentButton.isChecked());
+                startActivity(intent);
+                finish();
+            } else {
+                // Go to order fail
+                showDialogOrderFail();
+            }
+            afterCallApi();
         }
 
         @Override
         public void onFailure(Throwable t) {
-
+                // Go to order fail
+            showDialogOrderFail();
+            afterCallApi();
         }
     }
 }

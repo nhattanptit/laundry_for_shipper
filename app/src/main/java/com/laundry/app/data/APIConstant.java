@@ -2,6 +2,8 @@ package com.laundry.app.data;
 
 public final class APIConstant {
 
+    public static final String STATUS_CODE_SUCCESS = "200";
+
     public static final String BASE_URL = "https://laundry-online.herokuapp.com";
     public static final String URL_LOGIN = "/user/auth/signin";
     public static final String URL_SIGNUP = "/user/auth/signup";
@@ -10,6 +12,7 @@ public final class APIConstant {
     public static final String URL_ORDERS_CONFIRM = "/orders/services-bill";
     public static final String URL_ORDERS_CREATE = "/orders/create";
     public static final String URL_ORDER_SHIPPING_FEE = "/orders/shipping-fee";
+    public static final String URL_ORDERS_CANCEL = "/orders/cancel";
     public static final String URL_ADDRESS = "/addresses";
     public static final String URL_ADDRESS_ALL = "/addresses/all";
     public static final String URL_ADDRESS_NEW = "/addresses/new";

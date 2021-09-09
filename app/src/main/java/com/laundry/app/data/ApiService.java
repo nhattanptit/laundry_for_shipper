@@ -1,5 +1,6 @@
 package com.laundry.app.data;
 
+import com.laundry.app.dto.BaseResponse;
 import com.laundry.app.dto.addressall.AddressListResponse;
 import com.laundry.app.dto.addressdelete.AddressDeleteResponse;
 import com.laundry.app.dto.addressnew.AddressAddRequest;
@@ -72,4 +73,7 @@ public interface ApiService {
     @POST(APIConstant.URL_ORDER_SHIPPING_FEE)
     @FormUrlEncoded
     Call<ShippingFeeResponseDto> getShippingFee(@Header("Authorization") String token, @Field("distance") String distance);
+
+    @PUT(APIConstant.URL_ORDERS_CANCEL)
+    Call<BaseResponse> cancelOrder(@Header("Authorization") String token, @Query("orderId") String orderId);
 }

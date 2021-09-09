@@ -39,4 +39,12 @@ public class OrderRequest implements Serializable {
     @SerializedName("shippingPersonPhoneNumber")
     @Expose
     public String shippingPersonPhoneNumber;
+
+    @SerializedName("longShipping")
+    @Expose
+    public String longShipping;
+
+    @SerializedName("latShipping")
+    @Expose
+    public String latShipping;
 }

@@ -48,7 +48,7 @@
     <string name="delivery_date_time"><![CDATA[Delivery Date & Time]]></string>
     <string name="delivery_address">Delivery Address</string>
     <string name="price">Price: </string>
-    <string name="phone_number">Phone Number: </string>
+    <string name="phone_number">Phone number shipping person: </string>
     <string name="delivering">Delivering</string>
     <string name="call">Call</string>
     <string name="done">Done</string>
@@ -71,6 +71,7 @@
     <string name="order_confirm">Order confirm</string>
     <string name="shipping_fee">Shipping fee:</string>
     <string name="vat">VAT(10%)</string>
+    <string name="order_success">Order Success</string>
     <string name="select_delivery_date">Select Delivery Date</string>
     <string name="total_price">Total Price:</string>
     <string name="cash_payment">Cash Payment</string>
@@ -89,4 +90,15 @@
     <string name="shipping_methods">Shipping methods</string>
     <string name="name_and_phone_format">%s - %s</string>
     <string name="address_format">%s, %s, %s, %s</string>
+    <string name="arriving_in">Arriving in %s mins.</string>
+    <string name="license_plates">License plates: </string>
+    <string name="range_of_vehicle">Range of vehicle: </string>
+    <string name="payment_method">Payment method: </string>
+    <string name="congratulation">Congratulation!</string>
+    <string name="well_done">Well done, Lets check status!</string>
+    <string name="cancel_order">Cancel order</string>
+    <string name="cancel_order_successful">Cancel order successful!</string>
+    <string name="cancel_order_fail">Cancel order fail!</string>
+    <string name="order_fail">Order Failed!</string>
+    <string name="order_fail_text_content">Something went wrong.\n Would like to try again?</string>
 </resources>

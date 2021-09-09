@@ -39,6 +39,12 @@ public class Constant {
     public static final String PRICE_FORMAT = "%.2f$";
 
     public static final String GEOMETRIES = "geojson";
+
+    // Fix position of store
     public static final double LONG_START = 105.782660;
     public static final double LAT_START = 21.030900;
+
+    public static final String KEY_BUNDLE_ORDER_RESPONSE = "key_bundle_order_response";
+    public static final String KEY_BUNDLE_MAP_DIRECTION_RESPONSE = "key_bundle_map_direction_response";
+    public static final String KEY_BUNDLE_IS_CASH_PAYMENT_METHOD = "key_bundle_is_cash_payment_method";
 }

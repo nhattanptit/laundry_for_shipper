@@ -6,6 +6,7 @@ import androidx.annotation.IntRange;
 
 import com.laundry.app.data.APIConstant;
 import com.laundry.app.data.ApiService;
+import com.laundry.app.dto.BaseResponse;
 import com.laundry.app.dto.UserInfo;
 import com.laundry.app.dto.addressall.AddressListResponse;
 import com.laundry.app.dto.addressdelete.AddressDeleteResponse;
@@ -101,6 +102,17 @@ public class DataController {
     public void addAddress(Context context, AddressAddRequest addRequest,
                            ApiServiceOperator.OnResponseListener<AddressAddResponse> listener) {
         Call<AddressAddResponse> call = service.addAddress(UserInfo.getInstance().getToken(context), addRequest);
+        call.enqueue(new ApiServiceOperator<>(listener));
+    }
+
+    /**
+     * Cancel order
+     * @param context Context
+     * @param orderId Order Id
+     * @param listener Call back listener
+     */
+    public void cancelOrder(Context context, String orderId, ApiServiceOperator.OnResponseListener<BaseResponse> listener) {
+        Call<BaseResponse> call = service.cancelOrder(UserInfo.getInstance().getToken(context), orderId);
         call.enqueue(new ApiServiceOperator<>(listener));
     }
 

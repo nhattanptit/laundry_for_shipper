@@ -58,13 +58,6 @@ public class AddressAdapter extends BaseAdapter {
         public AddressVH(ViewDataBinding viewDataBinding) {
             super(viewDataBinding);
             binding = (BillingAddressItemBinding) viewDataBinding;
-//            billingAddressActivity.setAddressSelectedCallBack(new BillingAddressActivity.ISAddressSelected() {
-//                @Override
-//                public void itemSelectedBefore(AddressListlDto dto) {
-//                    selectedItem(dto);
-//                }
-//            });
-
 
             binding.deleteIcon.setOnClickListener(view -> {
                 AddressListlDto item = (AddressListlDto) dataList.get(getAbsoluteAdapterPosition());
@@ -100,7 +93,7 @@ public class AddressAdapter extends BaseAdapter {
                 binding.selectedIcon.setVisibility(View.VISIBLE);
             } else {
                 binding.selectedIcon.setVisibility(View.GONE);
-            }r
+            }
         }
 
         private boolean isItemSelected(AddressListlDto item) {

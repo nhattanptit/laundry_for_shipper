@@ -76,4 +76,8 @@ public interface ApiService {
 
     @PUT(APIConstant.URL_ORDERS_CANCEL)
     Call<BaseResponse> cancelOrder(@Header("Authorization") String token, @Query("orderId") String orderId);
+
+    @POST(APIConstant.URL_ORDERS_DETAILS)
+    @FormUrlEncoded
+    Call<OrderResponseDto> getOrderDetail(@Header("Authorization") String token, @Field("orderId") int id);
 }

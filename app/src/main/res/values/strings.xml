@@ -101,4 +101,6 @@
     <string name="cancel_order_fail">Cancel order fail!</string>
     <string name="order_fail">Order Failed!</string>
     <string name="order_fail_text_content">Something went wrong.\n Would like to try again?</string>
+    <string name="order_receivered">Order received</string>
+    <string name="something_went_wrong">Something went wrong!</string>
 </resources>

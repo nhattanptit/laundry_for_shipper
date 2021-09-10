@@ -13,6 +13,7 @@ public final class APIConstant {
     public static final String URL_ORDERS_CREATE = "/orders/create";
     public static final String URL_ORDER_SHIPPING_FEE = "/orders/shipping-fee";
     public static final String URL_ORDERS_CANCEL = "/orders/cancel";
+    public static final String URL_ORDERS_DETAILS = "/orders/detail";
     public static final String URL_ADDRESS = "/addresses";
     public static final String URL_ADDRESS_ALL = "/addresses/all";
     public static final String URL_ADDRESS_NEW = "/addresses/new";

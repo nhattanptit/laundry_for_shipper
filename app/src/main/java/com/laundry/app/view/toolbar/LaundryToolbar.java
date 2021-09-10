@@ -39,6 +39,10 @@ public class LaundryToolbar extends FrameLayout {
         requestLayout();
     }
 
+    public void setHideButtonBack() {
+        ivBack.setVisibility(View.GONE);
+    }
+
     public interface LaundryToolbarListener {
         void onBack(View view);
     }

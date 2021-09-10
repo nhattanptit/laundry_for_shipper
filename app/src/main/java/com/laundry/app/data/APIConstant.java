@@ -19,6 +19,7 @@ public final class APIConstant {
     public static final String URL_ADDRESS_NEW = "/addresses/new";
     public static final String URL_ADDRESS_UPDATE = "/addresses/update";
     public static final String URL_ADDRESS_DELETE = "/addresses/delete/";
+    public static final String URL_ORDER_LIST_CUSTOMER = "/orders/list/";
 
     public static final String BASE_URL_MAP_BOX = "https://api.mapbox.com";
     public static final String URL_DIRECTION_API = "/directions/v5/mapbox/cycling/{coordinate}";

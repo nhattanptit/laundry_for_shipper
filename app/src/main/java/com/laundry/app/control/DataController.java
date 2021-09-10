@@ -23,6 +23,7 @@ import com.laundry.app.dto.order.OrderConfirmResponseDto;
 import com.laundry.app.dto.ordercreate.OrderRequest;
 import com.laundry.app.dto.ordercreate.OrderResponseDto;
 import com.laundry.app.dto.ordercreate.OrderServiceDetailForm;
+import com.laundry.app.dto.orderlistcustomer.OrderListCustomerResponse;
 import com.laundry.app.dto.servicelist.ServiceListResponse;
 import com.laundry.app.dto.sevicedetail.ServicesDetailResponse;
 import com.laundry.app.dto.shippingfee.ShippingFeeResponseDto;
@@ -107,14 +108,26 @@ public class DataController {
 
     /**
      * Cancel order
-     * @param context Context
-     * @param orderId Order Id
+     *
+     * @param context  Context
+     * @param orderId  Order Id
      * @param listener Call back listener
      */
     public void cancelOrder(Context context, String orderId, ApiServiceOperator.OnResponseListener<BaseResponse> listener) {
         Call<BaseResponse> call = service.cancelOrder(UserInfo.getInstance().getToken(context), orderId);
         call.enqueue(new ApiServiceOperator<>(listener));
     }
+
+//    /**
+//     * Cancel order
+//     * @param context Context
+//     * @param orderId Order Id
+//     * @param listener Call back listener
+//     */
+//    public void cancelOrder(Context context, String orderId, ApiServiceOperator.OnResponseListener<BaseResponse> listener) {
+//        Call<BaseResponse> call = service.cancelOrder(UserInfo.getInstance().getToken(context), orderId);
+//        call.enqueue(new ApiServiceOperator<>(listener));
+//    }
 
     public void deleteAddress(Context context, int id, ApiServiceOperator.OnResponseListener<AddressDeleteResponse> listener) {
         Call<AddressDeleteResponse> call = service.deleteAddress(UserInfo.getInstance().getToken(context), id);
@@ -134,6 +147,11 @@ public class DataController {
      */
     public void getOrderDetail(Context context, int id, ApiServiceOperator.OnResponseListener<OrderResponseDto> listener) {
         Call<OrderResponseDto> call = service.getOrderDetail(UserInfo.getInstance().getToken(context), id);
+        call.enqueue(new ApiServiceOperator<>(listener));
+    }
+
+    public void getOrderListCustomer(Context context, int page, int size, ApiServiceOperator.OnResponseListener<OrderListCustomerResponse> listener) {
+        Call<OrderListCustomerResponse> call = service.getOrderListCustomer(UserInfo.getInstance().getToken(context), page, size);
         call.enqueue(new ApiServiceOperator<>(listener));
     }
 }

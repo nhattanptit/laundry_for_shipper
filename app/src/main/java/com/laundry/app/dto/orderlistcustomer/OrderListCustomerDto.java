@@ -59,10 +59,10 @@ public class OrderListCustomerDto {
                 return "SHIPPER_DELIVER_ORDER";
             }
         },
-        COMPLETED_ORDER {
+        COMPLETE_ORDER {
             @Override
             public String getStatusName() {
-                return "COMPLETED_ORDER";
+                return "COMPLETE_ORDER";
             }
         },
         CANCEL {
@@ -86,8 +86,8 @@ public class OrderListCustomerDto {
                     return STORE_DONE_ORDER;
                 case "SHIPPER_DELIVER_ORDER":
                     return SHIPPER_DELIVER_ORDER;
-                case "COMPLETED_ORDER":
-                    return COMPLETED_ORDER;
+                case "COMPLETE_ORDER":
+                    return COMPLETE_ORDER;
                 case "CANCEL":
                     return CANCEL;
                 default:

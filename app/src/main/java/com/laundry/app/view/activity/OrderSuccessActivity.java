@@ -19,6 +19,7 @@ import com.laundry.app.control.ApiServiceOperator;
 import com.laundry.app.control.DataController;
 import com.laundry.app.data.APIConstant;
 import com.laundry.app.databinding.ActivityOrderSuccessBinding;
+import com.laundry.app.dto.AddressInfo;
 import com.laundry.app.dto.BaseResponse;
 import com.laundry.app.dto.maps.MapDirectionResponse;
 import com.laundry.app.dto.ordercreate.OrderResponseDto;
@@ -42,19 +43,19 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.laundry.app.constant.Constant.ICON_ID;
 import static com.laundry.app.constant.Constant.KEY_BUNDLE_IS_CASH_PAYMENT_METHOD;
 import static com.laundry.app.constant.Constant.LAT_START;
+import static com.laundry.app.constant.Constant.LAYER_ID;
 import static com.laundry.app.constant.Constant.LONG_START;
+import static com.laundry.app.constant.Constant.SOURCE_ID;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconAllowOverlap;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconIgnorePlacement;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconImage;
 
 public class OrderSuccessActivity extends BaseActivity<ActivityOrderSuccessBinding> implements OnMapReadyCallback {
     ActivityOrderSuccessBinding binding;
-    private MapboxMap mapboxMap;
-    private static final String ICON_ID = "ICON_ID";
-    private static final String SOURCE_ID = "SOURCE_ID";
-    private static final String LAYER_ID = "LAYER_ID";
+
     String geometries = "";
 
     private MapDirectionResponse mMapDirectionResponse;
@@ -129,7 +130,6 @@ public class OrderSuccessActivity extends BaseActivity<ActivityOrderSuccessBindi
 
     @Override
     public void onMapReady(@NonNull @NotNull MapboxMap mapboxMap) {
-        this.mapboxMap = mapboxMap;
         List<Feature> symbolLayerIconFeatureList = new ArrayList<>();
         symbolLayerIconFeatureList.add(Feature.fromGeometry(
                 Point.fromLngLat(LONG_START, LAT_START)));

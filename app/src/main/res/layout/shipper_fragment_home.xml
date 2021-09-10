@@ -36,6 +36,7 @@
                             android:id="@+id/viewPager"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/dp_200"
+                            android:layout_marginTop="@dimen/dp_64"
                             android:paddingStart="@dimen/dp_16"
                             android:paddingEnd="@dimen/dp_16">
 
@@ -226,7 +227,12 @@
 
                 </RelativeLayout>
             </androidx.core.widget.NestedScrollView>
-
+            <include
+                android:id="@+id/progress_bar"
+                layout="@layout/progressbar_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:visibility="gone" />
         </RelativeLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>

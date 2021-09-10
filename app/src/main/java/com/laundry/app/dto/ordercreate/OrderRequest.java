@@ -42,11 +42,11 @@ public class OrderRequest implements Serializable {
 
     @SerializedName("longShipping")
     @Expose
-    public String longShipping;
+    public double longShipping;
 
     @SerializedName("latShipping")
     @Expose
-    public String latShipping;
+    public double latShipping;
 
     @SerializedName("isCashPay")
     @Expose

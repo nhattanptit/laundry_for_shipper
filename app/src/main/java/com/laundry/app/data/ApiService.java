@@ -16,6 +16,8 @@ import com.laundry.app.dto.order.OrderConfirmResponseDto;
 import com.laundry.app.dto.ordercreate.OrderRequest;
 import com.laundry.app.dto.ordercreate.OrderResponseDto;
 import com.laundry.app.dto.ordercreate.OrderServiceDetailForm;
+import com.laundry.app.dto.orderlistcustomer.OrderListCustomerResponse;
+import com.laundry.app.dto.orderlistshipper.OrderListShipperResponse;
 import com.laundry.app.dto.payment.PaymentRequest;
 import com.laundry.app.dto.payment.PaymentResponseDto;
 import com.laundry.app.dto.servicelist.ServiceListResponse;
@@ -43,6 +45,9 @@ public interface ApiService {
 
     @POST(APIConstant.URL_LOGIN)
     Call<LoginResponseDto> signin(@Body LoginRequest loginRequest);
+
+    @POST(APIConstant.URL_SHIPPER_LOGIN)
+    Call<LoginResponseDto> signinShipper(@Body LoginRequest loginRequest);
 
     @GET(APIConstant.URL_SERVICES_ALL)
     Call<ServiceListResponse> getServicesAll();
@@ -78,6 +83,22 @@ public interface ApiService {
 
     @PUT(APIConstant.URL_ORDERS_CANCEL)
     Call<BaseResponse> cancelOrder(@Header("Authorization") String token, @Query("orderId") String orderId);
+
+    @GET(APIConstant.URL_ORDER_LIST_CUSTOMER)
+    Call<OrderListCustomerResponse> getOrderListCustomer(@Header("Authorization") String token, @Query("page") int page, @Query("size") int size);
+
+    @POST(APIConstant.URL_ORDERS_DETAILS)
+    @FormUrlEncoded
+    Call<OrderResponseDto> getOrderDetail(@Header("Authorization") String token, @Field("orderId") int id);
+
+    @GET(APIConstant.URL_ORDER_LIST_SHIPPER)
+    Call<OrderListShipperResponse> getOrderListShipper(@Header("Authorization") String token, @Query("orderStatus")String orderStatus , @Query("page") int page, @Query("size") int size);
+
+    @GET(APIConstant.URL_ORDER_LIST_NEW_SHIPPER)
+    Call<OrderListShipperResponse> getOrderListNewShipper(@Header("Authorization") String token , @Query("page") int page, @Query("size") int size);
+
+    @PUT(APIConstant.URL_ORDER_ACCEPT_ORDER)
+    Call<BaseResponse> acceptOrder(@Header("Authorization") String token, @Query("orderId") String orderId);
 
     @PUT(APIConstant.URL_ORDERS_PAYMENT)
     Call<PaymentResponseDto> paymentFinished(@Header("Authorization") String token, @Body PaymentRequest request);

@@ -28,8 +28,8 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/minusImage"
-                android:layout_width="@dimen/dp_24"
-                android:layout_height="@dimen/dp_24"
+                android:layout_width="@dimen/dp_32"
+                android:layout_height="@dimen/dp_32"
                 android:adjustViewBounds="true"
                 android:padding="@dimen/dp_4"
                 android:src="@drawable/icon_minus"
@@ -39,12 +39,12 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/addImage"
-                android:layout_width="@dimen/dp_24"
-                android:layout_height="@dimen/dp_24"
+                android:layout_width="@dimen/dp_32"
+                android:layout_height="@dimen/dp_32"
                 android:layout_marginEnd="@dimen/dp_16"
                 android:adjustViewBounds="true"
                 android:padding="@dimen/dp_4"
-                android:src="@drawable/icon_add"
+                android:src="@drawable/icon_plus"
                 app:layout_constraintBottom_toBottomOf="@+id/categoryImage"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/categoryImage" />
@@ -70,9 +70,9 @@
                 android:gravity="center"
                 android:inputType="number"
                 android:maxLines="1"
-                android:padding="@dimen/dp_4"
                 android:text="0"
-                android:textColor="@color/black"
+                android:textAlignment="center"
+                android:textColor="@color/green_8cc63e"
                 app:layout_constraintBottom_toBottomOf="@+id/minusImage"
                 app:layout_constraintEnd_toStartOf="@+id/addImage"
                 app:layout_constraintTop_toTopOf="@id/minusImage" />

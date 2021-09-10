@@ -12,6 +12,8 @@ public class SharePreferenceManager {
 
     private static final String PREFERENCE_KEY_AUTHENTICATION_USERNAME = "authentication_username";
 
+    private static final String PREFERENCE_KEY_AUTHENTICATION_USERNAME_AVATAR = "authentication_username_avatar";
+
     private static final String PREFERENCE_KEY_ROLE = "role";
 
     private static final String PREFERENCE_VISITED_HOME = "visited_home";
@@ -66,6 +68,18 @@ public class SharePreferenceManager {
         SharedPreferences preference = getSharedPreferences(context);
         SharedPreferences.Editor editor = preference.edit();
         editor.putBoolean(PREFERENCE_VISITED_HOME, hasVisited);
+        editor.apply();
+    }
+
+    public static String getUserAvatar(Context context) {
+        SharedPreferences preference = getSharedPreferences(context);
+        return preference.getString(PREFERENCE_KEY_AUTHENTICATION_USERNAME_AVATAR, null);
+    }
+
+    public static void setUserAvatar(Context context, String url) {
+        SharedPreferences preference = getSharedPreferences(context);
+        SharedPreferences.Editor editor = preference.edit();
+        editor.putString(PREFERENCE_KEY_AUTHENTICATION_USERNAME_AVATAR, url);
         editor.apply();
     }
 

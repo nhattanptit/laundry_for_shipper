@@ -1,27 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.fragment.customer.home.HomeFragment">
+        android:background="@color/alpha_8cc63e">
 
-        <RelativeLayout
-            android:id="@+id/register_login_layout"
+        <com.laundry.app.view.toolbar.LaundryToolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone">
-
-            <include
-                android:id="@+id/register_login_fragment"
-                layout="@layout/register_login_fragment" />
-        </RelativeLayout>
+            android:layout_height="@dimen/dp_56"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/order_history_list"
+            android:id="@+id/order_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </RelativeLayout>
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/dp_10"
+            android:paddingBottom="@dimen/dp_128"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            tools:listitem="@layout/customer_order_list_item" />
+
+        <include
+            android:id="@+id/progress_bar"
+            layout="@layout/progressbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            tools:visibility="visible" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

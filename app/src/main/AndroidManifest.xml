@@ -8,6 +8,9 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="ANDROID.PERMISSION.READ_EXTERNAL_STORAGE" />
+
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -18,8 +21,12 @@
         android:theme="@style/Theme.Laundry"
         tools:replace="android:theme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".view.activity.OrderSuccessActivity"
-            android:exported="true"/>
+        <activity
+            android:name=".view.activity.OrderDetailCustomerActivity"
+            android:exported="true" />
+        <activity
+            android:name=".view.activity.OrderSuccessActivity"
+            android:exported="true" />
         <activity
             android:name=".view.activity.LoginOrRegisterActivity"
             android:exported="true" />

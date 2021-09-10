@@ -79,7 +79,7 @@ public class LoginDialog extends BaseDialog<LoginDialogBinding> implements ApiSe
     private void login() {
         if (validate()) {
             beforeCallApi();
-            controller.login(mLoginRequest, this);
+            controller.login(getMyActivity(), mLoginRequest, this);
         }
     }
 

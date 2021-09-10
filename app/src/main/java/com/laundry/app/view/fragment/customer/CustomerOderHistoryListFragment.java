@@ -1,14 +1,20 @@
 package com.laundry.app.view.fragment.customer;
 
+import android.text.TextUtils;
 import android.view.View;
 
 import com.laundry.app.R;
 import com.laundry.app.control.ApiServiceOperator;
 import com.laundry.app.control.DataController;
 import com.laundry.app.databinding.CustomerHistoryOrderFragmentBinding;
+import com.laundry.app.dto.Role;
+import com.laundry.app.dto.UserInfo;
 import com.laundry.app.dto.orderlistcustomer.OrderListCustomerResponse;
+import com.laundry.app.utils.SharePreferenceManager;
 import com.laundry.app.view.activity.OrderDetailCustomerActivity;
 import com.laundry.app.view.adapter.OrderListCustomerAdapter;
+import com.laundry.app.view.dialog.LoginDialog;
+import com.laundry.app.view.dialog.RegisterAccountDialog;
 import com.laundry.base.BaseFragment;
 
 public class CustomerOderHistoryListFragment extends BaseFragment<CustomerHistoryOrderFragmentBinding> implements OrderListCustomerAdapter.ISOrderListCallBack {
@@ -28,6 +34,22 @@ public class CustomerOderHistoryListFragment extends BaseFragment<CustomerHistor
 
     @Override
     public void onInitView() {
+        if (UserInfo.getInstance().isLogin(getMyActivity())) {
+            binding.registerLoginLayout.setVisibility(View.GONE);
+            binding.orderListLayout.setVisibility(View.VISIBLE);
+            updateView();
+        } else {
+            binding.registerLoginLayout.setVisibility(View.VISIBLE);
+            binding.orderListLayout.setVisibility(View.GONE);
+        }
+
+        String mMode = SharePreferenceManager.getMode(getMyActivity());
+        if (TextUtils.equals(Role.CUSTOMER.role(), mMode)) {
+            binding.registerLoginFragment.signUp.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void updateView() {
         binding.toolbar.setTitle(getString(R.string.order_history_uppercase));
         binding.toolbar.setHideButtonBack();
         beforeCallApi();
@@ -37,6 +59,15 @@ public class CustomerOderHistoryListFragment extends BaseFragment<CustomerHistor
 
     @Override
     public void onViewClick() {
+        binding.registerLoginFragment.login.setOnClickListener(v -> {
+            LoginDialog loginDialog = LoginDialog.newInstance(CustomerOderHistoryListFragment.class.getSimpleName());
+            loginDialog.show(getMyActivity().getSupportFragmentManager(), LoginDialog.class.getSimpleName());
+        });
+
+        binding.registerLoginFragment.signUp.setOnClickListener(v -> {
+            RegisterAccountDialog registerAccountDialog = RegisterAccountDialog.newInstance(CustomerOderHistoryListFragment.class.getSimpleName());
+            registerAccountDialog.show(getMyActivity().getSupportFragmentManager(), RegisterAccountDialog.class.getSimpleName());
+        });
     }
 
     @Override

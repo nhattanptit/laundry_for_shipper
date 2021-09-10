@@ -174,6 +174,11 @@ public class OrderSuccessActivity extends BaseActivity<ActivityOrderSuccessBindi
         binding.orderSuccessPhoneNumber.setText(mOrderResponseDto.data.shippingPersonPhoneNumber);
         binding.orderSuccessPaymentMethod.setText(mIsCashPayment ? getResources().getString(R.string.cash_payment) : getResources().getString(R.string.momo_wallet));
         binding.orderSuccessTotalPrice.setText("$ " + mOrderResponseDto.data.totalBill + "");
+        if (mOrderResponseDto.data.isPaid) {
+            binding.cancelOrderButton.setEnabled(false);
+            binding.cancelOrderButton.setBackgroundDrawable(getDrawable(R.drawable.shaper_button_green_big_disable));
+            binding.cancelOrderButton.setPadding(8, 8, 8, 8);
+        }
 
         // Create order list
         mServicesOrderAdapter.typeService = ServicesOrderAdapter.SERVICES_DETAIL_VIEW_TYPE.ORDER;

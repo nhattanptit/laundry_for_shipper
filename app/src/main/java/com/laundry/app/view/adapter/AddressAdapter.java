@@ -113,6 +113,10 @@ public class AddressAdapter extends BaseAdapter {
                     AddressInfo.getInstance().getDistrictNameById(item.city, item.district),
                     AddressInfo.getInstance().getCityNameById(item.city)));
 
+            if (dataList.get(0).equals(item)) {
+                binding.deleteIcon.setVisibility(View.GONE);
+            }
+
             if (isItemSelected(item)) {
                 binding.selectedIcon.setVisibility(View.VISIBLE);
             } else {

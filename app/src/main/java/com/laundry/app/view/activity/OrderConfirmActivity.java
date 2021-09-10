@@ -165,10 +165,15 @@ public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBindi
                     request.orderId = data.getIntExtra("orderId", -1);
                     request.requestId = data.getStringExtra("requestId");
                     request.partnerCode = Constant.PARTNER_CODE_MOMO;
+                    beforeCallApi();
                     mDataController.paymentFinished(this, request, new PaymentFinishedCallback());
+                } else {
+                    // Go to order fail
+                    showDialogOrderFail();
                 }
             } else {
-                Toast.makeText(OrderConfirmActivity.this, "Not finish" + data.getStringExtra("message"), Toast.LENGTH_LONG);
+                // Go to order fail
+                showDialogOrderFail();
             }
         }
     }
@@ -188,13 +193,17 @@ public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBindi
             alertDialog.show();
             return;
         }
-        String address = String.format(getString(R.string.address_format), addressDto.address, addressDto.ward, addressDto.district, addressDto.city);
+        String fullAddress = String.format(getString(R.string.address_format),
+                addressDto.address,
+                AddressInfo.getInstance().getWardNameById(addressDto.city, addressDto.district, addressDto.ward),
+                AddressInfo.getInstance().getDistrictNameById(addressDto.city, addressDto.district),
+                AddressInfo.getInstance().getCityNameById(addressDto.city));
         OrderRequest request = new OrderRequest();
         request.distance = mDistance;
         request.orderServiceDetails = formatProductList();
         request.serviceId = responseDto.serviceParentId;
         request.shippingPersonName = addressDto.receiverName;
-        request.shippingAddress = address;
+        request.shippingAddress = fullAddress;
         request.totalServiceFee = subTotal;
         request.totalShipFee = shippingFee;
         request.shippingPersonPhoneNumber = addressDto.receiverPhoneNumber;
@@ -359,7 +368,7 @@ public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBindi
         @Override
         public void onFailure(Throwable t) {
             afterCallApi();
-
+            Toast.makeText(OrderConfirmActivity.this, getResources().getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -400,16 +409,25 @@ public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBindi
     private class PaymentFinishedCallback implements ApiServiceOperator.OnResponseListener<PaymentResponseDto> {
         @Override
         public void onSuccess(PaymentResponseDto body) {
-            Intent intent = new Intent(OrderConfirmActivity.this, OrderSuccessActivity.class);
-            intent.putExtra(Constant.KEY_BUNDLE_MAP_DIRECTION_RESPONSE, mMapDirectionResponse);
-            intent.putExtra(Constant.KEY_BUNDLE_ORDER_RESPONSE, body);
-            intent.putExtra(Constant.KEY_BUNDLE_IS_CASH_PAYMENT_METHOD, binding.cashPaymentButton.isChecked());
-            startActivity(intent);
-            finish();
+            int return_cd = Integer.parseInt(body.statusCd);
+            if (return_cd == 200) {
+                mOrderResponseDto.data.isPaid = true;
+                Intent intent = new Intent(OrderConfirmActivity.this, OrderSuccessActivity.class);
+                intent.putExtra(Constant.KEY_BUNDLE_MAP_DIRECTION_RESPONSE, mMapDirectionResponse);
+                intent.putExtra(Constant.KEY_BUNDLE_ORDER_RESPONSE, mOrderResponseDto);
+                intent.putExtra(Constant.KEY_BUNDLE_IS_CASH_PAYMENT_METHOD, binding.cashPaymentButton.isChecked());
+                startActivity(intent);
+                finish();
+            } else {
+                // TODO add message
+            }
+            afterCallApi();
         }
 
         @Override
         public void onFailure(Throwable t) {
+            Toast.makeText(OrderConfirmActivity.this, getResources().getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
+            afterCallApi();
         }
     }
 }

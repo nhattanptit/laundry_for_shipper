@@ -103,4 +103,5 @@
     <string name="order_fail_text_content">Something went wrong.\n Would like to try again?</string>
     <string name="order_receivered">Order received</string>
     <string name="something_went_wrong">Something went wrong!</string>
+    <string name="please_select_service">Please select service!!!</string>
 </resources>

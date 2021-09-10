@@ -8,10 +8,13 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
+import vn.momo.momo_partner.AppMoMoLib;
+import vn.momo.momo_partner.MoMoParameterNamePayment;
 
 import com.laundry.app.R;
 import com.laundry.app.constant.Constant;
@@ -26,6 +29,8 @@ import com.laundry.app.dto.order.OrderConfirmDto;
 import com.laundry.app.dto.ordercreate.OrderRequest;
 import com.laundry.app.dto.ordercreate.OrderResponseDto;
 import com.laundry.app.dto.ordercreate.OrderServiceDetailForm;
+import com.laundry.app.dto.payment.PaymentRequest;
+import com.laundry.app.dto.payment.PaymentResponseDto;
 import com.laundry.app.dto.sevicedetail.ServiceDetailDto;
 import com.laundry.app.dto.shippingfee.ShippingFeeResponseDto;
 import com.laundry.app.utils.ErrorDialog;
@@ -37,7 +42,9 @@ import com.laundry.base.BaseActivity;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.laundry.app.constant.Constant.PRICE_FORMAT;
 import static com.laundry.app.view.activity.BillingAddressActivity.KEY_ADDRESS_SELECTED;
@@ -49,12 +56,15 @@ public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBindi
     private OrderConfirmDto responseDto;
     private final DataController mDataController = new DataController();
     private AddressListlDto addressDto;
+    private OrderResponseDto mOrderResponseDto;
 
     private double subTotal = 0.0;
     private double shippingFee = 0.0;
     private double mDistance = 0.0;
     double longitude = 0;
     double latitude = 0;
+
+    private String description = "Thanh toán dịch vụ Giặt Là";
 
     private OrderFailDialog mOrderFailDialog;
 
@@ -81,6 +91,8 @@ public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBindi
         binding.toolbar.setTitle(getString(R.string.order_confirm));
 
         createDisplay();
+
+        AppMoMoLib.getInstance().setEnvironment(AppMoMoLib.ENVIRONMENT.DEVELOPMENT);
     }
 
     @Override
@@ -111,6 +123,54 @@ public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBindi
         binding.placeOrderButton.setOnClickListener(new SingleTapListener(view -> {
             onClickPlaceAnOrder();
         }));
+    }
+
+    private void requestPayment(int orderId, double totalAmount) {
+        AppMoMoLib.getInstance().setAction(AppMoMoLib.ACTION.PAYMENT);
+        AppMoMoLib.getInstance().setActionType(AppMoMoLib.ACTION_TYPE.GET_TOKEN);
+
+        Map<String, Object> eventValue = new HashMap<>();
+        //client Required
+        //Tên đối tác. được đăng ký tại https://business.momo.vn. VD: Google, Apple, Tiki , CGV Cinemas
+        eventValue.put("merchantname", Constant.MERCHANT_NAME);
+        //Mã đối tác, được cung cấp bởi MoMo tại https://business.momo.vn
+        eventValue.put("merchantcode", Constant.MERCHANT_CODE);
+        eventValue.put("amount", totalAmount * 23000); //Kiểu integer
+        //uniqueue id cho BillId, giá trị duy nhất cho mỗi BIL
+        eventValue.put("orderId", orderId);
+        eventValue.put("orderLabel", "Mã đơn hàng");
+
+        //client Optional - bill info
+        eventValue.put("merchantnamelabel", "Dịch vụ");
+        eventValue.put("description", description);
+
+        //client extra data
+        eventValue.put("requestId", Constant.MERCHANT_CODE + "merchant_billId_" + System.currentTimeMillis());
+        eventValue.put("partnerCode", Constant.MERCHANT_CODE);
+        eventValue.put(MoMoParameterNamePayment.LANGUAGE, "en");
+        AppMoMoLib.getInstance().requestMoMoCallBack(this, eventValue);
+
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == AppMoMoLib.getInstance().REQUEST_CODE_MOMO && resultCode == -1) {
+            if (data != null) {
+                if (data.getIntExtra("status", -1) == 0) {
+                    PaymentRequest request = new PaymentRequest();
+                    request.orderId = data.getIntExtra("orderId", -1);
+                    request.requestId = data.getStringExtra("requestId");
+                    request.partnerCode = Constant.PARTNER_CODE_MOMO;
+                    mDataController.paymentFinished(this, request, new PaymentFinishedCallback());
+                }
+            } else {
+                Toast.makeText(OrderConfirmActivity.this, "Not finish" + data.getStringExtra("message"), Toast.LENGTH_LONG);
+            }
+        }
     }
 
     /**
@@ -309,15 +369,19 @@ public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBindi
             body.data.latitude = latitude;
             body.data.longitude = longitude;
 
-
             // Move to order success
             if (TextUtils.equals("200", body.statusCd)) {
-                Intent intent = new Intent(OrderConfirmActivity.this, OrderSuccessActivity.class);
-                intent.putExtra(Constant.KEY_BUNDLE_MAP_DIRECTION_RESPONSE, mMapDirectionResponse);
-                intent.putExtra(Constant.KEY_BUNDLE_ORDER_RESPONSE, body);
-                intent.putExtra(Constant.KEY_BUNDLE_IS_CASH_PAYMENT_METHOD, binding.cashPaymentButton.isChecked());
-                startActivity(intent);
-                finish();
+                mOrderResponseDto = body;
+                if (binding.momoButton.isChecked()) {
+                    requestPayment(body.data.id, body.data.totalBill);
+                } else {
+                    Intent intent = new Intent(OrderConfirmActivity.this, OrderSuccessActivity.class);
+                    intent.putExtra(Constant.KEY_BUNDLE_MAP_DIRECTION_RESPONSE, mMapDirectionResponse);
+                    intent.putExtra(Constant.KEY_BUNDLE_ORDER_RESPONSE, body);
+                    intent.putExtra(Constant.KEY_BUNDLE_IS_CASH_PAYMENT_METHOD, binding.cashPaymentButton.isChecked());
+                    startActivity(intent);
+                    finish();
+                }
             } else {
                 // Go to order fail
                 showDialogOrderFail();
@@ -330,6 +394,22 @@ public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBindi
             // Go to order fail
             showDialogOrderFail();
             afterCallApi();
+        }
+    }
+
+    private class PaymentFinishedCallback implements ApiServiceOperator.OnResponseListener<PaymentResponseDto> {
+        @Override
+        public void onSuccess(PaymentResponseDto body) {
+            Intent intent = new Intent(OrderConfirmActivity.this, OrderSuccessActivity.class);
+            intent.putExtra(Constant.KEY_BUNDLE_MAP_DIRECTION_RESPONSE, mMapDirectionResponse);
+            intent.putExtra(Constant.KEY_BUNDLE_ORDER_RESPONSE, body);
+            intent.putExtra(Constant.KEY_BUNDLE_IS_CASH_PAYMENT_METHOD, binding.cashPaymentButton.isChecked());
+            startActivity(intent);
+            finish();
+        }
+
+        @Override
+        public void onFailure(Throwable t) {
         }
     }
 }

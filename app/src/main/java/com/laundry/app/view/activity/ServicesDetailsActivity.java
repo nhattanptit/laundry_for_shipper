@@ -3,6 +3,7 @@ package com.laundry.app.view.activity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.view.View;
+import android.widget.Toast;
 
 import com.laundry.app.R;
 import com.laundry.app.constant.Constant;
@@ -70,6 +71,9 @@ public class ServicesDetailsActivity extends BaseActivity<ServicesDetailsActivit
     public void onViewClick() {
         binding.bookButton.setOnClickListener(view -> {
             if (UserInfo.getInstance().isLogin(this)) {
+                if (getProductList().size() == 0) {
+                    Toast.makeText(ServicesDetailsActivity.this, getResources().getString(R.string.please_select_service), Toast.LENGTH_LONG).show();
+                }
                 mDataController.oderConfirm(this, getProductList(), new ApiServiceOperator.OnResponseListener<OrderConfirmResponseDto>() {
                     @Override
                     public void onSuccess(OrderConfirmResponseDto body) {

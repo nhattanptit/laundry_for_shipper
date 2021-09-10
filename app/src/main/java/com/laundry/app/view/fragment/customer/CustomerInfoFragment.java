@@ -1,6 +1,5 @@
 package com.laundry.app.view.fragment.customer;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -11,14 +10,22 @@ import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Base64;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 
 import com.laundry.app.R;
+import com.laundry.app.constant.Constant;
 import com.laundry.app.databinding.CustomerInfoFragmentBinding;
+import com.laundry.app.dto.Role;
+import com.laundry.app.dto.UserInfo;
 import com.laundry.app.utils.SharePreferenceManager;
 import com.laundry.app.view.activity.HomeActivity;
+import com.laundry.app.view.activity.LoginOrRegisterActivity;
+import com.laundry.app.view.dialog.LoginDialog;
+import com.laundry.app.view.dialog.RegisterAccountDialog;
 import com.laundry.base.BaseFragment;
 
 import java.io.ByteArrayOutputStream;
@@ -29,11 +36,7 @@ import java.util.Calendar;
 
 public class CustomerInfoFragment extends BaseFragment<CustomerInfoFragmentBinding> {
 
-    private String permission[] = {Manifest.permission.CAMERA,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_EXTERNAL_STORAGE};
     private static final String IMAGE_DIRECTORY = "/sdcard";
-    private HomeActivity activity;
     private static final int GALLERY = 1, CAMERA = 2;
     private ISCustomerInfoCallBack mIsCustomerInfoCallBack;
 
@@ -50,15 +53,42 @@ public class CustomerInfoFragment extends BaseFragment<CustomerInfoFragmentBindi
 
     @Override
     public void onInitView() {
-        if (SharePreferenceManager.getUserAvatar(getActivity()) != null) {
-            binding.accountInfomationAvatar.setImageBitmap(decodeToBase64(SharePreferenceManager.getUserAvatar(getActivity())));
+        if (UserInfo.getInstance().isLogin(getMyActivity())) {
+            binding.registerLoginLayout.setVisibility(View.GONE);
+            binding.accountInformationLayout.setVisibility(View.VISIBLE);
+            if (SharePreferenceManager.getUserAvatar(getActivity()) != null) {
+                binding.accountInfomationAvatar.setImageBitmap(decodeToBase64(SharePreferenceManager.getUserAvatar(getActivity())));
+            }
+        } else {
+            binding.registerLoginLayout.setVisibility(View.VISIBLE);
+            binding.accountInformationLayout.setVisibility(View.GONE);
+        }
+
+        String mMode = SharePreferenceManager.getMode(getMyActivity());
+        if (TextUtils.equals(Role.CUSTOMER.role(), mMode)) {
+            binding.registerLoginFragment.signUp.setVisibility(View.VISIBLE);
         }
     }
 
     @Override
     public void onViewClick() {
+        binding.registerLoginFragment.login.setOnClickListener(v -> {
+            LoginDialog loginDialog = LoginDialog.newInstance(CustomerInfoFragment.class.getSimpleName());
+            loginDialog.show(getMyActivity().getSupportFragmentManager(), LoginDialog.class.getSimpleName());
+        });
+
+        binding.registerLoginFragment.signUp.setOnClickListener(v -> {
+            RegisterAccountDialog registerAccountDialog = RegisterAccountDialog.newInstance(CustomerOderHistoryListFragment.class.getSimpleName());
+            registerAccountDialog.show(getMyActivity().getSupportFragmentManager(), RegisterAccountDialog.class.getSimpleName());
+        });
+
         binding.accountInfomationAvatar.setOnClickListener(view -> {
             showPictureDialog();
+        });
+
+        binding.accountInfomationLogout.setOnClickListener(view -> {
+            UserInfo.getInstance().init(getActivity());
+            logout();
         });
     }
 
@@ -154,6 +184,15 @@ public class CustomerInfoFragment extends BaseFragment<CustomerInfoFragmentBindi
     public static Bitmap decodeToBase64(String input) {
         byte[] decodedByte = Base64.decode(input, 0);
         return BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
+    }
+
+    /**
+     * Logout -> move to home screen
+     */
+    private void logout() {
+        Intent intent = new Intent(getMyActivity(), HomeActivity.class);
+        intent.putExtra(Constant.ROLE_SWITCH, Role.CUSTOMER.role());
+        startActivity(intent);
     }
 
     public interface ISCustomerInfoCallBack {

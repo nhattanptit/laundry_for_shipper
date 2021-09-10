@@ -24,4 +24,6 @@
     <color name="red_dc4747">#dc4747</color>
     <color name="red_ff735c">#ff735c</color>
     <color name="red_e24c4b">#e24c4b</color>
+    <color name="gray_aaaaaa">#aaaaaa</color>
+    <color name="green_disable">#DAEDC1</color>
 </resources>

@@ -16,8 +16,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Laundry"
         android:usesCleartextTraffic="true">
-        <activity android:name=".view.activity.OrderSuccessActivity"
-            android:exported="true"/>
+        <activity android:name=".view.activity.OrderDetailCustomerActivity"
+        android:exported="true"/>
+        <activity
+            android:name=".view.activity.OrderSuccessActivity"
+            android:exported="true" />
         <activity
             android:name=".view.activity.LoginOrRegisterActivity"
             android:exported="true" />

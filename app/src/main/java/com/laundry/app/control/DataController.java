@@ -125,4 +125,15 @@ public class DataController {
         Call<AddressUpdateResponse> call = service.updateAddress(UserInfo.getInstance().getToken(context), id, updateAddressRequest);
         call.enqueue(new ApiServiceOperator<>(listener));
     }
+
+    /**
+     * Get order detail
+     *
+     * @param id       orderId
+     * @param listener callback listener
+     */
+    public void getOrderDetail(Context context, int id, ApiServiceOperator.OnResponseListener<OrderResponseDto> listener) {
+        Call<OrderResponseDto> call = service.getOrderDetail(UserInfo.getInstance().getToken(context), id);
+        call.enqueue(new ApiServiceOperator<>(listener));
+    }
 }

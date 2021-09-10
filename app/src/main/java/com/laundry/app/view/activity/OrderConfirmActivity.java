@@ -138,8 +138,8 @@ public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBindi
         request.totalServiceFee = subTotal;
         request.totalShipFee = shippingFee;
         request.shippingPersonPhoneNumber = addressDto.receiverPhoneNumber;
-        request.longShipping = longitude + "";
-        request.latShipping = latitude + "";
+        request.longShipping = longitude;
+        request.latShipping = latitude;
         beforeCallApi();
         mDataController.createOrder(this, request, new OrderCreateCallback());
     }

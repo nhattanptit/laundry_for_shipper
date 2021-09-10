@@ -24,6 +24,7 @@ import com.laundry.app.control.ApiServiceOperator;
 import com.laundry.app.control.DataController;
 import com.laundry.app.data.APIConstant;
 import com.laundry.app.databinding.ActivityOrderDetailCustomerBinding;
+import com.laundry.app.dto.AddressInfo;
 import com.laundry.app.dto.maps.MapDirectionResponse;
 import com.laundry.app.dto.ordercreate.OrderResponseDto;
 import com.laundry.app.dto.sevicedetail.ServiceDetailDto;
@@ -115,7 +116,7 @@ public class OrderDetailCustomerActivity extends BaseActivity<ActivityOrderDetai
         Mapbox.getInstance(this, APIConstant.MAPBOX_ACCESS_TOKEN);
 
 
-         //This contains the MapView in XML and needs to be called after the access token is configured.
+        //This contains the MapView in XML and needs to be called after the access token is configured.
         binding = DataBindingUtil.setContentView(this, getLayoutResource());
         binding.setLifecycleOwner(this);
 
@@ -292,7 +293,7 @@ public class OrderDetailCustomerActivity extends BaseActivity<ActivityOrderDetai
      */
     private void callOrderDetailApi() {
         if (mOrderId != -1) {
-            mDataController.getOrderDetail(this, mOrderId,new OrderDetailCallBack());
+            mDataController.getOrderDetail(this, mOrderId, new OrderDetailCallBack());
         } else {
             Toast.makeText(this, getResources().getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
         }
@@ -308,7 +309,7 @@ public class OrderDetailCustomerActivity extends BaseActivity<ActivityOrderDetai
             binding.orderDetailStatusImage.setImageResource(orderResponseDto.data.getIconByStatus());
             binding.orderDetailStatusNotice.setText(orderResponseDto.data.getStatusContent());
 
-            if (TextUtils.equals(Constant.NEW, orderResponseDto.data.status)) {
+            if (TextUtils.equals(Constant.NEW, orderResponseDto.data.status) || TextUtils.equals(Constant.CANCEL, orderResponseDto.data.status)) {
                 binding.shipperInfoLayout.setVisibility(View.GONE);
                 binding.licensePlateLayout.setVisibility(View.GONE);
                 binding.rangeOfVehicleLayout.setVisibility(View.GONE);
@@ -321,12 +322,15 @@ public class OrderDetailCustomerActivity extends BaseActivity<ActivityOrderDetai
                 binding.orderDetailPhonenumberShipper.setText(orderResponseDto.data.shipperDto.phoneNumber);
                 binding.orderDetailLicensePlate.setText(orderResponseDto.data.shipperDto.licensePlate);
                 binding.orderDetailRangeOfVehicle.setText(orderResponseDto.data.shipperDto.vehicleType);
-                binding.orderDetailPaymentMethod.setText(getResources().getString(orderResponseDto.data.isCashPay ? R.string.cash_payment : R.string.momo_wallet));
-                binding.orderDetailTotalPrice.setText(orderResponseDto.data.totalBill+"$");
                 binding.orderDetailCallShipperButton.setOnClickListener(new SingleTapListener(v -> {
                     onClickCallShipper();
                 }));
             }
+
+            binding.orderDetailPaymentMethod.setText(getResources().getString(orderResponseDto.data.isCashPay ? R.string.cash_payment : R.string.momo_wallet));
+            binding.orderDetailTotalPrice.setText(orderResponseDto.data.totalBill + "$");
+            binding.shippingAddressText.setText(orderResponseDto.data.shippingAddress);
+            binding.orderDetailPhoneNumber.setText(orderResponseDto.data.shippingPersonPhoneNumber);
 
             if (TextUtils.equals(Constant.SHIPPER_DELIVER_ORDER, orderResponseDto.data.status)
                     || TextUtils.equals(Constant.SHIPPER_RECEIVED_ORDER, orderResponseDto.data.status)) {
@@ -409,7 +413,7 @@ public class OrderDetailCustomerActivity extends BaseActivity<ActivityOrderDetai
 
         @Override
         public void onFailure(Throwable t) {
-                // Do something went wrong
+            // Do something went wrong
             Toast.makeText(OrderDetailCustomerActivity.this, getResources().getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
             afterCallApi();
         }

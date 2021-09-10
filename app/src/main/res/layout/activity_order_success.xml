@@ -206,7 +206,7 @@
                             android:layout_marginTop="@dimen/dp_2"
                             android:paddingTop="@dimen/dp_8"
                             android:paddingBottom="@dimen/dp_8"
-                            android:text="Số 91-93 Đường số 5, Phường An Phú, Tp. Thủ Đức,
+                            tools:text="Số 91-93 Đường số 5, Phường An Phú, Tp. Thủ Đức,
 Thành phố Hồ Chí Minh, Việt Nam"
                             android:textColor="@color/black"
                             android:textSize="@dimen/sp_13"
@@ -248,7 +248,7 @@ Thành phố Hồ Chí Minh, Việt Nam"
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/done_button"
-                            android:layout_width="match_parent"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/dp_8"
                             android:layout_marginEnd="@dimen/dp_4"
@@ -263,7 +263,7 @@ Thành phố Hồ Chí Minh, Việt Nam"
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/cancel_order_button"
-                            android:layout_width="match_parent"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/dp_4"
                             android:layout_marginEnd="@dimen/dp_8"
@@ -288,7 +288,7 @@ Thành phố Hồ Chí Minh, Việt Nam"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/toolbar"
-            tools:visibility="visible" />
+            tools:visibility="gone" />
 
     </RelativeLayout>
 </layout>

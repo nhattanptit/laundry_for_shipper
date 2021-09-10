@@ -27,6 +27,8 @@ import com.laundry.app.dto.ordercreate.OrderResponseDto;
 import com.laundry.app.dto.ordercreate.OrderServiceDetailForm;
 import com.laundry.app.dto.orderlistcustomer.OrderListCustomerResponse;
 import com.laundry.app.dto.orderlistshipper.OrderListShipperResponse;
+import com.laundry.app.dto.payment.PaymentRequest;
+import com.laundry.app.dto.payment.PaymentResponseDto;
 import com.laundry.app.dto.servicelist.ServiceListResponse;
 import com.laundry.app.dto.sevicedetail.ServicesDetailResponse;
 import com.laundry.app.dto.shippingfee.ShippingFeeResponseDto;
@@ -193,6 +195,11 @@ public class DataController {
      */
     public void acceptOrder(Context context, String orderId, ApiServiceOperator.OnResponseListener<BaseResponse> listener) {
         Call<BaseResponse> call = service.acceptOrder(UserInfo.getInstance().getToken(context) , orderId);
+        call.enqueue(new ApiServiceOperator<>(listener));
+    }
+
+    public void paymentFinished(Context context, PaymentRequest request, ApiServiceOperator.OnResponseListener<PaymentResponseDto> listener) {
+        Call<PaymentResponseDto> call = service.paymentFinished(UserInfo.getInstance().getToken(context), request);
         call.enqueue(new ApiServiceOperator<>(listener));
     }
 }

@@ -8,6 +8,7 @@ import com.bumptech.glide.Glide;
 import com.laundry.app.R;
 import com.laundry.app.databinding.HomeOrderItemBinding;
 import com.laundry.app.dto.order.OrderItem;
+import com.laundry.app.dto.orderlistshipper.OrderListShipperDto;
 import com.laundry.base.BaseAdapter;
 
 import java.util.List;
@@ -48,7 +49,7 @@ public class HomeOrderAdapter extends BaseAdapter {
     /**
      * Order viewholder
      */
-    class OrderVH extends BaseVH<OrderItem> {
+    class OrderVH extends BaseVH<OrderListShipperDto> {
 
         private final HomeOrderItemBinding binding;
 
@@ -58,23 +59,23 @@ public class HomeOrderAdapter extends BaseAdapter {
         }
 
         @Override
-        public void bind(OrderItem item) {
+        public void bind(OrderListShipperDto item) {
             Glide.with(binding.getRoot().getContext())
-                    .load(item.getCustomerImage())
+                    .load("")
                     .centerCrop()
                     .placeholder(R.drawable.user_placeholder)
                     .into(binding.orderItemCustomerAvatar);
-            binding.orderItemCustomerName.setText(item.getCustomerName());
-            binding.orderItemOrderCode.setText(item.getOrderCode());
-            binding.homeOrderOrderName.setText(item.getOrderName());
+            binding.orderItemCustomerName.setText(item.shippingNamePerson);
+            binding.homeOrderOrderName.setText(item.serviceName);
             binding.homeStaffItemAcceptButton.setVisibility(mIsDisplayButtonAccept ? View.VISIBLE : View.GONE);
-            binding.homeOrderOrderName.setText(item.getOrderName());
-            binding.homeOrderPickupDateTime.setText(item.getPickupDateTime());
-            binding.homeOrderPickupAddress.setText(item.getPickupAddress());
-            binding.homeOrderDeliveryDateTime.setText(item.getDeliveryDateTime());
-            binding.homeOrderDeliveryAddress.setText(item.getDeliveryAddress());
+            binding.homeOrderPickupDateTime.setText(item.pickUpDateTime);
+            binding.homeOrderPickupAddress.setText(item.pickUpAddress);
+            binding.homeOrderDeliveryDateTime.setText(item.deliveryDateTime);
+            binding.homeOrderDeliveryAddress.setText(item.deliverAddress);
             binding.orderHomeItemLayout.setOnClickListener(mOnClickListener);
             binding.orderHomeItemLayout.setTag(item);
+            binding.homeStaffItemAcceptButton.setOnClickListener(mOnClickListener);
+            binding.homeStaffItemAcceptButton.setTag(item);
         }
     }
 }

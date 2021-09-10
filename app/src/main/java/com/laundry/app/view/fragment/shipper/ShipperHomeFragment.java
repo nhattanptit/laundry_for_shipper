@@ -2,8 +2,9 @@ package com.laundry.app.view.fragment.shipper;
 
 import android.content.Context;
 import android.os.Handler;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,11 +12,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager.widget.ViewPager;
 
-import com.google.android.gms.maps.model.LatLng;
 import com.laundry.app.R;
+import com.laundry.app.constant.Constant;
+import com.laundry.app.control.ApiServiceOperator;
+import com.laundry.app.control.DataController;
+import com.laundry.app.data.APIConstant;
 import com.laundry.app.databinding.ShipperFragmentHomeBinding;
+import com.laundry.app.dto.BaseResponse;
 import com.laundry.app.dto.UserInfo;
-import com.laundry.app.dto.order.OrderItem;
+import com.laundry.app.dto.orderlistshipper.OrderListShipperDto;
+import com.laundry.app.dto.orderlistshipper.OrderListShipperResponse;
 import com.laundry.app.view.adapter.BannerAdapter;
 import com.laundry.app.view.adapter.HomeOrderAdapter;
 import com.laundry.app.view.adapter.HomeOrderAreShippingAdapter;
@@ -23,7 +29,6 @@ import com.laundry.base.BaseFragment;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -39,16 +44,18 @@ public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding
             R.drawable.banner5};
     int currentPage = 0;
 
-    private List<Object> mListNewOrder;
+    private List<OrderListShipperDto> mListNewOrder;
     private HomeOrderAdapter mNewOrderAdapter;
 
-    private List<Object> mListHistoryOrder;
+    private List<OrderListShipperDto> mListHistoryOrder;
     private HomeOrderAdapter mHistoryOrderAdapter;
 
-    private List<Object> mListOrderAreShipping;
+    private List<OrderListShipperDto> mListOrderAreShipping;
     private HomeOrderAreShippingAdapter mHomeOrderAreShippingAdapter;
 
     OnClickCallPhone mOnClickCallPhone;
+
+    private DataController mDataController = new DataController();
 
     @Override
     public void onAttach(@NonNull @NotNull Context context) {
@@ -92,13 +99,7 @@ public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding
      * Load data
      */
     private void loadData() {
-        if (UserInfo.getInstance().isLogin(getActivity())) {
-            callOrderAreShippingApi();
-            callListHistoryOrderApi();
-        }
-        callListNewOrderApi();
-
-
+        callOrderAreShippingApi();
     }
 
     /**
@@ -106,22 +107,6 @@ public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding
      */
     private void setVisibilityNoOrderNoticeLayout() {
 
-    }
-
-    /**
-     * call order are shipping api
-     */
-    private void callOrderAreShippingApi() {
-        mListOrderAreShipping.add(new OrderItem("Số 91-93 Đường số 5, Phường An Phú, Tp. Thủ Đức, Thành phố Hồ Chí Minh", "0984622312"));
-        mListOrderAreShipping.add(new OrderItem("Số 91-93 Đường số 5, Phường An Phú, Tp. Thủ Đức, Thành phố Hồ Chí Minh", "0984622312"));
-        mListOrderAreShipping.add(new OrderItem("Số 91-93 Đường số 5, Phường An Phú, Tp. Thủ Đức, Thành phố Hồ Chí Minh", "0984622312"));
-        mListOrderAreShipping.add(new OrderItem("Số 91-93 Đường số 5, Phường An Phú, Tp. Thủ Đức, Thành phố Hồ Chí Minh", "0984622312"));
-        mListOrderAreShipping.add(new OrderItem("Số 91-93 Đường số 5, Phường An Phú, Tp. Thủ Đức, Thành phố Hồ Chí Minh", "0984622312"));
-        mListOrderAreShipping.add(new OrderItem("Số 91-93 Đường số 5, Phường An Phú, Tp. Thủ Đức, Thành phố Hồ Chí Minh", "0984622312"));
-        mListOrderAreShipping.add(new OrderItem("Số 91-93 Đường số 5, Phường An Phú, Tp. Thủ Đức, Thành phố Hồ Chí Minh", "0984622312"));
-        mListOrderAreShipping.add(new OrderItem("Số 91-93 Đường số 5, Phường An Phú, Tp. Thủ Đức, Thành phố Hồ Chí Minh", "0984622312"));
-        mHomeOrderAreShippingAdapter.submitList(mListOrderAreShipping);
-        updateList();
     }
 
     /**
@@ -137,6 +122,14 @@ public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding
         binding.homeStaffOrderDeliveringRcv.setAdapter(mHomeOrderAreShippingAdapter);
         mHomeOrderAreShippingAdapter.submitList(mListOrderAreShipping);
         binding.homeStaffOrderDeliveringRcv.bringToFront();
+    }
+
+    private void beforeCallApi() {
+        binding.progressBar.maskviewLayout.setVisibility(View.VISIBLE);
+    }
+
+    private void afterCallApi() {
+        binding.progressBar.maskviewLayout.setVisibility(View.GONE);
     }
 
     @Override
@@ -193,7 +186,7 @@ public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding
 
     @Override
     public void onRefresh() {
-        callListNewOrderApi();
+        loadData();
         binding.pullToRefresh.setRefreshing(false);
     }
 
@@ -230,181 +223,28 @@ public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding
     }
 
     /**
+     * call order are shipping api
+     */
+    private void callOrderAreShippingApi() {
+        beforeCallApi();
+        mDataController.getOrderListShipper(getMyActivity(), Constant.SHIPPER_ACCEPTED_ORDER, 0, 50, new OrderAreShippingCallBack());
+        mHomeOrderAreShippingAdapter.submitList(mListOrderAreShipping);
+        updateList();
+    }
+
+    /**
      * Call list new order api
      */
     public void callListNewOrderApi() {
-        mListNewOrder.add(new OrderItem("1"
-                , "https://image.thanhnien.vn/2048/uploaded/thanhlongn/2021_07_17/ngoctrinh_gejd.jpg"
-                , "Ngọc Trinh"
-                , "#AH1234"
-                , "Wash & Iron"
-                , "12 Jan 2021, 10:30 AM"
-                , "B 250 Basker Street ABC XYZ"
-                , "13 Jan 2021, 10:30 AM"
-                , "B 250 Basker Street ABC XYZ"));
-        mListNewOrder.add(new OrderItem("1"
-                , "https://image.thanhnien.vn/2048/uploaded/thanhlongn/2021_07_17/ngoctrinh_gejd.jpg"
-                , "Ngọc Trinh"
-                , "#AH1234"
-                , "Wash & Iron"
-                , "12 Jan 2021, 10:30 AM"
-                , "B 250 Basker Street ABC XYZ"
-                , "13 Jan 2021, 10:30 AM"
-                , "B 250 Basker Street ABC XYZ"));
-        mListNewOrder.add(new OrderItem("1"
-                , "https://image.thanhnien.vn/2048/uploaded/thanhlongn/2021_07_17/ngoctrinh_gejd.jpg"
-                , "Ngọc Trinh"
-                , "#AH1234"
-                , "Wash & Iron"
-                , "12 Jan 2021, 10:30 AM"
-                , "B 250 Basker Street ABC XYZ"
-                , "13 Jan 2021, 10:30 AM"
-                , "B 250 Basker Street ABC XYZ"));
-        mListNewOrder.add(new OrderItem("1"
-                , "https://image.thanhnien.vn/2048/uploaded/thanhlongn/2021_07_17/ngoctrinh_gejd.jpg"
-                , "Ngọc Trinh"
-                , "#AH1234"
-                , "Wash & Iron"
-                , "12 Jan 2021, 10:30 AM"
-                , "B 250 Basker Street ABC XYZ"
-                , "13 Jan 2021, 10:30 AM"
-                , "B 250 Basker Street ABC XYZ"));
-        mListNewOrder.add(new OrderItem("1"
-                , "https://image.thanhnien.vn/2048/uploaded/thanhlongn/2021_07_17/ngoctrinh_gejd.jpg"
-                , "Ngọc Trinh"
-                , "#AH1234"
-                , "Wash & Iron"
-                , "12 Jan 2021, 10:30 AM"
-                , "B 250 Basker Street ABC XYZ"
-                , "13 Jan 2021, 10:30 AM"
-                , "B 250 Basker Street ABC XYZ"));
-        mListNewOrder.add(new OrderItem("1"
-                , "https://image.thanhnien.vn/2048/uploaded/thanhlongn/2021_07_17/ngoctrinh_gejd.jpg"
-                , "Ngọc Trinh"
-                , "#AH1234"
-                , "Wash & Iron"
-                , "12 Jan 2021, 10:30 AM"
-                , "B 250 Basker Street ABC XYZ"
-                , "13 Jan 2021, 10:30 AM"
-                , "B 250 Basker Street ABC XYZ"));
-        mListNewOrder.add(new OrderItem("1"
-                , "https://image.thanhnien.vn/2048/uploaded/thanhlongn/2021_07_17/ngoctrinh_gejd.jpg"
-                , "Ngọc Trinh"
-                , "#AH1234"
-                , "Wash & Iron"
-                , "12 Jan 2021, 10:30 AM"
-                , "B 250 Basker Street ABC XYZ"
-                , "13 Jan 2021, 10:30 AM"
-                , "B 250 Basker Street ABC XYZ"));
-        mListNewOrder.add(new OrderItem("1"
-                , "https://image.thanhnien.vn/2048/uploaded/thanhlongn/2021_07_17/ngoctrinh_gejd.jpg"
-                , "Ngọc Trinh"
-                , "#AH1234"
-                , "Wash & Iron"
-                , "12 Jan 2021, 10:30 AM"
-                , "B 250 Basker Street ABC XYZ"
-                , "13 Jan 2021, 10:30 AM"
-                , "B 250 Basker Street ABC XYZ"));
-        mListNewOrder.add(new OrderItem("1"
-                , "https://image.thanhnien.vn/2048/uploaded/thanhlongn/2021_07_17/ngoctrinh_gejd.jpg"
-                , "Ngọc Trinh"
-                , "#AH1234"
-                , "Wash & Iron"
-                , "12 Jan 2021, 10:30 AM"
-                , "B 250 Basker Street ABC XYZ"
-                , "13 Jan 2021, 10:30 AM"
-                , "B 250 Basker Street ABC XYZ"));
-        mNewOrderAdapter.submitList(mListNewOrder);
-        updateList();
+        mDataController.getOrderListNewShipper(getMyActivity(),0, 50, new NewOrderCallBack());
+
     }
 
     /**
      * Call list history order api
      */
     public void callListHistoryOrderApi() {
-        mListHistoryOrder.add(new OrderItem("1"
-                , "https://image.thanhnien.vn/2048/uploaded/thanhlongn/2021_07_17/ngoctrinh_gejd.jpg"
-                , "Ngọc Trinh"
-                , "#AH1234"
-                , "Wash & Iron"
-                , "12 Jan 2021, 10:30 AM"
-                , "B 250 Basker Street ABC XYZ"
-                , "13 Jan 2021, 10:30 AM"
-                , "B 250 Basker Street ABC XYZ"));
-        mListHistoryOrder.add(new OrderItem("1"
-                , "https://image.thanhnien.vn/2048/uploaded/thanhlongn/2021_07_17/ngoctrinh_gejd.jpg"
-                , "Ngọc Trinh"
-                , "#AH1234"
-                , "Wash & Iron"
-                , "12 Jan 2021, 10:30 AM"
-                , "B 250 Basker Street ABC XYZ"
-                , "13 Jan 2021, 10:30 AM"
-                , "B 250 Basker Street ABC XYZ"));
-        mListHistoryOrder.add(new OrderItem("1"
-                , "https://image.thanhnien.vn/2048/uploaded/thanhlongn/2021_07_17/ngoctrinh_gejd.jpg"
-                , "Ngọc Trinh"
-                , "#AH1234"
-                , "Wash & Iron"
-                , "12 Jan 2021, 10:30 AM"
-                , "B 250 Basker Street ABC XYZ"
-                , "13 Jan 2021, 10:30 AM"
-                , "B 250 Basker Street ABC XYZ"));
-        mListHistoryOrder.add(new OrderItem("1"
-                , "https://image.thanhnien.vn/2048/uploaded/thanhlongn/2021_07_17/ngoctrinh_gejd.jpg"
-                , "Ngọc Trinh"
-                , "#AH1234"
-                , "Wash & Iron"
-                , "12 Jan 2021, 10:30 AM"
-                , "B 250 Basker Street ABC XYZ"
-                , "13 Jan 2021, 10:30 AM"
-                , "B 250 Basker Street ABC XYZ"));
-        mListHistoryOrder.add(new OrderItem("1"
-                , "https://image.thanhnien.vn/2048/uploaded/thanhlongn/2021_07_17/ngoctrinh_gejd.jpg"
-                , "Ngọc Trinh"
-                , "#AH1234"
-                , "Wash & Iron"
-                , "12 Jan 2021, 10:30 AM"
-                , "B 250 Basker Street ABC XYZ"
-                , "13 Jan 2021, 10:30 AM"
-                , "B 250 Basker Street ABC XYZ"));
-        mListHistoryOrder.add(new OrderItem("1"
-                , "https://image.thanhnien.vn/2048/uploaded/thanhlongn/2021_07_17/ngoctrinh_gejd.jpg"
-                , "Ngọc Trinh"
-                , "#AH1234"
-                , "Wash & Iron"
-                , "12 Jan 2021, 10:30 AM"
-                , "B 250 Basker Street ABC XYZ"
-                , "13 Jan 2021, 10:30 AM"
-                , "B 250 Basker Street ABC XYZ"));
-        mListHistoryOrder.add(new OrderItem("1"
-                , "https://image.thanhnien.vn/2048/uploaded/thanhlongn/2021_07_17/ngoctrinh_gejd.jpg"
-                , "Ngọc Trinh"
-                , "#AH1234"
-                , "Wash & Iron"
-                , "12 Jan 2021, 10:30 AM"
-                , "B 250 Basker Street ABC XYZ"
-                , "13 Jan 2021, 10:30 AM"
-                , "B 250 Basker Street ABC XYZ"));
-        mListHistoryOrder.add(new OrderItem("1"
-                , "https://image.thanhnien.vn/2048/uploaded/thanhlongn/2021_07_17/ngoctrinh_gejd.jpg"
-                , "Ngọc Trinh"
-                , "#AH1234"
-                , "Wash & Iron"
-                , "12 Jan 2021, 10:30 AM"
-                , "B 250 Basker Street ABC XYZ"
-                , "13 Jan 2021, 10:30 AM"
-                , "B 250 Basker Street ABC XYZ"));
-        mListHistoryOrder.add(new OrderItem("1"
-                , "https://image.thanhnien.vn/2048/uploaded/thanhlongn/2021_07_17/ngoctrinh_gejd.jpg"
-                , "Ngọc Trinh"
-                , "#AH1234"
-                , "Wash & Iron"
-                , "12 Jan 2021, 10:30 AM"
-                , "B 250 Basker Street ABC XYZ"
-                , "13 Jan 2021, 10:30 AM"
-                , "B 250 Basker Street ABC XYZ"));
-        mHistoryOrderAdapter.submitList(mListHistoryOrder);
-        updateList();
+        mDataController.getOrderListShipper(getMyActivity(),Constant.COMPLETE_ORDER,0, 50, new HistoryOrderCallBack());
     }
 
     /**
@@ -455,7 +295,7 @@ public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding
 
     @Override
     public void onClick(View v) {
-        OrderItem item = (OrderItem) v.getTag();
+        OrderListShipperDto item = (OrderListShipperDto) v.getTag();
         switch (v.getId()) {
             case R.id.home_staff_derivering_order_call_button:
                 onClickCallButton(item);
@@ -464,11 +304,38 @@ public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding
                 onClickDoneButton();
                 break;
             case R.id.order_home_item_layout:
+            case R.id.order_are_shipping_item:
                 onClickOrderItem();
+                break;
+            case R.id.home_staff_item_accept_button:
+                onClickAcceptButton(item);
                 break;
             default:
                 break;
         }
+    }
+
+    /**
+     * Handle click accept button
+     */
+    private void onClickAcceptButton(OrderListShipperDto item) {
+        beforeCallApi();
+        mDataController.acceptOrder(getMyActivity(), String.valueOf(item.id), new ApiServiceOperator.OnResponseListener<BaseResponse>() {
+            @Override
+            public void onSuccess(BaseResponse body) {
+                if (TextUtils.equals(APIConstant.STATUS_CODE_SUCCESS, body.statusCd)) {
+                    Toast.makeText(getMyActivity(), "Accept order successful!", Toast.LENGTH_LONG).show();
+                    loadData();
+                } else {
+                    Toast.makeText(getMyActivity(), "Accept order fail!", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Toast.makeText(getMyActivity(), "Accept order fail!", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     /**
@@ -481,8 +348,8 @@ public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding
     /**
      * Handle click call button in list order are shipping
      */
-    private void onClickCallButton(OrderItem item) {
-        mOnClickCallPhone.onCall(item.getPhoneNumber());
+    private void onClickCallButton(OrderListShipperDto item) {
+        mOnClickCallPhone.onCall(item.shippingPhoneNumber);
     }
 
     /**
@@ -496,29 +363,71 @@ public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding
         void onCall(String phoneNumber);
     }
 
-    public double calculationByDistance(double latStart, double longStart, double latEnd, double longEnd) {
-        int Radius = 6371;// radius of earth in Km
-        double lat1 = latStart;
-        double lat2 = latEnd;
-        double lon1 = longStart;
-        double lon2 = longEnd;
-        double dLat = Math.toRadians(lat2 - lat1);
-        double dLon = Math.toRadians(lon2 - lon1);
-        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2)
-                + Math.cos(Math.toRadians(lat1))
-                * Math.cos(Math.toRadians(lat2)) * Math.sin(dLon / 2)
-                * Math.sin(dLon / 2);
-        double c = 2 * Math.asin(Math.sqrt(a));
-        double valueResult = Radius * c;
-        double km = valueResult / 1;
-        DecimalFormat newFormat = new DecimalFormat("####");
-        int kmInDec = Integer.valueOf(newFormat.format(km));
-        double meter = valueResult % 1000;
-        int meterInDec = Integer.valueOf(newFormat.format(meter));
-        Log.i("Radius Value", "" + valueResult + "   KM  " + kmInDec
-                + " Meter   " + meterInDec);
+    private class OrderAreShippingCallBack implements ApiServiceOperator.OnResponseListener<OrderListShipperResponse> {
 
-        return Radius * c;
+
+        @Override
+        public void onSuccess(OrderListShipperResponse body) {
+            if (TextUtils.equals(APIConstant.STATUS_CODE_SUCCESS, body.statusCd)) {
+                mListOrderAreShipping.clear();
+                mListOrderAreShipping.addAll(body.orderListShipperDtos);
+                mHomeOrderAreShippingAdapter.submitList(mListOrderAreShipping);
+            } else {
+
+            }
+            callListNewOrderApi();
+        }
+
+        @Override
+        public void onFailure(Throwable t) {
+            callListNewOrderApi();
+        }
+    }
+
+    private class NewOrderCallBack implements ApiServiceOperator.OnResponseListener<OrderListShipperResponse> {
+
+
+        @Override
+        public void onSuccess(OrderListShipperResponse body) {
+
+            if (TextUtils.equals(APIConstant.STATUS_CODE_SUCCESS, body.statusCd)) {
+                mListNewOrder.clear();
+                mListNewOrder.addAll(body.orderListShipperDtos);
+                mNewOrderAdapter.submitList(mListNewOrder);
+            } else {
+
+            }
+
+            callListHistoryOrderApi();
+        }
+
+        @Override
+        public void onFailure(Throwable t) {
+            callListHistoryOrderApi();
+        }
+    }
+
+    private class HistoryOrderCallBack implements ApiServiceOperator.OnResponseListener<OrderListShipperResponse> {
+
+
+        @Override
+        public void onSuccess(OrderListShipperResponse body) {
+            if (TextUtils.equals(APIConstant.STATUS_CODE_SUCCESS, body.statusCd)) {
+                mListHistoryOrder.clear();
+                mListHistoryOrder.addAll(body.orderListShipperDtos);
+                mHistoryOrderAdapter.submitList(mListHistoryOrder);
+            } else {
+
+            }
+            updateList();
+            afterCallApi();
+        }
+
+        @Override
+        public void onFailure(Throwable t) {
+            updateList();
+            afterCallApi();
+        }
     }
 
 }

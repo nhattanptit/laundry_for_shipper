@@ -2,6 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
     <LinearLayout
+        android:id="@+id/order_are_shipping_item"
         android:layout_width="@dimen/dp_320"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_home_order_item"
@@ -38,7 +39,7 @@
                 android:textSize="@dimen/sp_10"
                 android:layout_below="@+id/order_are_shipping_delivery_address_content"
                 android:textColor="@color/green_8cc63e"
-                android:text="@string/phone_number"
+                android:text="@string/phone_number_customer"
                 />
             <TextView
                 android:id="@+id/order_are_shipping_phonenumber_content"
@@ -56,19 +57,23 @@
                 android:orientation="vertical"
                 android:gravity="center_horizontal"
                 android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/dp_64">
+                android:layout_toEndOf="@+id/order_are_shipping_phonenumber_content"
+                android:layout_marginRight="@dimen/dp_16">
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="35dp"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/home_staff_delivering_icon" />
-                <TextView
+                    android:id="@+id/status_icon"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/status_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
                     android:text="@string/delivering"
-                    android:textSize="@dimen/sp_8"
-                    android:textColor="@color/blue_29aae3"/>
+                    android:gravity="center_horizontal"
+                    android:textAlignment="center"
+                    android:textColor="@color/blue_29aae3"
+                    android:textSize="@dimen/sp_8" />
             </LinearLayout>
         </RelativeLayout>
         <LinearLayout
@@ -76,24 +81,28 @@
             android:layout_height="wrap_content"
             android:weightSum="2"
             android:layout_marginTop="@dimen/dp_24">
+
             <Button
                 android:id="@+id/home_staff_derivering_order_call_button"
                 android:layout_width="@dimen/dp_128"
-                android:layout_height="@dimen/dp_32"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp_20"
                 android:layout_marginEnd="@dimen/dp_16"
                 android:layout_marginBottom="@dimen/dp_8"
+                android:gravity="center"
                 android:background="@drawable/shaper_button_green"
                 android:text="@string/call"
                 android:textAllCaps="false"
                 android:textColor="@color/white" />
+
             <Button
                 android:id="@+id/home_staff_derivering_order_done_button"
                 android:layout_width="@dimen/dp_128"
-                android:layout_height="@dimen/dp_32"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp_16"
                 android:layout_marginEnd="@dimen/dp_20"
                 android:layout_marginBottom="@dimen/dp_8"
+                android:gravity="center"
                 android:background="@drawable/shaper_button_green"
                 android:text="@string/done"
                 android:textAllCaps="false"

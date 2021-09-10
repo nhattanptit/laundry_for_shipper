@@ -21,6 +21,7 @@ import com.laundry.app.databinding.HomeBinding;
 import com.laundry.app.dto.Role;
 import com.laundry.app.utils.SharePreferenceManager;
 import com.laundry.app.view.dialog.LoginDialog;
+import com.laundry.app.view.fragment.customer.CustomerInfoFragment;
 import com.laundry.app.view.fragment.customer.CustomerOderHistoryListFragment;
 import com.laundry.app.view.fragment.customer.HomeFragment;
 import com.laundry.app.view.fragment.shipper.ShipperHomeFragment;
@@ -29,8 +30,7 @@ import com.laundry.base.BaseActivity;
 import java.util.ArrayList;
 
 public class HomeActivity extends BaseActivity<HomeBinding> implements LoginDialog.LoginListener,
-        ShipperHomeFragment.OnClickCallPhone, BaseActivity.ConfigPermission {
-
+        ShipperHomeFragment.OnClickCallPhone, BaseActivity.ConfigPermission, CustomerInfoFragment.ISCustomerInfoCallBack {
 
     private static final String TAG = HomeActivity.class.getSimpleName();
     private String mMode;
@@ -163,4 +163,11 @@ public class HomeActivity extends BaseActivity<HomeBinding> implements LoginDial
         binding.navView.setVisibility(View.GONE);
     }
 
+    @Override
+    public void setPermission() {
+        String[] simpleArray = {Manifest.permission.CAMERA,
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        doRequestPermission(simpleArray, this);
+    }
 }

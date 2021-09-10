@@ -47,8 +47,10 @@ public class CustomerOderHistoryListFragment extends BaseFragment<CustomerHistor
     private class OrderListCustomerCallBack implements ApiServiceOperator.OnResponseListener<OrderListCustomerResponse> {
         @Override
         public void onSuccess(OrderListCustomerResponse body) {
-            mOrderListCustomerAdapter.submitList(body.orderListCustomerDtoes);
-            binding.orderList.setAdapter(mOrderListCustomerAdapter);
+            if (body != null && body.orderListCustomerDtoes != null) {
+                mOrderListCustomerAdapter.submitList(body.orderListCustomerDtoes);
+                binding.orderList.setAdapter(mOrderListCustomerAdapter);
+            }
             afterCallApi();
         }
 

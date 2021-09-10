@@ -19,6 +19,7 @@ import com.laundry.app.control.ApiServiceOperator;
 import com.laundry.app.control.DataController;
 import com.laundry.app.data.APIConstant;
 import com.laundry.app.databinding.ActivityOrderSuccessBinding;
+import com.laundry.app.dto.AddressInfo;
 import com.laundry.app.dto.BaseResponse;
 import com.laundry.app.dto.maps.MapDirectionResponse;
 import com.laundry.app.dto.ordercreate.OrderResponseDto;

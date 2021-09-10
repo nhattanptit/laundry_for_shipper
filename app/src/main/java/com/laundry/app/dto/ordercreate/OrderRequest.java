@@ -47,4 +47,8 @@ public class OrderRequest implements Serializable {
     @SerializedName("latShipping")
     @Expose
     public double latShipping;
+
+    @SerializedName("isCashPay")
+    @Expose
+    public boolean isCashPay;
 }

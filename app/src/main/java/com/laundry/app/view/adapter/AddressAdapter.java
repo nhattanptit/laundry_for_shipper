@@ -1,7 +1,6 @@
 package com.laundry.app.view.adapter;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.view.View;
 
 import androidx.databinding.ViewDataBinding;
@@ -18,17 +17,12 @@ import java.util.List;
 
 public class AddressAdapter extends BaseAdapter {
 
+    private static final String TAG = "AddressAdapter";
     private ISAddressCallBack mIsAddressCallBack;
-    private List<AddressListlDto> mSelectedList = new ArrayList<>();
+    public List<AddressListlDto> mSelectedList = new ArrayList<>();
 
     public void setSelectAddressCallBack(ISAddressCallBack addressCallBack) {
         this.mIsAddressCallBack = addressCallBack;
-    }
-
-    private Context context;
-
-    public AddressAdapter(Context context) {
-        this.context = context;
     }
 
     @Override
@@ -51,6 +45,37 @@ public class AddressAdapter extends BaseAdapter {
 
     }
 
+    public void setAddressSelected(AddressListlDto item) {
+        if (item != null) {
+            int position = getIndexItemSelectedBefore(item);
+            if (position >= 0) {
+                selectedItem((AddressListlDto) dataList.get(position));
+            }
+        }
+    }
+
+    private int getIndexItemSelectedBefore(AddressListlDto item) {
+        for (int i = 0; i < dataList.size(); i++) {
+            AddressListlDto dto = (AddressListlDto) dataList.get(i);
+            if (dto.id == item.id) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private void selectedItem(AddressListlDto item) {
+        if (mSelectedList != null) {
+            if (mSelectedList.size() > 0) {
+                mSelectedList.clear();
+            }
+            mSelectedList.add(item);
+            notifyDataSetChanged();
+        } else {
+            throw new NullPointerException("create instance of list");
+        }
+    }
+
     private class AddressVH extends BaseVH<AddressListlDto> {
 
         private BillingAddressItemBinding binding;
@@ -58,7 +83,6 @@ public class AddressAdapter extends BaseAdapter {
         public AddressVH(ViewDataBinding viewDataBinding) {
             super(viewDataBinding);
             binding = (BillingAddressItemBinding) viewDataBinding;
-
             binding.deleteIcon.setOnClickListener(view -> {
                 AddressListlDto item = (AddressListlDto) dataList.get(getAbsoluteAdapterPosition());
                 mIsAddressCallBack.onClickItemDelete(getAbsoluteAdapterPosition(), item);
@@ -80,10 +104,10 @@ public class AddressAdapter extends BaseAdapter {
         @Override
         public void bind(AddressListlDto item) {
             super.bind(item);
-            binding.informationText.setText(String.format(String.valueOf(context.getResources().getString(R.string.name_and_phone_format)),
+            binding.informationText.setText(String.format(String.valueOf(context.getString(R.string.name_and_phone_format)),
                     item.receiverName,
                     item.receiverPhoneNumber));
-            binding.addressDetail.setText(String.format(String.valueOf(context.getResources().getString(R.string.address_format)),
+            binding.addressDetail.setText(String.format(String.valueOf(context.getString(R.string.address_format)),
                     item.address,
                     AddressInfo.getInstance().getWardNameById(item.city, item.district, item.ward),
                     AddressInfo.getInstance().getDistrictNameById(item.city, item.district),
@@ -107,20 +131,10 @@ public class AddressAdapter extends BaseAdapter {
             return isSelected;
         }
 
-        private void selectedItem(AddressListlDto item) {
-            if (mSelectedList != null) {
-                if (mSelectedList.size() > 0) {
-                    mSelectedList.clear();
-                }
-                mSelectedList.add(item);
-                notifyDataSetChanged();
-            } else {
-                throw new NullPointerException("create instance of list");
-            }
-        }
     }
 
     public interface ISAddressCallBack {
+
         void onClickItemAdd(int position, AddressListlDto item);
 
         void onClickItemUpdate(int position, AddressListlDto item);

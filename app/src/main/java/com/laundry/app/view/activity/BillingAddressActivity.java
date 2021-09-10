@@ -30,13 +30,12 @@ public class BillingAddressActivity extends BaseActivity<BillingAddressActivityB
 
     private static final String TAG = "BillingAddressActivity";
     private final DataController mDataController = new DataController();
-    public final AddressAdapter addressAdapter = new AddressAdapter(this);
+    public final AddressAdapter addressAdapter = new AddressAdapter();
     private final List<Object> addressListlDtos = new ArrayList<>();
-    private AddressListlDto addressDto = new AddressListlDto();
+    private AddressListlDto addressDto;
     public static final String RESULT_CODE_ADDRESS = "RESULT_CODE_ADDRESS";
     public static final String KEY_ADDRESS_SELECTED = "KEY_ADDRESS_SELECTED";
     public int positionAddresses;
-
 
     @Override
     protected int getLayoutResource() {
@@ -54,9 +53,6 @@ public class BillingAddressActivity extends BaseActivity<BillingAddressActivityB
         binding.toolbar.setToolbarListener(view -> onBackPressed());
         addressAdapter.setSelectAddressCallBack(this);
         addressDto = (AddressListlDto) getIntent().getSerializableExtra(KEY_ADDRESS_SELECTED);
-        if (addressDto != null) {
-            Log.d(TAG, "onInitView: " + addressDto.address);
-        }
     }
 
     @Override
@@ -114,6 +110,7 @@ public class BillingAddressActivity extends BaseActivity<BillingAddressActivityB
             }
             addressAdapter.setDataList(addressListlDtos);
             afterCallApi();
+            addressAdapter.setAddressSelected(addressDto);
         }
 
         @Override

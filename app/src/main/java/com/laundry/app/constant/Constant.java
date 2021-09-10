@@ -48,14 +48,16 @@ public class Constant {
     public static final String SOURCE_ID = "SOURCE_ID";
     public static final String LAYER_ID = "LAYER_ID";
 
+    // Order status
     public static final String NEW = "NEW";
     public static final String SHIPPER_ACCEPTED_ORDER = "SHIPPER_ACCEPTED_ORDER";
     public static final String SHIPPER_RECEIVED_ORDER = "SHIPPER_RECEIVED_ORDER";
     public static final String STORE_RECEIVED_ORDER = "STORE_RECEIVED_ORDER";
     public static final String STORE_DONE_ORDER = "STORE_DONE_ORDER";
     public static final String SHIPPER_DELIVER_ORDER = "SHIPPER_DELIVER_ORDER";
-    public static final String COMPLETED_ORDER = "COMPLETED_ORDER";
+    public static final String COMPLETE_ORDER = "COMPLETE_ORDER";
     public static final String CANCEL = "CANCEL";
+    public static final String INCOMPLETE_ORDER = "INCOMPLETE_ORDER";
 
 
     public static final String KEY_BUNDLE_ORDER_RESPONSE = "key_bundle_order_response";

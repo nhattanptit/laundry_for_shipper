@@ -1,12 +1,14 @@
 package com.laundry.app.control;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import androidx.annotation.IntRange;
 
 import com.laundry.app.data.APIConstant;
 import com.laundry.app.data.ApiService;
 import com.laundry.app.dto.BaseResponse;
+import com.laundry.app.dto.Role;
 import com.laundry.app.dto.UserInfo;
 import com.laundry.app.dto.addressall.AddressListResponse;
 import com.laundry.app.dto.addressdelete.AddressDeleteResponse;
@@ -24,9 +26,11 @@ import com.laundry.app.dto.ordercreate.OrderRequest;
 import com.laundry.app.dto.ordercreate.OrderResponseDto;
 import com.laundry.app.dto.ordercreate.OrderServiceDetailForm;
 import com.laundry.app.dto.orderlistcustomer.OrderListCustomerResponse;
+import com.laundry.app.dto.orderlistshipper.OrderListShipperResponse;
 import com.laundry.app.dto.servicelist.ServiceListResponse;
 import com.laundry.app.dto.sevicedetail.ServicesDetailResponse;
 import com.laundry.app.dto.shippingfee.ShippingFeeResponseDto;
+import com.laundry.app.utils.SharePreferenceManager;
 
 import java.util.List;
 
@@ -44,9 +48,10 @@ public class DataController {
         call.enqueue(new ApiServiceOperator<>(listener));
     }
 
-    public void login(LoginRequest loginRequest,
+    public void login(Context context, LoginRequest loginRequest,
                       ApiServiceOperator.OnResponseListener<LoginResponseDto> listener) {
-        Call<LoginResponseDto> call = service.signin(loginRequest);
+        String mode = SharePreferenceManager.getMode(context);
+        Call<LoginResponseDto> call = TextUtils.equals(Role.CUSTOMER.role(), mode) ? service.signin(loginRequest) : service.signinShipper(loginRequest);
         call.enqueue(new ApiServiceOperator<>(listener));
 
     }
@@ -152,6 +157,42 @@ public class DataController {
 
     public void getOrderListCustomer(Context context, int page, int size, ApiServiceOperator.OnResponseListener<OrderListCustomerResponse> listener) {
         Call<OrderListCustomerResponse> call = service.getOrderListCustomer(UserInfo.getInstance().getToken(context), page, size);
+        call.enqueue(new ApiServiceOperator<>(listener));
+    }
+
+    /**
+     * Get order list shipper by status order
+     * @param context Context
+     * @param orderStatus Orderstatus
+     * @param page page start
+     * @param size Size
+     * @param listener Listener callback
+     */
+    public void getOrderListShipper(Context context,String orderStatus ,int page, int size, ApiServiceOperator.OnResponseListener<OrderListShipperResponse> listener) {
+        Call<OrderListShipperResponse> call = service.getOrderListShipper(UserInfo.getInstance().getToken(context),orderStatus , page, size);
+        call.enqueue(new ApiServiceOperator<>(listener));
+    }
+
+    /**
+     * Get order list shipper new order
+     * @param context Context
+     * @param page page start
+     * @param size Size
+     * @param listener Listener callback
+     */
+    public void getOrderListNewShipper(Context context ,int page, int size, ApiServiceOperator.OnResponseListener<OrderListShipperResponse> listener) {
+        Call<OrderListShipperResponse> call = service.getOrderListNewShipper(UserInfo.getInstance().getToken(context) , page, size);
+        call.enqueue(new ApiServiceOperator<>(listener));
+    }
+
+    /**
+     * Accept order
+     * @param context Context
+     * @param orderId Order id
+     * @param listener listener callback
+     */
+    public void acceptOrder(Context context, String orderId, ApiServiceOperator.OnResponseListener<BaseResponse> listener) {
+        Call<BaseResponse> call = service.acceptOrder(UserInfo.getInstance().getToken(context) , orderId);
         call.enqueue(new ApiServiceOperator<>(listener));
     }
 }

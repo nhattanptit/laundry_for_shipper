@@ -1,12 +1,8 @@
-package com.laundry.app.dto.ordercreate;
+package com.laundry.app.dto.orderlistshipper;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.laundry.app.R;
-import com.laundry.app.dto.BaseResponse;
-import com.laundry.app.dto.sevicedetail.ServiceDetailDto;
-
-import java.util.List;
 
 import static com.laundry.app.constant.Constant.CANCEL;
 import static com.laundry.app.constant.Constant.COMPLETE_ORDER;
@@ -17,87 +13,65 @@ import static com.laundry.app.constant.Constant.SHIPPER_RECEIVED_ORDER;
 import static com.laundry.app.constant.Constant.STORE_DONE_ORDER;
 import static com.laundry.app.constant.Constant.STORE_RECEIVED_ORDER;
 
-public class OrderResponse extends BaseResponse {
+public class OrderListShipperDto {
 
     @SerializedName("id")
     @Expose
-    public int id;
-
+    public Integer id;
     @SerializedName("serviceId")
     @Expose
-    public int serviceId;
-
+    public Integer serviceId;
     @SerializedName("serviceName")
     @Expose
     public String serviceName;
-
+    @SerializedName("distance")
+    @Expose
+    public Double distance;
     @SerializedName("status")
     @Expose
     public String status;
-
-    @SerializedName("distance")
-    @Expose
-    public double distance;
-
     @SerializedName("totalShipFee")
     @Expose
-    public double totalShipFee;
-
+    public Integer totalShipFee;
     @SerializedName("totalServiceFee")
     @Expose
-    public double totalServiceFee;
-
+    public Integer totalServiceFee;
     @SerializedName("totalBill")
     @Expose
-    public double totalBill;
-
-    @SerializedName("shippingAddress")
+    public Double totalBill;
+    @SerializedName("deliverAddress")
     @Expose
-    public String shippingAddress;
-
-    @SerializedName("shippingPersonName")
-    @Expose
-    public String shippingPersonName;
-
-    @SerializedName("shippingPersonPhoneNumber")
-    @Expose
-    public String shippingPersonPhoneNumber;
-
-    @SerializedName("pickUpPersonName")
-    @Expose
-    public String pickUpPersonName;
-
-    @SerializedName("pickUpPersonPhoneNumber")
-    @Expose
-    public String pickUpPersonPhoneNumber;
-
+    public String deliverAddress;
     @SerializedName("pickUpAddress")
     @Expose
     public String pickUpAddress;
-
     @SerializedName("isPaid")
     @Expose
-    public boolean isPaid;
-
-    @SerializedName("serviceDetails")
+    public Boolean isPaid;
+    @SerializedName("userId")
     @Expose
-    public List<ServiceDetailDto> serviceDetails;
-
-    @SerializedName("longShipping")
+    public Integer userId;
+    @SerializedName("shipperUserId")
     @Expose
-    public double longitude = 0;
-
-    @SerializedName("latShipping")
+    public Integer shipperUserId;
+    @SerializedName("createdDate")
     @Expose
-    public double latitude = 0;
-
-    @SerializedName("shipper")
+    public String createdDate;
+    @SerializedName("lastUpdatedDate")
     @Expose
-    public ShipperDto shipperDto;
-
-    @SerializedName("isCashPay")
+    public String lastUpdatedDate;
+    @SerializedName("pickUpDateTime")
     @Expose
-    public boolean isCashPay;
+    public String pickUpDateTime;
+    @SerializedName("deliveryDateTime")
+    @Expose
+    public String deliveryDateTime;
+    @SerializedName("userName")
+    @Expose
+    public String shippingNamePerson;
+    @SerializedName("userPhoneNumber")
+    @Expose
+    public String shippingPhoneNumber;
 
 
     /**

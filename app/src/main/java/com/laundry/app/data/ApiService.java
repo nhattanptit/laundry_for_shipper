@@ -17,6 +17,7 @@ import com.laundry.app.dto.ordercreate.OrderRequest;
 import com.laundry.app.dto.ordercreate.OrderResponseDto;
 import com.laundry.app.dto.ordercreate.OrderServiceDetailForm;
 import com.laundry.app.dto.orderlistcustomer.OrderListCustomerResponse;
+import com.laundry.app.dto.orderlistshipper.OrderListShipperResponse;
 import com.laundry.app.dto.servicelist.ServiceListResponse;
 import com.laundry.app.dto.sevicedetail.ServicesDetailResponse;
 import com.laundry.app.dto.shippingfee.ShippingFeeResponseDto;
@@ -42,6 +43,9 @@ public interface ApiService {
 
     @POST(APIConstant.URL_LOGIN)
     Call<LoginResponseDto> signin(@Body LoginRequest loginRequest);
+
+    @POST(APIConstant.URL_SHIPPER_LOGIN)
+    Call<LoginResponseDto> signinShipper(@Body LoginRequest loginRequest);
 
     @GET(APIConstant.URL_SERVICES_ALL)
     Call<ServiceListResponse> getServicesAll();
@@ -84,4 +88,13 @@ public interface ApiService {
     @POST(APIConstant.URL_ORDERS_DETAILS)
     @FormUrlEncoded
     Call<OrderResponseDto> getOrderDetail(@Header("Authorization") String token, @Field("orderId") int id);
+
+    @GET(APIConstant.URL_ORDER_LIST_SHIPPER)
+    Call<OrderListShipperResponse> getOrderListShipper(@Header("Authorization") String token, @Query("orderStatus")String orderStatus , @Query("page") int page, @Query("size") int size);
+
+    @GET(APIConstant.URL_ORDER_LIST_NEW_SHIPPER)
+    Call<OrderListShipperResponse> getOrderListNewShipper(@Header("Authorization") String token , @Query("page") int page, @Query("size") int size);
+
+    @PUT(APIConstant.URL_ORDER_ACCEPT_ORDER)
+    Call<BaseResponse> acceptOrder(@Header("Authorization") String token, @Query("orderId") String orderId);
 }

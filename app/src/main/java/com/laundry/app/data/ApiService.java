@@ -16,6 +16,8 @@ import com.laundry.app.dto.order.OrderConfirmResponseDto;
 import com.laundry.app.dto.ordercreate.OrderRequest;
 import com.laundry.app.dto.ordercreate.OrderResponseDto;
 import com.laundry.app.dto.ordercreate.OrderServiceDetailForm;
+import com.laundry.app.dto.payment.PaymentRequest;
+import com.laundry.app.dto.payment.PaymentResponseDto;
 import com.laundry.app.dto.servicelist.ServiceListResponse;
 import com.laundry.app.dto.sevicedetail.ServicesDetailResponse;
 import com.laundry.app.dto.shippingfee.ShippingFeeResponseDto;
@@ -76,4 +78,7 @@ public interface ApiService {
 
     @PUT(APIConstant.URL_ORDERS_CANCEL)
     Call<BaseResponse> cancelOrder(@Header("Authorization") String token, @Query("orderId") String orderId);
+
+    @PUT(APIConstant.URL_ORDERS_PAYMENT)
+    Call<PaymentResponseDto> paymentFinished(@Header("Authorization") String token, @Body PaymentRequest request);
 }

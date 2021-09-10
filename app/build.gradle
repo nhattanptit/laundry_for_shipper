@@ -43,7 +43,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     implementation project(':base')
-
+    implementation 'com.android.support:multidex:1.0.3'
     implementation 'androidx.navigation:navigation-fragment:2.3.5'
     implementation 'androidx.navigation:navigation-ui:2.3.5'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
@@ -60,4 +60,5 @@ dependencies {
     implementation group: 'com.google.android.material', name: 'material', version: '1.5.0-alpha02'
     implementation 'com.google.maps.android:android-maps-utils:2.2.3'
     implementation group: 'com.google.code.geocoder-java', name: 'geocoder-java', version: '0.15'
+    implementation 'com.github.momo-wallet:mobile-sdk:1.0.6'
 }

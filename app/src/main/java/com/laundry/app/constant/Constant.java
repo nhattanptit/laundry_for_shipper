@@ -47,4 +47,7 @@ public class Constant {
     public static final String KEY_BUNDLE_ORDER_RESPONSE = "key_bundle_order_response";
     public static final String KEY_BUNDLE_MAP_DIRECTION_RESPONSE = "key_bundle_map_direction_response";
     public static final String KEY_BUNDLE_IS_CASH_PAYMENT_METHOD = "key_bundle_is_cash_payment_method";
+    public static final String MERCHANT_NAME = "Ca Nhan";
+    public static final String MERCHANT_CODE = "MOMOFO2O20210910";
+    public static final String PARTNER_CODE_MOMO = "MOMO";
 }

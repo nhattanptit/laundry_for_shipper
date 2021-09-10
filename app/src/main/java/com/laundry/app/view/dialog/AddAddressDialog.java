@@ -54,7 +54,6 @@ public class AddAddressDialog extends BaseDialog<AddressAddDialogBinding> {
     public void onViewClick() {
         binding.doneButton.setOnClickListener(view -> {
             addAddressNew();
-            dismissDialog();
         });
 
         binding.cancelButton.setOnClickListener(view -> {
@@ -67,6 +66,7 @@ public class AddAddressDialog extends BaseDialog<AddressAddDialogBinding> {
      */
     private void addAddressNew() {
         if (validate()) {
+            dismissDialog();
             activity.beforeCallApi();
             mDataController.addAddress(getMyActivity(), addAddressRequest, new AddressAddCallBack());
         }

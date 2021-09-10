@@ -42,6 +42,7 @@
     <string name="wash_iron"><![CDATA[Wash & Iron]]></string>
     <string name="new_order">New order</string>
     <string name="order_history">Order history</string>
+    <string name="order_history_uppercase">Order History</string>
     <string name="accept">Accept</string>
     <string name="picked_date_time"><![CDATA[Pickup Date & Time]]></string>
     <string name="pickup_address">Pickup Address</string>
@@ -101,6 +102,8 @@
     <string name="cancel_order_fail">Cancel order fail!</string>
     <string name="order_fail">Order Failed!</string>
     <string name="order_fail_text_content">Something went wrong.\n Would like to try again?</string>
+    <string name="order_status">Order Status : </string>
+    <string name="date_create">Date Create :</string>
     <string name="order_receivered">Order received</string>
     <string name="something_went_wrong">Something went wrong!</string>
     <string name="please_select_service">Please select service!!!</string>

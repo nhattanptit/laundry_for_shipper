@@ -16,6 +16,7 @@ import com.laundry.app.dto.order.OrderConfirmResponseDto;
 import com.laundry.app.dto.ordercreate.OrderRequest;
 import com.laundry.app.dto.ordercreate.OrderResponseDto;
 import com.laundry.app.dto.ordercreate.OrderServiceDetailForm;
+import com.laundry.app.dto.orderlistcustomer.OrderListCustomerResponse;
 import com.laundry.app.dto.servicelist.ServiceListResponse;
 import com.laundry.app.dto.sevicedetail.ServicesDetailResponse;
 import com.laundry.app.dto.shippingfee.ShippingFeeResponseDto;
@@ -76,6 +77,9 @@ public interface ApiService {
 
     @PUT(APIConstant.URL_ORDERS_CANCEL)
     Call<BaseResponse> cancelOrder(@Header("Authorization") String token, @Query("orderId") String orderId);
+
+    @GET(APIConstant.URL_ORDER_LIST_CUSTOMER)
+    Call<OrderListCustomerResponse> getOrderListCustomer(@Header("Authorization") String token, @Query("page") int page, @Query("size") int size);
 
     @POST(APIConstant.URL_ORDERS_DETAILS)
     @FormUrlEncoded

@@ -8,11 +8,13 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.databinding.DataBindingUtil;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -27,10 +29,12 @@ import com.laundry.app.databinding.ActivityOrderDetailShipperBinding;
 import com.laundry.app.dto.BaseResponse;
 import com.laundry.app.dto.maps.MapDirectionResponse;
 import com.laundry.app.dto.ordercreate.OrderResponseDto;
+import com.laundry.app.dto.orderlistshipper.OrderListShipperDto;
 import com.laundry.app.dto.sevicedetail.ServiceDetailDto;
 import com.laundry.app.utils.MapUtils;
 import com.laundry.app.utils.SingleTapListener;
 import com.laundry.app.view.adapter.ServicesOrderAdapter;
+import com.laundry.app.view.fragment.shipper.ShipperHomeFragment;
 import com.laundry.base.BaseActivity;
 import com.mapbox.geojson.Feature;
 import com.mapbox.geojson.FeatureCollection;
@@ -63,7 +67,7 @@ import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconImage;
 public class OrderDetailShipperActivity extends BaseActivity<ActivityOrderDetailShipperBinding> implements BaseActivity.ConfigPermission
         , OnMapReadyCallback
         , View.OnClickListener
-, SwipeRefreshLayout.OnRefreshListener {
+        , SwipeRefreshLayout.OnRefreshListener {
     //----------------------------------------------------------------------------------------------
     //------------ instance variable
     //----------------------------------------------------------------------------------------------
@@ -243,17 +247,11 @@ public class OrderDetailShipperActivity extends BaseActivity<ActivityOrderDetail
             case R.id.order_detail_call_shipper_button:
                 onClickCallCustomer();
                 break;
-            case R.id.order_detail_staff_item_accept_button:
-                onClickAcceptButton();
+            case R.id.order_detail_cancel_button:
+                cancelOrder();
                 break;
-            case R.id.parcel_picked_up_button:
-                updateStatus(Constant.SHIPPER_RECEIVED_ORDER);
-                break;
-            case R.id.parcel_deliver_order_button:
-                updateStatus(Constant.SHIPPER_DELIVER_ORDER);
-                break;
-            case R.id.order_delivered_button:
-                updateStatus(Constant.COMPLETE_ORDER);
+            case R.id.order_detail_accept_button:
+                updateStatus();
                 break;
             default:
                 break;
@@ -265,52 +263,17 @@ public class OrderDetailShipperActivity extends BaseActivity<ActivityOrderDetail
         loadData();
     }
 
-    /**
-     * Update status order
-     * @param shipperReceivedOrder status order
-     */
-    private void updateStatus(String shipperReceivedOrder) {
+    private void cancelOrder() {
         beforeCallApi();
-        mDataController.updateStatusOrder(this, shipperReceivedOrder, String.valueOf(mOrderResponseDto.data.id), new ApiServiceOperator.OnResponseListener<BaseResponse>() {
-            @Override
-            public void onSuccess(BaseResponse body) {
-                if (TextUtils.equals(APIConstant.STATUS_CODE_SUCCESS, body.statusCd)) {
-                    loadData();
-                } else {
-                    Toast.makeText(OrderDetailShipperActivity.this, "Something went wrong!", Toast.LENGTH_LONG).show();
-                    afterCallApi();
-                }
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-                Toast.makeText(OrderDetailShipperActivity.this, "Something went wrong!", Toast.LENGTH_LONG).show();
-                afterCallApi();
-            }
-        });
+        mDataController.shipperCancelOrder(this, String.valueOf(mOrderResponseDto.data.id), new OrderStatusCallback());
     }
 
     /**
-     * Handle click accept button
+     * Update status order
      */
-    private void onClickAcceptButton() {
+    private void updateStatus() {
         beforeCallApi();
-        mDataController.acceptOrder(this, String.valueOf(mOrderResponseDto.data.id), new ApiServiceOperator.OnResponseListener<BaseResponse>() {
-            @Override
-            public void onSuccess(BaseResponse body) {
-                if (TextUtils.equals(APIConstant.STATUS_CODE_SUCCESS, body.statusCd)) {
-                    Toast.makeText(OrderDetailShipperActivity.this, "Accept order successful!", Toast.LENGTH_LONG).show();
-                    loadData();
-                } else {
-                    Toast.makeText(OrderDetailShipperActivity.this, "Accept order fail!", Toast.LENGTH_LONG).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-                Toast.makeText(OrderDetailShipperActivity.this, "Accept order fail!", Toast.LENGTH_LONG).show();
-            }
-        });
+        mDataController.updateStatusOrder(this, mOrderResponseDto.data.status, String.valueOf(mOrderResponseDto.data.id), new OrderStatusCallback());
     }
 
     /**
@@ -380,46 +343,49 @@ public class OrderDetailShipperActivity extends BaseActivity<ActivityOrderDetail
             binding.orderDetailSubTotalPrice.setText(orderResponseDto.data.totalServiceFee + "$");
             binding.orderDetailDeliveryPrice.setText(orderResponseDto.data.totalShipFee + "$");
 
-            if (TextUtils.equals(Constant.NEW, orderResponseDto.data.status)) {
-                binding.orderDetailStaffItemAcceptButton.setVisibility(View.VISIBLE);
-                binding.orderDetailStaffItemAcceptButton.setOnClickListener(new SingleTapListener(this));
-                binding.statusLayout.setVisibility(View.GONE);
-                binding.orderDetailCallShipperButton.setOnClickListener(null);
-            } else {
-                binding.orderDetailStaffItemAcceptButton.setVisibility(View.GONE);
-                binding.statusLayout.setVisibility(View.VISIBLE);
-                binding.orderDetailStaffItemAcceptButton.setOnClickListener(null);
-                binding.orderDetailCallShipperButton.setOnClickListener(new SingleTapListener(this));
-            }
-
             binding.orderDetailPaymentMethod.setText(getResources().getString(orderResponseDto.data.isCashPay ? R.string.cash_payment : R.string.momo_wallet));
             binding.orderDetailTotalPrice.setText(orderResponseDto.data.totalBill + "$");
             binding.shippingAddressText.setText(orderResponseDto.data.shippingAddress);
+            binding.orderDetailCancelButton.setOnClickListener(new SingleTapListener(this));
+            binding.orderDetailAcceptButton.setOnClickListener(new SingleTapListener(this));
 
             if (TextUtils.equals(Constant.SHIPPER_ACCEPTED_ORDER, orderResponseDto.data.status)) {
-                binding.parcelPickedUpButton.setVisibility(View.VISIBLE);
-                binding.parcelPickedUpButton.setOnClickListener(new SingleTapListener(this));
-            } else {
-                binding.parcelPickedUpButton.setVisibility(View.GONE);
-                binding.parcelPickedUpButton.setOnClickListener(null);
-            }
+                binding.orderDetailCancelButton.setVisibility(View.VISIBLE);
+                binding.orderDetailCancelButton.setEnabled(true);
+                binding.orderDetailAcceptButton.setVisibility(View.VISIBLE);
+                binding.orderDetailAcceptButton.setEnabled(true);
 
-            if (TextUtils.equals(Constant.STORE_DONE_ORDER, orderResponseDto.data.status)) {
-                binding.parcelDeliverOrderButton.setVisibility(View.VISIBLE);
-                binding.parcelDeliverOrderButton.setOnClickListener(new SingleTapListener(this));
+                binding.orderDetailAcceptButton.setBackground(ContextCompat.getDrawable(this,
+                        R.drawable.shaper_button_green_big));
+                binding.orderDetailAcceptButton.setText(R.string.order_receivered);
+            } else if (TextUtils.equals(Constant.SHIPPER_RECEIVED_ORDER, orderResponseDto.data.status)) {
+                binding.orderDetailCancelButton.setVisibility(View.GONE);
+
+                binding.orderDetailAcceptButton.setText(R.string.order_delivered);
+                binding.orderDetailAcceptButton.setEnabled(false);
+                binding.orderDetailAcceptButton.setBackground(ContextCompat.getDrawable(this,
+                        R.drawable.shaper_button_green_disable));
+            } else if (TextUtils.equals(Constant.STORE_RECEIVED_ORDER, orderResponseDto.data.status)
+                    || TextUtils.equals(Constant.STORE_DONE_ORDER, orderResponseDto.data.status)) {
+                binding.orderDetailCancelButton.setVisibility(View.GONE);
+                binding.orderDetailAcceptButton.setEnabled(true);
+                binding.orderDetailAcceptButton.setBackground(ContextCompat.getDrawable(this,
+                        R.drawable.shaper_button_green_big));
+
+                binding.orderDetailAcceptButton.setText(R.string.order_delivered);
+            } else if (TextUtils.equals(Constant.SHIPPER_DELIVER_ORDER, orderResponseDto.data.status)) {
+                binding.orderDetailCancelButton.setVisibility(View.GONE);
+
+                binding.orderDetailAcceptButton.setText(R.string.order_complete);
+            } else if (TextUtils.equals(Constant.NEW, orderResponseDto.data.status)) {
+                binding.orderDetailCancelButton.setVisibility(View.GONE);
+                binding.orderDetailAcceptButton.setEnabled(true);
+                binding.orderDetailAcceptButton.setBackground(ContextCompat.getDrawable(this,
+                        R.drawable.shaper_button_green_big));
+
+                binding.orderDetailAcceptButton.setText(R.string.accept);
             } else {
-                binding.parcelDeliverOrderButton.setVisibility(View.GONE);
-                binding.parcelDeliverOrderButton.setOnClickListener(null);
-            }
-            binding.orderDeliveredButton.setOnClickListener(new SingleTapListener(this));
-            if (TextUtils.equals(Constant.SHIPPER_DELIVER_ORDER, orderResponseDto.data.status)) {
-                binding.orderDeliveredButton.setBackground(getResources().getDrawable(R.drawable.shape_border_button_green));
-                binding.orderDeliveredButton.setTextColor(getResources().getColor(R.color.alpha_8cc63e));
-                binding.orderDeliveredButton.setEnabled(true);
-            } else {
-                binding.orderDeliveredButton.setBackground(getResources().getDrawable(R.drawable.shape_border_button_green_disable));
-                binding.orderDeliveredButton.setTextColor(getResources().getColor(R.color.green_disable));
-                binding.orderDeliveredButton.setEnabled(false);
+                binding.orderDetailCancelButton.setVisibility(View.GONE);
             }
 
             // Create order list
@@ -535,6 +501,26 @@ public class OrderDetailShipperActivity extends BaseActivity<ActivityOrderDetail
         @Override
         public void onFailure(Throwable t) {
             afterCallApi();
+        }
+    }
+
+    /**
+     * OrderStatusCallback
+     */
+    private class OrderStatusCallback implements ApiServiceOperator.OnResponseListener<BaseResponse> {
+        @Override
+        public void onSuccess(BaseResponse body) {
+            if (TextUtils.equals(APIConstant.STATUS_CODE_SUCCESS, body.statusCd)) {
+                Toast.makeText(OrderDetailShipperActivity.this, body.message, Toast.LENGTH_LONG).show();
+                loadData();
+            } else {
+                Toast.makeText(OrderDetailShipperActivity.this, body.message, Toast.LENGTH_LONG).show();
+            }
+        }
+
+        @Override
+        public void onFailure(Throwable t) {
+            Toast.makeText(OrderDetailShipperActivity.this, OrderDetailShipperActivity.this.getText(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
         }
     }
 }

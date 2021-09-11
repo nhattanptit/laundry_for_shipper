@@ -77,54 +77,60 @@
                             android:background="@color/Color_e2e2e2" />
 
                         <LinearLayout
+                            android:id="@+id/order_delivering_heading_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dp_16"
+                            android:layout_marginEnd="@dimen/dp_16"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:drawablePadding="@dimen/dp_8"
+                                android:drawableLeft="@drawable/oder_are_shipping_icon"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/dp_6"
+                                android:text="@string/order_are_shipping"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/sp_21"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/home_staff_order_delivering_rcv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/order_delivering_heading_layout"
+                            android:layout_marginTop="@dimen/dp_16"
+                            android:paddingStart="@dimen/dp_16"
+                            android:paddingEnd="@dimen/dp_16"
+                            android:clipToPadding="false"
+                            android:visibility="gone"
+                            tools:visibility="visible"/>
+
+                        <LinearLayout
                             android:id="@+id/history_order_heading_layout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/home_staff_new_order_rcv"
+                            android:layout_below="@+id/home_staff_order_delivering_rcv"
                             android:layout_marginEnd="@dimen/dp_16"
                             android:layout_marginStart="@dimen/dp_16"
                             android:layout_marginTop="@dimen/dp_16"
                             android:gravity="center_vertical"
                             android:orientation="horizontal"
-                            android:visibility="gone">
+                            android:visibility="visible">
 
                             <TextView
+                                android:drawablePadding="@dimen/dp_8"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/dp_6"
                                 android:text="@string/order_history"
-                                android:textColor="@color/green_8cc63e"
+                                android:drawableLeft="@drawable/history_icon"
+                                android:textColor="@color/white"
                                 android:textSize="@dimen/sp_21"
                                 android:textStyle="bold" />
-
-                            <androidx.appcompat.widget.AppCompatImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/history_icon" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/new_order_heading_layout"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/dp_16"
-                            android:layout_marginStart="@dimen/dp_16"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/dp_6"
-                                android:text="@string/new_order"
-                                android:textColor="@color/green_8cc63e"
-                                android:textSize="@dimen/sp_21"
-                                android:textStyle="bold" />
-
-                            <androidx.appcompat.widget.AppCompatImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/new_icon" />
                         </LinearLayout>
 
                         <androidx.recyclerview.widget.RecyclerView
@@ -134,7 +140,31 @@
                             android:layout_below="@+id/history_order_heading_layout"
                             android:layout_marginTop="@dimen/dp_16"
                             android:clipToPadding="false"
-                            android:visibility="gone" />
+                            android:visibility="gone"
+                            tools:visibility="visible"/>
+
+                        <LinearLayout
+                            android:id="@+id/new_order_heading_layout"
+                            android:layout_below="@+id/home_staff_history_order_rcv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/dp_16"
+                            android:layout_marginStart="@dimen/dp_16"
+                            android:layout_marginTop="@dimen/dp_16"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/dp_6"
+                                android:drawablePadding="@dimen/dp_8"
+                                android:drawableLeft="@drawable/new_icon"
+                                android:text="@string/new_order"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/sp_21"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/home_staff_new_order_rcv"
@@ -143,7 +173,10 @@
                             android:layout_below="@+id/new_order_heading_layout"
                             android:layout_marginTop="@dimen/dp_16"
                             android:clipToPadding="false"
-                            android:paddingEnd="@dimen/dp_12" />
+                            android:paddingStart="@dimen/dp_16"
+                            android:paddingEnd="@dimen/dp_16"
+                            android:visibility="gone"
+                            tools:visibility="visible"/>
                     </RelativeLayout>
 
                     <androidx.cardview.widget.CardView
@@ -194,7 +227,7 @@
 
                             <include
                                 android:id="@+id/order_item"
-                                layout="@layout/home_order_are_shipping_list_item" />
+                                layout="@layout/home_order_are_shipping_top" />
 
                         </RelativeLayout>
                     </androidx.cardview.widget.CardView>

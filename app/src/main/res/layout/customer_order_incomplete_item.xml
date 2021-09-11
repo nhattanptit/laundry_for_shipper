@@ -8,12 +8,12 @@
     </data>
 
     <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/dp_8"
         android:background="@drawable/cardview_background_white"
         android:elevation="@dimen/dp_4"
-        app:cardCornerRadius="@dimen/dp_4">
+        app:cardCornerRadius="@dimen/dp_6">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -25,8 +25,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/dp_8"
-                android:gravity="start"
-                android:text="@string/order_status"
                 android:textColor="@color/black"
                 android:textSize="@dimen/sp_15"
                 android:textStyle="bold"
@@ -40,6 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp_4"
                 android:gravity="center"
+                android:paddingEnd="@dimen/dp_8"
                 android:textColor="@color/green_8cc63e"
                 android:textSize="@dimen/sp_13"
                 app:layout_constraintBottom_toBottomOf="@id/order_status_title"
@@ -51,24 +50,21 @@
                 android:id="@+id/date_create_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/dp_8"
-                android:layout_marginEnd="@dimen/dp_16"
-                android:gravity="start"
-                android:text="@string/date_create"
+                android:layout_marginTop="@dimen/dp_8"
                 android:textColor="@color/black"
                 android:textSize="@dimen/sp_15"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@id/order_status_title"
-                app:layout_constraintStart_toEndOf="@id/icon"
+                app:layout_constraintStart_toStartOf="@id/order_status_title"
                 app:layout_constraintTop_toBottomOf="@id/order_status_title"
                 tools:text="@string/date_create" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/create_date"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/dp_32"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/dp_16"
                 android:gravity="center"
+                android:paddingEnd="@dimen/dp_8"
                 android:textColor="@color/green_8cc63e"
                 android:textSize="@dimen/sp_13"
                 app:layout_constraintBottom_toBottomOf="@id/date_create_title"
@@ -80,17 +76,16 @@
                 android:id="@+id/icon"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_marginEnd="@dimen/dp_16"
                 android:gravity="center"
                 android:padding="@dimen/dp_4"
                 android:scaleType="centerInside"
+                android:src="@drawable/shipper_receiverd_order_icon"
                 android:textColor="@color/black"
                 android:textSize="@dimen/sp_13"
                 app:layout_constraintBottom_toBottomOf="@id/date_create_title"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/order_status_title"
-                tools:src="@drawable/new_order_icon"
                 tools:text="20/11/2020" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

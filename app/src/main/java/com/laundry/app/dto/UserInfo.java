@@ -9,6 +9,7 @@ public class UserInfo {
     private String username;
     private String role;
     private String token;
+    private String urlAvatar;
     private static final UserInfo INSTANCE = new UserInfo();
 
     private UserInfo() {
@@ -20,6 +21,10 @@ public class UserInfo {
 
     public void setToken(Context context, String token) {
         SharePreferenceManager.setToken(context, token);
+    }
+
+    public void setUrlAvatar(Context context, String urlAvatar) {
+        SharePreferenceManager.setUserAvatar(context, urlAvatar);
     }
 
     public static UserInfo getInstance() {
@@ -38,8 +43,13 @@ public class UserInfo {
         return SharePreferenceManager.getToken(context);
     }
 
+    public String getUrlAvatar(Context context) {
+        return SharePreferenceManager.getUserAvatar(context);
+    }
+
     /**
      * Check login
+     *
      * @param context Context
      * @return true if exist username and token else false
      */
@@ -51,12 +61,14 @@ public class UserInfo {
 
     /**
      * Init Userinfo
+     *
      * @param context
      */
     public void init(Context context) {
         username = null;
         token = null;
         role = null;
+        urlAvatar = null;
         SharePreferenceManager.setToken(context, null);
         SharePreferenceManager.setUsername(context, null);
         SharePreferenceManager.setUserAvatar(context, null);

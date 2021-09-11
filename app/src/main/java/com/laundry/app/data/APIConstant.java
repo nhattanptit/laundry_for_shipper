@@ -22,6 +22,7 @@ public final class APIConstant {
     public static final String URL_ADDRESS_UPDATE = "/addresses/update";
     public static final String URL_ADDRESS_DELETE = "/addresses/delete/";
     public static final String URL_ORDER_LIST_CUSTOMER = "/orders/list/";
+    public static final String URL_ORDER_INCOMPLETE_LIST_CUSTOMER = "/orders/incomplete-list/";
     public static final String URL_ORDER_LIST_SHIPPER = "/shipper/orders/list/";
     public static final String URL_ORDER_LIST_NEW_SHIPPER = "/shipper/orders/available-order";
     public static final String URL_ORDER_ACCEPT_ORDER = "/shipper/orders/accept-order";

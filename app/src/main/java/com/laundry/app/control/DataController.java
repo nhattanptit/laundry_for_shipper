@@ -25,6 +25,7 @@ import com.laundry.app.dto.order.OrderConfirmResponseDto;
 import com.laundry.app.dto.ordercreate.OrderRequest;
 import com.laundry.app.dto.ordercreate.OrderResponseDto;
 import com.laundry.app.dto.ordercreate.OrderServiceDetailForm;
+import com.laundry.app.dto.orderincompletelist.OrderListIncompleteCustomerResponse;
 import com.laundry.app.dto.orderlistcustomer.OrderListCustomerResponse;
 import com.laundry.app.dto.orderlistshipper.OrderListShipperResponse;
 import com.laundry.app.dto.payment.PaymentRequest;
@@ -159,6 +160,11 @@ public class DataController {
 
     public void getOrderListCustomer(Context context, int page, int size, ApiServiceOperator.OnResponseListener<OrderListCustomerResponse> listener) {
         Call<OrderListCustomerResponse> call = service.getOrderListCustomer(UserInfo.getInstance().getToken(context), page, size);
+        call.enqueue(new ApiServiceOperator<>(listener));
+    }
+
+    public void getOrderListIncompleteCustomer(Context context, int page, int size, ApiServiceOperator.OnResponseListener<OrderListIncompleteCustomerResponse> listener) {
+        Call<OrderListIncompleteCustomerResponse> call = service.getOrderIncompleteListCustomer(UserInfo.getInstance().getToken(context), page, size);
         call.enqueue(new ApiServiceOperator<>(listener));
     }
 

@@ -16,6 +16,7 @@ import com.laundry.app.dto.order.OrderConfirmResponseDto;
 import com.laundry.app.dto.ordercreate.OrderRequest;
 import com.laundry.app.dto.ordercreate.OrderResponseDto;
 import com.laundry.app.dto.ordercreate.OrderServiceDetailForm;
+import com.laundry.app.dto.orderincompletelist.OrderListIncompleteCustomerResponse;
 import com.laundry.app.dto.orderlistcustomer.OrderListCustomerResponse;
 import com.laundry.app.dto.orderlistshipper.OrderListShipperResponse;
 import com.laundry.app.dto.payment.PaymentRequest;
@@ -86,6 +87,9 @@ public interface ApiService {
 
     @GET(APIConstant.URL_ORDER_LIST_CUSTOMER)
     Call<OrderListCustomerResponse> getOrderListCustomer(@Header("Authorization") String token, @Query("page") int page, @Query("size") int size);
+
+    @GET(APIConstant.URL_ORDER_INCOMPLETE_LIST_CUSTOMER)
+    Call<OrderListIncompleteCustomerResponse> getOrderIncompleteListCustomer(@Header("Authorization") String token, @Query("page") int page, @Query("size") int size);
 
     @POST(APIConstant.URL_ORDERS_DETAILS)
     @FormUrlEncoded

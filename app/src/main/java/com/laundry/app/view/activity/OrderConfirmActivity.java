@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -345,12 +346,24 @@ public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBindi
         public void onSuccess(MapDirectionResponse body) {
             mDistance = (body.getRoutes().get(0).getDistance() / 1000);
             mActivity.setMapDirectionResponse(body);
-            mDataController.getShippingFee(OrderConfirmActivity.this, String.valueOf(mDistance), new ShippingFeeCallback());
+            Toast.makeText(OrderConfirmActivity.this, "Distance: " + mDistance, Toast.LENGTH_LONG).show();
+            if(mDistance > 20) {
+                AlertDialog alertDialog = ErrorDialog.buildPopupOnlyPositive(OrderConfirmActivity.this,
+                        getString(R.string.wrong_distance), R.string.ok, (dialogInterface, i) -> {
+
+                        });
+                alertDialog.show();
+                afterCallApi();
+            } else {
+                mDataController.getShippingFee(OrderConfirmActivity.this, String.valueOf(mDistance), new ShippingFeeCallback());
+            }
+
         }
 
         @Override
         public void onFailure(Throwable t) {
-
+            Toast.makeText(OrderConfirmActivity.this, getResources().getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
+            afterCallApi();
         }
     }
 

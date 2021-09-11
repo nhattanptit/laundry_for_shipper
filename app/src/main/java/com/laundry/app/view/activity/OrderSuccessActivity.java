@@ -177,7 +177,6 @@ public class OrderSuccessActivity extends BaseActivity<ActivityOrderSuccessBindi
         if (mOrderResponseDto.data.isPaid) {
             binding.cancelOrderButton.setEnabled(false);
             binding.cancelOrderButton.setBackgroundDrawable(getDrawable(R.drawable.shaper_button_green_big_disable));
-            binding.cancelOrderButton.setPadding(8, 8, 8, 8);
         }
 
         // Create order list

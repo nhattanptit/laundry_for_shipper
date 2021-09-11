@@ -15,6 +15,7 @@ public final class APIConstant {
     public static final String URL_ORDER_SHIPPING_FEE = "/orders/shipping-fee";
     public static final String URL_ORDERS_CANCEL = "/orders/cancel";
     public static final String URL_ORDERS_DETAILS = "/orders/detail";
+    public static final String URL_ORDERS_DETAILS_SHIPPER = "/shipper/orders/detail";
     public static final String URL_ORDERS_PAYMENT = "/orders/payment-done";
     public static final String URL_ADDRESS = "/addresses";
     public static final String URL_ADDRESS_ALL = "/addresses/all";
@@ -26,6 +27,10 @@ public final class APIConstant {
     public static final String URL_ORDER_LIST_SHIPPER = "/shipper/orders/list/";
     public static final String URL_ORDER_LIST_NEW_SHIPPER = "/shipper/orders/available-order";
     public static final String URL_ORDER_ACCEPT_ORDER = "/shipper/orders/accept-order";
+    public static final String URL_ORDER_RECEIVE_ORDER = "/shipper/orders/receive-order";
+    public static final String URL_ORDER_DELIVER_ORDER = "/shipper/orders/deliver-order";
+    public static final String URL_ORDER_COMPLETE_ORDER = "/shipper/orders/complete-order";
+
 
     public static final String BASE_URL_MAP_BOX = "https://api.mapbox.com";
     public static final String URL_DIRECTION_API = "/directions/v5/mapbox/cycling/{coordinate}";

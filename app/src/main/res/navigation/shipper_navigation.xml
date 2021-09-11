@@ -13,9 +13,6 @@
         <action
             android:id="@+id/action_home_staff_to_navigation_login_account_dialog"
             app:destination="@id/navigation_login_account_dialog" />
-        <action
-            android:id="@+id/action_home_staff_to_navigation_order_detail"
-            app:destination="@id/navigation_shipper_order_detail" />
     </fragment>
 
     <fragment
@@ -23,11 +20,6 @@
         android:name="com.laundry.app.view.fragment.shipper.ShipperInfoFragment"
         android:label="@string/title_information"
         tools:layout="@layout/shipper_fragment_info" />
-    <fragment
-        android:id="@+id/navigation_shipper_order_detail"
-        android:name="com.laundry.app.view.fragment.shipper.ShipperOrderDetailFragment"
-        android:label="@string/order_detail"
-        tools:layout="@layout/shipper_order_detail_fragment" />
     <dialog
         android:id="@+id/navigation_login_account_dialog"
         android:name="com.laundry.app.view.dialog.LoginDialog"

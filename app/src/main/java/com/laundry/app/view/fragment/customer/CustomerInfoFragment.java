@@ -23,7 +23,6 @@ import com.laundry.app.dto.Role;
 import com.laundry.app.dto.UserInfo;
 import com.laundry.app.utils.SharePreferenceManager;
 import com.laundry.app.view.activity.HomeActivity;
-import com.laundry.app.view.activity.LoginOrRegisterActivity;
 import com.laundry.app.view.dialog.LoginDialog;
 import com.laundry.app.view.dialog.RegisterAccountDialog;
 import com.laundry.base.BaseFragment;
@@ -56,8 +55,8 @@ public class CustomerInfoFragment extends BaseFragment<CustomerInfoFragmentBindi
         if (UserInfo.getInstance().isLogin(getMyActivity())) {
             binding.registerLoginLayout.setVisibility(View.GONE);
             binding.accountInformationLayout.setVisibility(View.VISIBLE);
-            if (SharePreferenceManager.getUserAvatar(getActivity()) != null) {
-                binding.accountInfomationAvatar.setImageBitmap(decodeToBase64(SharePreferenceManager.getUserAvatar(getActivity())));
+            if (UserInfo.getInstance().getUrlAvatar(getMyActivity()) != null) {
+                binding.accountInfomationAvatar.setImageBitmap(decodeToBase64(UserInfo.getInstance().getUrlAvatar(getActivity())));
             }
         } else {
             binding.registerLoginLayout.setVisibility(View.VISIBLE);
@@ -134,7 +133,7 @@ public class CustomerInfoFragment extends BaseFragment<CustomerInfoFragmentBindi
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), contentURI);
                     binding.accountInfomationAvatar.setImageBitmap(bitmap);
-                    SharePreferenceManager.setUserAvatar(getActivity(), encodeToBase64(bitmap));
+                    UserInfo.getInstance().setUrlAvatar(getMyActivity(), encodeToBase64(bitmap));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -143,7 +142,7 @@ public class CustomerInfoFragment extends BaseFragment<CustomerInfoFragmentBindi
         } else if (requestCode == CAMERA) {
             Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
             binding.accountInfomationAvatar.setImageBitmap(thumbnail);
-            SharePreferenceManager.setUserAvatar(getActivity(), encodeToBase64(thumbnail));
+            UserInfo.getInstance().setUrlAvatar(getMyActivity(), encodeToBase64(thumbnail));
             saveImage(thumbnail);
         }
     }

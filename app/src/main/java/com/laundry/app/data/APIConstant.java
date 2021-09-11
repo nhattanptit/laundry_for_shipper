@@ -30,6 +30,7 @@ public final class APIConstant {
     public static final String URL_ORDER_RECEIVE_ORDER = "/shipper/orders/receive-order";
     public static final String URL_ORDER_DELIVER_ORDER = "/shipper/orders/deliver-order";
     public static final String URL_ORDER_COMPLETE_ORDER = "/shipper/orders/complete-order";
+    public static final String URL_ORDER_SHIPPER_CANCEL = "/shipper/orders/cancel-order";
 
 
     public static final String BASE_URL_MAP_BOX = "https://api.mapbox.com";

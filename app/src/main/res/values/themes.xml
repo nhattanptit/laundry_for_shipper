@@ -10,6 +10,13 @@
         <item name="windowActionModeOverlay">true</item>
     </style>
 
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/green_8cc63e</item>
+        <item name="colorPrimaryDark">@color/green_8cc63e</item>
+        <item name="colorAccent">@color/green_8cc63e</item>
+    </style>
+
     <!-- shadow -->
     <style name="shadow_style">
         <item name="android:layout_width">match_parent</item>

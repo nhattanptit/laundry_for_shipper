@@ -77,7 +77,7 @@ public abstract class BaseActivity<DB extends ViewDataBinding> extends AppCompat
     }
 
     public final void navigateTo(BaseActivity<?> source,
-                                 Class<BaseActivity<?>> destination,
+                                 Class<? extends BaseActivity<?>> destination,
                                  Bundle bundle) {
         Intent intent = new Intent(source, destination);
         startActivity(intent, bundle);

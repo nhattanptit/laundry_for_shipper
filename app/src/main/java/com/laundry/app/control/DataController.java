@@ -225,6 +225,11 @@ public class DataController {
         call.enqueue(new ApiServiceOperator<>(listener));
     }
 
+    public void shipperCancelOrder(Context context, String orderId, ApiServiceOperator.OnResponseListener<BaseResponse> listener) {
+        Call<BaseResponse> call = service.shipperCancelOrder(UserInfo.getInstance().getToken(context), orderId);
+        call.enqueue(new ApiServiceOperator<>(listener));
+    }
+
     /**
      * update status
      *
@@ -234,11 +239,13 @@ public class DataController {
      */
     public void updateStatusOrder(Context context, String statusUpdate, String orderId, ApiServiceOperator.OnResponseListener<BaseResponse> listener) {
         Call<BaseResponse> call = null;
-        if (TextUtils.equals(Constant.SHIPPER_RECEIVED_ORDER, statusUpdate)) {
+        if (TextUtils.equals(Constant.NEW, statusUpdate)) {
+            call = service.acceptOrder(UserInfo.getInstance().getToken(context), orderId);
+        } else if (TextUtils.equals(Constant.SHIPPER_ACCEPTED_ORDER, statusUpdate)) {
             call = service.receiveOrder(UserInfo.getInstance().getToken(context), orderId);
-        } else if (TextUtils.equals(Constant.SHIPPER_DELIVER_ORDER, statusUpdate)) {
+        } else if (TextUtils.equals(Constant.STORE_DONE_ORDER, statusUpdate)) {
             call = service.deliverOrder(UserInfo.getInstance().getToken(context), orderId);
-        } else if (TextUtils.equals(Constant.COMPLETE_ORDER, statusUpdate)) {
+        } else if (TextUtils.equals(Constant.SHIPPER_DELIVER_ORDER, statusUpdate)) {
             call = service.completeOrder(UserInfo.getInstance().getToken(context), orderId);
         }
         if (call != null) {

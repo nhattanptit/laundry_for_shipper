@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.widget.NestedScrollView;
 import androidx.databinding.DataBindingUtil;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -24,8 +23,8 @@ import com.laundry.app.constant.Constant;
 import com.laundry.app.control.ApiServiceOperator;
 import com.laundry.app.control.DataController;
 import com.laundry.app.data.APIConstant;
-import com.laundry.app.databinding.ActivityOrderDetailCustomerBinding;
-import com.laundry.app.dto.AddressInfo;
+import com.laundry.app.databinding.ActivityOrderDetailShipperBinding;
+import com.laundry.app.dto.BaseResponse;
 import com.laundry.app.dto.maps.MapDirectionResponse;
 import com.laundry.app.dto.ordercreate.OrderResponseDto;
 import com.laundry.app.dto.sevicedetail.ServiceDetailDto;
@@ -61,8 +60,10 @@ import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconAllowOverlap
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconIgnorePlacement;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconImage;
 
-public class OrderDetailCustomerActivity extends BaseActivity<ActivityOrderDetailCustomerBinding> implements BaseActivity.ConfigPermission
-        , OnMapReadyCallback, SwipeRefreshLayout.OnRefreshListener {
+public class OrderDetailShipperActivity extends BaseActivity<ActivityOrderDetailShipperBinding> implements BaseActivity.ConfigPermission
+        , OnMapReadyCallback
+        , View.OnClickListener
+, SwipeRefreshLayout.OnRefreshListener {
     //----------------------------------------------------------------------------------------------
     //------------ instance variable
     //----------------------------------------------------------------------------------------------
@@ -71,7 +72,7 @@ public class OrderDetailCustomerActivity extends BaseActivity<ActivityOrderDetai
     private int mOrderId;
 
     public static Intent getNewActivityStartIntent(Context context, int orderId) {
-        Intent intent = new Intent(context, OrderDetailCustomerActivity.class);
+        Intent intent = new Intent(context, OrderDetailShipperActivity.class);
         intent.putExtra(Constant.KEY_BUNDLE_ORDER_ID, orderId);
         return intent;
     }
@@ -98,15 +99,11 @@ public class OrderDetailCustomerActivity extends BaseActivity<ActivityOrderDetai
 
     @Override
     protected int getLayoutResource() {
-        return R.layout.activity_order_detail_customer;
+        return R.layout.activity_order_detail_shipper;
     }
 
     @Override
-    public void onPreInitView() {
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getIntent() != null) {
             mOrderId = getIntent().getIntExtra(Constant.KEY_BUNDLE_ORDER_ID, -1);
@@ -121,10 +118,9 @@ public class OrderDetailCustomerActivity extends BaseActivity<ActivityOrderDetai
         //This contains the MapView in XML and needs to be called after the access token is configured.
         binding = DataBindingUtil.setContentView(this, getLayoutResource());
         binding.setLifecycleOwner(this);
+        binding.pullToRefresh.setOnRefreshListener(this);
 
         binding.mapView.onCreate(savedInstanceState);
-
-        binding.pullToRefresh.setOnRefreshListener(this);
 
         // Add permission
         listPermission.add(Manifest.permission.CALL_PHONE);
@@ -136,6 +132,7 @@ public class OrderDetailCustomerActivity extends BaseActivity<ActivityOrderDetai
         loadData();
     }
 
+
     @Override
     public void onInitView() {
 
@@ -143,16 +140,6 @@ public class OrderDetailCustomerActivity extends BaseActivity<ActivityOrderDetai
 
     @Override
     public void onViewClick() {
-
-    }
-
-    @Override
-    public void onAllow() {
-        callNow(mOrderResponseDto.data.shipperDto.phoneNumber);
-    }
-
-    @Override
-    public void onDenied() {
 
     }
 
@@ -198,6 +185,17 @@ public class OrderDetailCustomerActivity extends BaseActivity<ActivityOrderDetai
         binding.mapView.onDestroy();
     }
 
+
+    @Override
+    public void onAllow() {
+        callNow(mOrderResponseDto.data.shipperDto.phoneNumber);
+    }
+
+    @Override
+    public void onDenied() {
+
+    }
+
     @Override
     public void onMapReady(@NonNull @NotNull MapboxMap mapboxMap) {
         List<Feature> symbolLayerIconFeatureList = new ArrayList<>();
@@ -240,30 +238,79 @@ public class OrderDetailCustomerActivity extends BaseActivity<ActivityOrderDetai
     }
 
     @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.order_detail_call_shipper_button:
+                onClickCallCustomer();
+                break;
+            case R.id.order_detail_staff_item_accept_button:
+                onClickAcceptButton();
+                break;
+            case R.id.parcel_picked_up_button:
+                updateStatus(Constant.SHIPPER_RECEIVED_ORDER);
+                break;
+            case R.id.parcel_deliver_order_button:
+                updateStatus(Constant.SHIPPER_DELIVER_ORDER);
+                break;
+            case R.id.order_delivered_button:
+                updateStatus(Constant.COMPLETE_ORDER);
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
     public void onRefresh() {
         loadData();
     }
 
-    //----------------------------------------------------------------------------------------------
-    //------------ private method
-    //----------------------------------------------------------------------------------------------
-
     /**
-     * Handle click call shipper
+     * Update status order
+     * @param shipperReceivedOrder status order
      */
-    private void onClickCallShipper() {
-        String[] simpleArray = new String[listPermission.size()];
-        listPermission.toArray(simpleArray);
-        // Request permission
-        doRequestPermission(simpleArray, this);
+    private void updateStatus(String shipperReceivedOrder) {
+        beforeCallApi();
+        mDataController.updateStatusOrder(this, shipperReceivedOrder, String.valueOf(mOrderResponseDto.data.id), new ApiServiceOperator.OnResponseListener<BaseResponse>() {
+            @Override
+            public void onSuccess(BaseResponse body) {
+                if (TextUtils.equals(APIConstant.STATUS_CODE_SUCCESS, body.statusCd)) {
+                    loadData();
+                } else {
+                    Toast.makeText(OrderDetailShipperActivity.this, "Something went wrong!", Toast.LENGTH_LONG).show();
+                    afterCallApi();
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Toast.makeText(OrderDetailShipperActivity.this, "Something went wrong!", Toast.LENGTH_LONG).show();
+                afterCallApi();
+            }
+        });
     }
 
     /**
-     * Load data of screen
+     * Handle click accept button
      */
-    private void loadData() {
+    private void onClickAcceptButton() {
         beforeCallApi();
-        callOrderDetailApi();
+        mDataController.acceptOrder(this, String.valueOf(mOrderResponseDto.data.id), new ApiServiceOperator.OnResponseListener<BaseResponse>() {
+            @Override
+            public void onSuccess(BaseResponse body) {
+                if (TextUtils.equals(APIConstant.STATUS_CODE_SUCCESS, body.statusCd)) {
+                    Toast.makeText(OrderDetailShipperActivity.this, "Accept order successful!", Toast.LENGTH_LONG).show();
+                    loadData();
+                } else {
+                    Toast.makeText(OrderDetailShipperActivity.this, "Accept order fail!", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Toast.makeText(OrderDetailShipperActivity.this, "Accept order fail!", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     /**
@@ -298,11 +345,19 @@ public class OrderDetailCustomerActivity extends BaseActivity<ActivityOrderDetai
     }
 
     /**
+     * Load data of screen
+     */
+    private void loadData() {
+        beforeCallApi();
+        callOrderDetailApi();
+    }
+
+    /**
      * Call order detail api
      */
     private void callOrderDetailApi() {
         if (mOrderId != -1) {
-            mDataController.getOrderDetail(this, mOrderId, new OrderDetailCallBack());
+            mDataController.getOrderDetailShipper(this, mOrderId, new OrderDetailCallBack());
         } else {
             Toast.makeText(this, getResources().getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
         }
@@ -317,37 +372,54 @@ public class OrderDetailCustomerActivity extends BaseActivity<ActivityOrderDetai
             binding.nestedLayout.setVisibility(View.VISIBLE);
             binding.orderDetailStatusImage.setImageResource(orderResponseDto.data.getIconByStatus());
             binding.orderDetailStatusNotice.setText(orderResponseDto.data.getStatusContent());
+            binding.orderDetailItemPhonenumber.setText(orderResponseDto.data.shippingPersonPhoneNumber);
+            binding.orderDetailItemCustomerName.setText(orderResponseDto.data.shippingPersonName);
+            binding.homeOrderDetailOrderName.setText(orderResponseDto.data.serviceName);
+            binding.orderDetailPickupAddress.setText(orderResponseDto.data.pickUpAddress);
+            binding.orderDetailDeliveryAddress.setText(orderResponseDto.data.shippingAddress);
+            binding.orderDetailSubTotalPrice.setText(orderResponseDto.data.totalServiceFee + "$");
+            binding.orderDetailDeliveryPrice.setText(orderResponseDto.data.totalShipFee + "$");
 
-            if (TextUtils.equals(Constant.NEW, orderResponseDto.data.status) || TextUtils.equals(Constant.CANCEL, orderResponseDto.data.status)) {
-                binding.shipperInfoLayout.setVisibility(View.GONE);
-                binding.licensePlateLayout.setVisibility(View.GONE);
-                binding.rangeOfVehicleLayout.setVisibility(View.GONE);
+            if (TextUtils.equals(Constant.NEW, orderResponseDto.data.status)) {
+                binding.orderDetailStaffItemAcceptButton.setVisibility(View.VISIBLE);
+                binding.orderDetailStaffItemAcceptButton.setOnClickListener(new SingleTapListener(this));
+                binding.statusLayout.setVisibility(View.GONE);
                 binding.orderDetailCallShipperButton.setOnClickListener(null);
             } else {
-                binding.shipperInfoLayout.setVisibility(View.VISIBLE);
-                binding.licensePlateLayout.setVisibility(View.VISIBLE);
-                binding.rangeOfVehicleLayout.setVisibility(View.VISIBLE);
-                binding.orderDetailNameShipper.setText(orderResponseDto.data.shipperDto.name);
-                binding.orderDetailPhonenumberShipper.setText(orderResponseDto.data.shipperDto.phoneNumber);
-                binding.orderDetailLicensePlate.setText(orderResponseDto.data.shipperDto.licensePlate);
-                binding.orderDetailRangeOfVehicle.setText(orderResponseDto.data.shipperDto.vehicleType);
-                binding.orderDetailCallShipperButton.setOnClickListener(new SingleTapListener(v -> {
-                    onClickCallShipper();
-                }));
+                binding.orderDetailStaffItemAcceptButton.setVisibility(View.GONE);
+                binding.statusLayout.setVisibility(View.VISIBLE);
+                binding.orderDetailStaffItemAcceptButton.setOnClickListener(null);
+                binding.orderDetailCallShipperButton.setOnClickListener(new SingleTapListener(this));
             }
 
             binding.orderDetailPaymentMethod.setText(getResources().getString(orderResponseDto.data.isCashPay ? R.string.cash_payment : R.string.momo_wallet));
             binding.orderDetailTotalPrice.setText(orderResponseDto.data.totalBill + "$");
             binding.shippingAddressText.setText(orderResponseDto.data.shippingAddress);
-            binding.orderDetailPhoneNumber.setText(orderResponseDto.data.shippingPersonPhoneNumber);
 
-            if (TextUtils.equals(Constant.SHIPPER_DELIVER_ORDER, orderResponseDto.data.status)
-                    || TextUtils.equals(Constant.SHIPPER_RECEIVED_ORDER, orderResponseDto.data.status)) {
-                binding.orderReceiveredConfirm.setEnabled(true);
-                binding.orderReceiveredConfirm.setBackgroundDrawable(getResources().getDrawable(R.drawable.shaper_button_green_big));
+            if (TextUtils.equals(Constant.SHIPPER_ACCEPTED_ORDER, orderResponseDto.data.status)) {
+                binding.parcelPickedUpButton.setVisibility(View.VISIBLE);
+                binding.parcelPickedUpButton.setOnClickListener(new SingleTapListener(this));
             } else {
-                binding.orderReceiveredConfirm.setEnabled(false);
-                binding.orderReceiveredConfirm.setBackgroundDrawable(getResources().getDrawable(R.drawable.shaper_button_green_big_disable));
+                binding.parcelPickedUpButton.setVisibility(View.GONE);
+                binding.parcelPickedUpButton.setOnClickListener(null);
+            }
+
+            if (TextUtils.equals(Constant.STORE_DONE_ORDER, orderResponseDto.data.status)) {
+                binding.parcelDeliverOrderButton.setVisibility(View.VISIBLE);
+                binding.parcelDeliverOrderButton.setOnClickListener(new SingleTapListener(this));
+            } else {
+                binding.parcelDeliverOrderButton.setVisibility(View.GONE);
+                binding.parcelDeliverOrderButton.setOnClickListener(null);
+            }
+            binding.orderDeliveredButton.setOnClickListener(new SingleTapListener(this));
+            if (TextUtils.equals(Constant.SHIPPER_DELIVER_ORDER, orderResponseDto.data.status)) {
+                binding.orderDeliveredButton.setBackground(getResources().getDrawable(R.drawable.shape_border_button_green));
+                binding.orderDeliveredButton.setTextColor(getResources().getColor(R.color.alpha_8cc63e));
+                binding.orderDeliveredButton.setEnabled(true);
+            } else {
+                binding.orderDeliveredButton.setBackground(getResources().getDrawable(R.drawable.shape_border_button_green_disable));
+                binding.orderDeliveredButton.setTextColor(getResources().getColor(R.color.green_disable));
+                binding.orderDeliveredButton.setEnabled(false);
             }
 
             // Create order list
@@ -361,26 +433,6 @@ public class OrderDetailCustomerActivity extends BaseActivity<ActivityOrderDetai
             binding.nestedLayout.setVisibility(View.GONE);
         }
 
-    }
-
-    /**
-     * Get direction api
-     */
-    private void getDirectionApi() {
-
-        mDataController.getDirectionMaps(MapUtils.getCoordinate(LONG_START,
-                LAT_START,
-                mOrderResponseDto.data.longitude,
-                mOrderResponseDto.data.latitude)
-                , GEOMETRIES, APIConstant.MAPBOX_ACCESS_TOKEN, new MapDirectionCallback(this));
-    }
-
-    private void beforeCallApi() {
-        binding.progressBar.maskviewLayout.setVisibility(View.VISIBLE);
-    }
-
-    private void afterCallApi() {
-        binding.progressBar.maskviewLayout.setVisibility(View.GONE);
     }
 
     /**
@@ -401,6 +453,38 @@ public class OrderDetailCustomerActivity extends BaseActivity<ActivityOrderDetai
         }
     }
 
+    /**
+     * Handle click call shipper
+     */
+    private void onClickCallCustomer() {
+        String[] simpleArray = new String[listPermission.size()];
+        listPermission.toArray(simpleArray);
+        // Request permission
+        doRequestPermission(simpleArray, this);
+    }
+
+    /**
+     * Get direction api
+     */
+    private void getDirectionApi() {
+
+        mDataController.getDirectionMaps(MapUtils.getCoordinate(LONG_START,
+                LAT_START,
+                mOrderResponseDto.data.longitude,
+                mOrderResponseDto.data.latitude)
+                , GEOMETRIES, APIConstant.MAPBOX_ACCESS_TOKEN, new MapDirectionCallback(this));
+    }
+
+    private void beforeCallApi() {
+        binding.progressBar.maskviewLayout.setVisibility(View.VISIBLE);
+    }
+
+    private void afterCallApi() {
+        binding.progressBar.maskviewLayout.setVisibility(View.GONE);
+        binding.pullToRefresh.setRefreshing(false);
+    }
+
+
     //----------------------------------------------------------------------------------------------
     //------------ Inner class
     //----------------------------------------------------------------------------------------------
@@ -414,7 +498,7 @@ public class OrderDetailCustomerActivity extends BaseActivity<ActivityOrderDetai
                 updateView(body);
             } else {
                 // Do something went wrong
-                Toast.makeText(OrderDetailCustomerActivity.this, getResources().getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
+                Toast.makeText(OrderDetailShipperActivity.this, getResources().getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
                 afterCallApi();
             }
 
@@ -423,7 +507,7 @@ public class OrderDetailCustomerActivity extends BaseActivity<ActivityOrderDetai
         @Override
         public void onFailure(Throwable t) {
             // Do something went wrong
-            Toast.makeText(OrderDetailCustomerActivity.this, getResources().getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
+            Toast.makeText(OrderDetailShipperActivity.this, getResources().getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
             afterCallApi();
         }
     }
@@ -453,5 +537,4 @@ public class OrderDetailCustomerActivity extends BaseActivity<ActivityOrderDetai
             afterCallApi();
         }
     }
-
 }

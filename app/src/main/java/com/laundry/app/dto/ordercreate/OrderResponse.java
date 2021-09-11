@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.laundry.app.R;
 import com.laundry.app.dto.BaseResponse;
+import com.laundry.app.dto.payment.PaymentInfo;
 import com.laundry.app.dto.sevicedetail.ServiceDetailDto;
 
 import java.util.List;
@@ -98,6 +99,19 @@ public class OrderResponse extends BaseResponse {
     @SerializedName("isCashPay")
     @Expose
     public boolean isCashPay;
+
+    @SerializedName("paymentInfo")
+    @Expose
+    public PaymentInfo paymentInfo;
+
+    @SerializedName("createdDate")
+    @Expose
+    public String createdDate;
+
+    @SerializedName("lastUpdatedDate")
+    @Expose
+    public String lastUpdatedDate;
+
 
 
     /**

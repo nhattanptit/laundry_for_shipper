@@ -95,6 +95,10 @@ public interface ApiService {
     @FormUrlEncoded
     Call<OrderResponseDto> getOrderDetail(@Header("Authorization") String token, @Field("orderId") int id);
 
+    @POST(APIConstant.URL_ORDERS_DETAILS_SHIPPER)
+    @FormUrlEncoded
+    Call<OrderResponseDto> getOrderDetailShipper(@Header("Authorization") String token, @Field("orderId") int id);
+
     @GET(APIConstant.URL_ORDER_LIST_SHIPPER)
     Call<OrderListShipperResponse> getOrderListShipper(@Header("Authorization") String token, @Query("orderStatus")String orderStatus , @Query("page") int page, @Query("size") int size);
 
@@ -106,4 +110,13 @@ public interface ApiService {
 
     @PUT(APIConstant.URL_ORDERS_PAYMENT)
     Call<PaymentResponseDto> paymentFinished(@Header("Authorization") String token, @Body PaymentRequest request);
+
+    @PUT(APIConstant.URL_ORDER_RECEIVE_ORDER)
+    Call<BaseResponse> receiveOrder(@Header("Authorization") String token, @Query("orderId") String orderId);
+
+    @PUT(APIConstant.URL_ORDER_DELIVER_ORDER)
+    Call<BaseResponse> deliverOrder(@Header("Authorization") String token, @Query("orderId") String orderId);
+
+    @PUT(APIConstant.URL_ORDER_COMPLETE_ORDER)
+    Call<BaseResponse> completeOrder(@Header("Authorization") String token, @Query("orderId") String orderId);
 }

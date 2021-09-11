@@ -5,6 +5,7 @@ import android.text.TextUtils;
 
 import androidx.annotation.IntRange;
 
+import com.laundry.app.constant.Constant;
 import com.laundry.app.data.APIConstant;
 import com.laundry.app.data.ApiService;
 import com.laundry.app.dto.BaseResponse;
@@ -158,6 +159,18 @@ public class DataController {
         call.enqueue(new ApiServiceOperator<>(listener));
     }
 
+
+    /**
+     * Get order detail Shipper
+     *
+     * @param id       orderId
+     * @param listener callback listener
+     */
+    public void getOrderDetailShipper(Context context, int id, ApiServiceOperator.OnResponseListener<OrderResponseDto> listener) {
+        Call<OrderResponseDto> call = service.getOrderDetailShipper(UserInfo.getInstance().getToken(context), id);
+        call.enqueue(new ApiServiceOperator<>(listener));
+    }
+
     public void getOrderListCustomer(Context context, int page, int size, ApiServiceOperator.OnResponseListener<OrderListCustomerResponse> listener) {
         Call<OrderListCustomerResponse> call = service.getOrderListCustomer(UserInfo.getInstance().getToken(context), page, size);
         call.enqueue(new ApiServiceOperator<>(listener));
@@ -170,42 +183,66 @@ public class DataController {
 
     /**
      * Get order list shipper by status order
-     * @param context Context
+     *
+     * @param context     Context
      * @param orderStatus Orderstatus
-     * @param page page start
-     * @param size Size
-     * @param listener Listener callback
+     * @param page        page start
+     * @param size        Size
+     * @param listener    Listener callback
      */
-    public void getOrderListShipper(Context context,String orderStatus ,int page, int size, ApiServiceOperator.OnResponseListener<OrderListShipperResponse> listener) {
-        Call<OrderListShipperResponse> call = service.getOrderListShipper(UserInfo.getInstance().getToken(context),orderStatus , page, size);
+    public void getOrderListShipper(Context context, String orderStatus, int page, int size, ApiServiceOperator.OnResponseListener<OrderListShipperResponse> listener) {
+        Call<OrderListShipperResponse> call = service.getOrderListShipper(UserInfo.getInstance().getToken(context), orderStatus, page, size);
         call.enqueue(new ApiServiceOperator<>(listener));
     }
 
     /**
      * Get order list shipper new order
-     * @param context Context
-     * @param page page start
-     * @param size Size
+     *
+     * @param context  Context
+     * @param page     page start
+     * @param size     Size
      * @param listener Listener callback
      */
-    public void getOrderListNewShipper(Context context ,int page, int size, ApiServiceOperator.OnResponseListener<OrderListShipperResponse> listener) {
-        Call<OrderListShipperResponse> call = service.getOrderListNewShipper(UserInfo.getInstance().getToken(context) , page, size);
+    public void getOrderListNewShipper(Context context, int page, int size, ApiServiceOperator.OnResponseListener<OrderListShipperResponse> listener) {
+        Call<OrderListShipperResponse> call = service.getOrderListNewShipper(UserInfo.getInstance().getToken(context), page, size);
         call.enqueue(new ApiServiceOperator<>(listener));
     }
 
     /**
      * Accept order
-     * @param context Context
-     * @param orderId Order id
+     *
+     * @param context  Context
+     * @param orderId  Order id
      * @param listener listener callback
      */
     public void acceptOrder(Context context, String orderId, ApiServiceOperator.OnResponseListener<BaseResponse> listener) {
-        Call<BaseResponse> call = service.acceptOrder(UserInfo.getInstance().getToken(context) , orderId);
+        Call<BaseResponse> call = service.acceptOrder(UserInfo.getInstance().getToken(context), orderId);
         call.enqueue(new ApiServiceOperator<>(listener));
     }
 
     public void paymentFinished(Context context, PaymentRequest request, ApiServiceOperator.OnResponseListener<PaymentResponseDto> listener) {
         Call<PaymentResponseDto> call = service.paymentFinished(UserInfo.getInstance().getToken(context), request);
         call.enqueue(new ApiServiceOperator<>(listener));
+    }
+
+    /**
+     * update status
+     *
+     * @param context  Context
+     * @param orderId  Order id
+     * @param listener listener callback
+     */
+    public void updateStatusOrder(Context context, String statusUpdate, String orderId, ApiServiceOperator.OnResponseListener<BaseResponse> listener) {
+        Call<BaseResponse> call = null;
+        if (TextUtils.equals(Constant.SHIPPER_RECEIVED_ORDER, statusUpdate)) {
+            call = service.receiveOrder(UserInfo.getInstance().getToken(context), orderId);
+        } else if (TextUtils.equals(Constant.SHIPPER_DELIVER_ORDER, statusUpdate)) {
+            call = service.deliverOrder(UserInfo.getInstance().getToken(context), orderId);
+        } else if (TextUtils.equals(Constant.COMPLETE_ORDER, statusUpdate)) {
+            call = service.completeOrder(UserInfo.getInstance().getToken(context), orderId);
+        }
+        if (call != null) {
+            call.enqueue(new ApiServiceOperator<>(listener));
+        }
     }
 }

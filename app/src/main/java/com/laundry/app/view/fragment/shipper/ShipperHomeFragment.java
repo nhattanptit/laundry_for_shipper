@@ -26,6 +26,7 @@ import com.laundry.app.dto.BaseResponse;
 import com.laundry.app.dto.UserInfo;
 import com.laundry.app.dto.orderlistshipper.OrderListShipperDto;
 import com.laundry.app.dto.orderlistshipper.OrderListShipperResponse;
+import com.laundry.app.view.activity.OrderDetailShipperActivity;
 import com.laundry.app.utils.ErrorDialog;
 import com.laundry.app.utils.SingleTapListener;
 import com.laundry.app.view.adapter.BannerAdapter;
@@ -312,7 +313,7 @@ public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding
                 break;
             case R.id.order_home_item_layout:
             case R.id.order_are_shipping_item:
-                onClickOrderItem();
+                onClickOrderItem(item);
                 break;
             case R.id.home_staff_item_accept_button:
                 onClickAcceptButton(item);
@@ -348,8 +349,8 @@ public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding
     /**
      * Handle click order item
      */
-    private void onClickOrderItem() {
-        navigateTo(R.id.action_home_staff_to_navigation_order_detail);
+    private void onClickOrderItem(OrderListShipperDto item) {
+        startActivity(OrderDetailShipperActivity.getNewActivityStartIntent(getMyActivity(), item.id));
     }
 
     /**

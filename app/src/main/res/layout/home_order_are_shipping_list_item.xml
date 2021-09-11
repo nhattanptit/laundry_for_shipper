@@ -3,13 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools">
     <LinearLayout
         android:id="@+id/order_are_shipping_item"
-        android:layout_width="@dimen/dp_320"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_home_order_item"
         android:orientation="vertical"
         android:paddingBottom="@dimen/dp_12"
         android:paddingTop="@dimen/dp_12"
-        android:layout_marginStart="@dimen/dp_12">
+        android:gravity="center">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -23,15 +23,15 @@
                 android:textColor="@color/green_8cc63e"
                 android:text="@string/delivery_address"
                 android:textStyle="bold"/>
+
             <TextView
                 android:id="@+id/order_are_shipping_delivery_address_content"
                 android:layout_width="@dimen/dp_150"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/sp_10"
                 android:layout_below="@+id/order_are_shipping_delivery_address_heading"
                 android:textColor="@color/gray_807e7e"
-                tools:text="15 Hiclory Lane, Silver Spring.\nDC, Washington, 20904"
-                />
+                android:textSize="@dimen/sp_10"
+                tools:text="15 Hiclory Lane, Silver Spring.\nDC, Washington, 20904" />
             <TextView
                 android:id="@+id/order_are_shipping_phonenumber_heading"
                 android:layout_width="wrap_content"
@@ -80,6 +80,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:weightSum="2"
+            android:gravity="center"
             android:layout_marginTop="@dimen/dp_24">
 
             <Button
@@ -88,11 +89,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp_20"
                 android:layout_marginEnd="@dimen/dp_16"
-                android:layout_marginBottom="@dimen/dp_8"
                 android:gravity="center"
                 android:background="@drawable/shaper_button_green"
                 android:text="@string/call"
+                android:textStyle="bold"
                 android:textAllCaps="false"
+                android:textSize="@dimen/sp_15"
                 android:textColor="@color/white" />
 
             <Button
@@ -101,10 +103,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp_16"
                 android:layout_marginEnd="@dimen/dp_20"
-                android:layout_marginBottom="@dimen/dp_8"
                 android:gravity="center"
+                android:textSize="@dimen/sp_15"
                 android:background="@drawable/shaper_button_green"
                 android:text="@string/done"
+                android:textStyle="bold"
                 android:textAllCaps="false"
                 android:textColor="@color/white" />
         </LinearLayout>

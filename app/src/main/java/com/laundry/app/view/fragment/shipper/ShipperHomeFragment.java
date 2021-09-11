@@ -1,12 +1,16 @@
 package com.laundry.app.view.fragment.shipper;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -22,6 +26,8 @@ import com.laundry.app.dto.BaseResponse;
 import com.laundry.app.dto.UserInfo;
 import com.laundry.app.dto.orderlistshipper.OrderListShipperDto;
 import com.laundry.app.dto.orderlistshipper.OrderListShipperResponse;
+import com.laundry.app.utils.ErrorDialog;
+import com.laundry.app.utils.SingleTapListener;
 import com.laundry.app.view.adapter.BannerAdapter;
 import com.laundry.app.view.adapter.HomeOrderAdapter;
 import com.laundry.app.view.adapter.HomeOrderAreShippingAdapter;
@@ -37,6 +43,7 @@ import java.util.TimerTask;
 public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding> implements ViewPager.OnPageChangeListener
         , SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
 
+    private static final String TAG = ShipperHomeFragment.class.getSimpleName();
     int[] mResourcesBanner = {R.drawable.banner1,
             R.drawable.banner2,
             R.drawable.banner3,
@@ -52,6 +59,8 @@ public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding
 
     private List<OrderListShipperDto> mListOrderAreShipping;
     private HomeOrderAreShippingAdapter mHomeOrderAreShippingAdapter;
+
+    private OrderListShipperDto mOrderListShipperDto;
 
     OnClickCallPhone mOnClickCallPhone;
 
@@ -115,13 +124,9 @@ public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding
     private void initOrderAreShipping() {
         mListOrderAreShipping = new ArrayList<>();
         mHomeOrderAreShippingAdapter = new HomeOrderAreShippingAdapter(this);
-        binding.homeStaffOrderDeliveringRcv.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
-        binding.homeStaffOrderDeliveringRcv.setLayoutManager(linearLayoutManager);
-        binding.homeStaffOrderDeliveringRcv.setAdapter(mHomeOrderAreShippingAdapter);
         mHomeOrderAreShippingAdapter.submitList(mListOrderAreShipping);
-        binding.homeStaffOrderDeliveringRcv.bringToFront();
     }
 
     private void beforeCallApi() {
@@ -134,9 +139,6 @@ public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding
 
     @Override
     public void onViewClick() {
-        binding.homeStaffButtonLogin.setOnClickListener(v -> {
-            navigateTo(R.id.action_home_staff_to_navigation_login_account_dialog);
-        });
     }
 
 
@@ -227,8 +229,8 @@ public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding
      */
     private void callOrderAreShippingApi() {
         beforeCallApi();
-        mDataController.getOrderListShipper(getMyActivity(), Constant.SHIPPER_ACCEPTED_ORDER, 0, 50, new OrderAreShippingCallBack());
-        mHomeOrderAreShippingAdapter.submitList(mListOrderAreShipping);
+        mDataController.getOrderListShipper(getMyActivity(), Constant.INCOMPLETE_ORDER, 0, 1,
+                new OrderAreShippingCallBack());
         updateList();
     }
 
@@ -236,7 +238,7 @@ public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding
      * Call list new order api
      */
     public void callListNewOrderApi() {
-        mDataController.getOrderListNewShipper(getMyActivity(),0, 50, new NewOrderCallBack());
+        mDataController.getOrderListNewShipper(getMyActivity(), 0, 50, new NewOrderCallBack());
 
     }
 
@@ -244,7 +246,8 @@ public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding
      * Call list history order api
      */
     public void callListHistoryOrderApi() {
-        mDataController.getOrderListShipper(getMyActivity(),Constant.COMPLETE_ORDER,0, 50, new HistoryOrderCallBack());
+        mDataController.getOrderListShipper(getMyActivity(), Constant.COMPLETE_ORDER, 0, 50,
+                new HistoryOrderCallBack());
     }
 
     /**
@@ -265,32 +268,36 @@ public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding
             binding.homeStaffHistoryOrderRcv.setVisibility(View.GONE);
             binding.historyOrderHeadingLayout.setVisibility(View.GONE);
         }
-        if (UserInfo.getInstance().isLogin(getActivity())) {
-            binding.homeStaffButtonLogin.setVisibility(View.GONE);
-            if (mListOrderAreShipping != null && !mListOrderAreShipping.isEmpty()) {
-                binding.homeStaffOrderDeliveringRcv.setVisibility(View.VISIBLE);
-                binding.orderDeliveringHeadingLayout.setVisibility(View.VISIBLE);
-                binding.noHaveOrderNoticeLayout.setVisibility(View.GONE);
-            } else {
-                binding.noHaveOrderNoticeLayout.setVisibility(View.VISIBLE);
-                binding.homeStaffOrderDeliveringRcv.setVisibility(View.GONE);
-                binding.orderDeliveringHeadingLayout.setVisibility(View.GONE);
-            }
-        } else {
-            binding.homeStaffButtonLogin.setVisibility(View.VISIBLE);
-            binding.noHaveOrderNoticeLayout.setVisibility(View.GONE);
-            binding.orderDeliveringHeadingLayout.setVisibility(View.GONE);
-        }
+        if (mOrderListShipperDto != null) {
+            binding.orderItem.orderAreShippingDeliveryAddressContent.setText(mOrderListShipperDto.deliverAddress);
+            binding.orderItem.orderAreShippingPhonenumberContent.setText(mOrderListShipperDto.shippingPhoneNumber);
+            binding.orderItem.statusIcon.setBackgroundResource(mOrderListShipperDto.getIconByStatus());
+            binding.orderItem.statusContent.setText(mOrderListShipperDto.getStatusContent());
 
-        binding.noneLoginView.setVisibility(binding.homeStaffButtonLogin.getVisibility() == View.GONE
-                    && binding.homeStaffOrderDeliveringRcv.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
-        int paddingTop = 0;
-        if (binding.noneLoginView.getVisibility() == View.GONE) {
-            paddingTop = getResources().getDimensionPixelOffset(R.dimen.dp_32);
+            binding.orderItem.homeStaffDeriveringOrderCallButton.setOnClickListener(ShipperHomeFragment.this);
+            binding.orderItem.homeStaffDeriveringOrderDoneButton.setOnClickListener(ShipperHomeFragment.this);
+            binding.orderItem.homeStaffDeriveringOrderCallButton.setTag(mOrderListShipperDto);
+            binding.orderItem.homeStaffDeriveringOrderDoneButton.setTag(mOrderListShipperDto);
+
+            binding.orderItem.orderAreShippingItem.setOnClickListener(new SingleTapListener(ShipperHomeFragment.this));
+            binding.orderItem.orderAreShippingItem.setTag(mOrderListShipperDto);
+
+            if (TextUtils.equals(Constant.SHIPPER_DELIVER_ORDER, mOrderListShipperDto.status)
+                    || TextUtils.equals(Constant.SHIPPER_RECEIVED_ORDER, mOrderListShipperDto.status)) {
+                binding.orderItem.homeStaffDeriveringOrderDoneButton.setEnabled(true);
+                binding.orderItem.homeStaffDeriveringOrderDoneButton.setBackground(ContextCompat.getDrawable(getMyActivity(),
+                        R.drawable.shaper_button_green_big));
+            } else {
+                binding.orderItem.homeStaffDeriveringOrderDoneButton.setEnabled(false);
+                binding.orderItem.homeStaffDeriveringOrderDoneButton.setBackground(ContextCompat.getDrawable(getMyActivity(),
+                        R.drawable.shaper_button_green_big_disable));
+            }
+            binding.noHaveOrderNoticeLayout.setVisibility(View.GONE);
+            binding.orderItem.orderAreShippingItem.setVisibility(View.VISIBLE);
         } else {
-            paddingTop = getResources().getDimensionPixelOffset(R.dimen.dp_110);
+            binding.noHaveOrderNoticeLayout.setVisibility(View.VISIBLE);
+            binding.orderItem.orderAreShippingItem.setVisibility(View.GONE);
         }
-        binding.containerStaffHome.setPadding(binding.containerStaffHome.getPaddingLeft(),paddingTop, binding.containerStaffHome.getPaddingRight(), binding.containerStaffHome.getPaddingBottom() );
     }
 
     @Override
@@ -365,15 +372,12 @@ public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding
 
     private class OrderAreShippingCallBack implements ApiServiceOperator.OnResponseListener<OrderListShipperResponse> {
 
-
         @Override
         public void onSuccess(OrderListShipperResponse body) {
             if (TextUtils.equals(APIConstant.STATUS_CODE_SUCCESS, body.statusCd)) {
-                mListOrderAreShipping.clear();
-                mListOrderAreShipping.addAll(body.orderListShipperDtos);
-                mHomeOrderAreShippingAdapter.submitList(mListOrderAreShipping);
-            } else {
-
+                if (body.orderListShipperDtos != null && !body.orderListShipperDtos.isEmpty()) {
+                    mOrderListShipperDto = body.orderListShipperDtos.get(0);
+                }
             }
             callListNewOrderApi();
         }
@@ -386,7 +390,6 @@ public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding
 
     private class NewOrderCallBack implements ApiServiceOperator.OnResponseListener<OrderListShipperResponse> {
 
-
         @Override
         public void onSuccess(OrderListShipperResponse body) {
 
@@ -394,10 +397,7 @@ public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding
                 mListNewOrder.clear();
                 mListNewOrder.addAll(body.orderListShipperDtos);
                 mNewOrderAdapter.submitList(mListNewOrder);
-            } else {
-
             }
-
             callListHistoryOrderApi();
         }
 
@@ -409,15 +409,12 @@ public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding
 
     private class HistoryOrderCallBack implements ApiServiceOperator.OnResponseListener<OrderListShipperResponse> {
 
-
         @Override
         public void onSuccess(OrderListShipperResponse body) {
             if (TextUtils.equals(APIConstant.STATUS_CODE_SUCCESS, body.statusCd)) {
                 mListHistoryOrder.clear();
                 mListHistoryOrder.addAll(body.orderListShipperDtos);
                 mHistoryOrderAdapter.submitList(mListHistoryOrder);
-            } else {
-
             }
             updateList();
             afterCallApi();

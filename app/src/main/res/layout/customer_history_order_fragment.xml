@@ -12,15 +12,15 @@
             android:id="@+id/register_login_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:visibility="visible"
-            android:visibility="gone">
+            android:visibility="gone"
+            tools:visibility="gone">
 
             <include
                 android:id="@+id/register_login_fragment"
                 layout="@layout/register_login_fragment" />
         </RelativeLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <RelativeLayout
             android:id="@+id/order_list_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -28,32 +28,23 @@
             android:visibility="gone"
             tools:visibility="visible">
 
-            <com.laundry.app.view.toolbar.LaundryToolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_56"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/order_list"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="match_parent"
                 android:layout_marginTop="@dimen/dp_10"
                 android:paddingBottom="@dimen/dp_128"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintTop_toBottomOf="@id/toolbar"
                 tools:listitem="@layout/customer_order_list_item" />
 
             <include
                 android:id="@+id/progress_bar"
                 layout="@layout/progressbar_layout"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/toolbar"
-                tools:visibility="visible" />
+                android:layout_height="match_parent"
+                tools:visibility="gone" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </RelativeLayout>
 
     </RelativeLayout>
 </layout>

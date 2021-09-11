@@ -40,7 +40,11 @@ public class Constant {
 
     public static final String GEOMETRIES = "geojson";
 
-    // Fix position of store
+//    // Fix position of store HCM
+//    public static final double LONG_START = 106.666640;
+//    public static final double LAT_START = 10.787790;
+
+    // HN
     public static final double LONG_START = 105.782660;
     public static final double LAT_START = 21.030900;
 

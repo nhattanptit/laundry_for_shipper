@@ -13,6 +13,7 @@ import com.laundry.app.databinding.LoginDialogBinding;
 import com.laundry.app.dto.UserInfo;
 import com.laundry.app.dto.authentication.LoginRequest;
 import com.laundry.app.dto.authentication.LoginResponseDto;
+import com.laundry.app.utils.SharePreferenceManager;
 import com.laundry.base.BaseDialog;
 
 import androidx.annotation.NonNull;
@@ -25,6 +26,7 @@ public class LoginDialog extends BaseDialog<LoginDialogBinding> implements ApiSe
     private final DataController controller = new DataController();
     private LoginListener mLoginListener;
     private String currentTab;
+    private String mMode;
 
     public static LoginDialog newInstance(String currentTab) {
         LoginDialog loginDialog = new LoginDialog();
@@ -34,6 +36,7 @@ public class LoginDialog extends BaseDialog<LoginDialogBinding> implements ApiSe
 
         return loginDialog;
     }
+
 
     public interface LoginListener {
         void onLoginSuccess();
@@ -61,6 +64,10 @@ public class LoginDialog extends BaseDialog<LoginDialogBinding> implements ApiSe
     public void onInitView() {
         if (getArguments() != null) {
             currentTab = getArguments().getString(Constant.CURRENT_TAB);
+            mMode = getArguments().getString(Constant.ROLE_SWITCH);
+            if (!TextUtils.isEmpty(mMode)) {
+                SharePreferenceManager.setMode(getMyActivity(), mMode);
+            }
         }
     }
 

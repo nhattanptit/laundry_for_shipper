@@ -109,4 +109,5 @@
     <string name="please_select_service">Please select service!!!</string>
     <string name="phone_number_customer">"Phone Number: "</string>
     <string name="order_list_incomplete">Order Incomplete List</string>
+    <string name="wrong_distance"><![CDATA[Please select address have distance <= 20km]]></string>
 </resources>

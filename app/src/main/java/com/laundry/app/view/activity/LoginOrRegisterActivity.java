@@ -48,6 +48,9 @@ public class LoginOrRegisterActivity extends BaseActivity<ActivityLoginOrRegiste
         }));
         binding.registerLoginLayout.login.setOnClickListener(v -> {
             LoginDialog loginDialog = new LoginDialog();
+            Bundle bundle = new Bundle();
+            bundle.putString(Constant.ROLE_SWITCH, mMode);
+            loginDialog.setArguments(bundle);
             loginDialog.show(getSupportFragmentManager(), LoginDialog.class.getSimpleName());
         });
 

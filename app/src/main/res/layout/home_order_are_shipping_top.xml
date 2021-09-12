@@ -2,25 +2,24 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
     <LinearLayout
+        android:id="@+id/order_top"
         android:layout_marginStart="@dimen/dp_4"
         android:layout_marginEnd="@dimen/dp_4"
-        android:id="@+id/order_are_shipping_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_home_order_item"
         android:orientation="vertical"
         android:paddingBottom="@dimen/dp_16"
         android:paddingTop="@dimen/dp_16"
-        android:paddingStart="@dimen/dp_4"
-        android:paddingEnd="@dimen/dp_4"
         android:gravity="center">
 
         <RelativeLayout
+            android:id="@+id/order_top_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_4">
             <TextView
-                android:id="@+id/order_are_shipping_delivery_address_heading"
+                android:id="@+id/order_top_address_heading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/sp_15"
@@ -29,10 +28,10 @@
                 android:textStyle="bold"/>
 
             <TextView
-                android:id="@+id/order_are_shipping_delivery_address_content"
+                android:id="@+id/order_top_delivery_address_content"
                 android:layout_width="@dimen/dp_150"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/order_are_shipping_delivery_address_heading"
+                android:layout_below="@+id/order_top_address_heading"
                 android:textColor="@color/gray_807e7e"
                 android:textSize="@dimen/sp_10"
                 android:maxLines="3"
@@ -41,20 +40,20 @@
                 tools:text="15 Hiclory Lane, Silver Spring.\nDC, Washington, 20904" />
 
             <TextView
-                android:id="@+id/order_are_shipping_phonenumber_heading"
+                android:id="@+id/order_top_phonenumber_heading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/order_are_shipping_delivery_address_content"
+                android:layout_below="@+id/order_top_delivery_address_content"
                 android:text="@string/phone_number_customer"
                 android:textColor="@color/green_8cc63e"
                 android:textSize="@dimen/sp_10" />
             <TextView
-                android:id="@+id/order_are_shipping_phonenumber_content"
+                android:id="@+id/order_top_phonenumber_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/sp_10"
-                android:layout_below="@+id/order_are_shipping_delivery_address_content"
-                android:layout_toEndOf="@+id/order_are_shipping_phonenumber_heading"
+                android:layout_below="@+id/order_top_delivery_address_content"
+                android:layout_toEndOf="@+id/order_top_phonenumber_heading"
                 android:textColor="@color/gray_807e7e"
                 tools:text="0984622362"
                 />
@@ -64,7 +63,7 @@
                 android:orientation="vertical"
                 android:gravity="center_horizontal"
                 android:layout_alignParentEnd="true"
-                android:layout_toEndOf="@+id/order_are_shipping_phonenumber_content"
+                android:layout_toEndOf="@+id/order_top_phonenumber_content"
                 android:layout_marginRight="@dimen/dp_16">
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -91,7 +90,7 @@
             android:layout_marginTop="@dimen/dp_24">
 
             <TextView
-                android:id="@+id/home_staff_derivering_order_call_button"
+                android:id="@+id/order_top_call_button"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/dp_32"
                 android:layout_weight="1"
@@ -110,7 +109,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:id="@+id/home_staff_derivering_order_done_button"
+                    android:id="@+id/order_top_done_button"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/dp_32"
                     android:layout_weight="1"
@@ -124,7 +123,7 @@
                     android:textColor="@color/white" />
 
                 <TextView
-                    android:id="@+id/home_staff_derivering_order_cancel_button"
+                    android:id="@+id/order_top_cancel_button"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/dp_32"
                     android:layout_weight="1"

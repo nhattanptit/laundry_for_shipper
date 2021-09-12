@@ -119,4 +119,7 @@ public interface ApiService {
 
     @PUT(APIConstant.URL_ORDER_COMPLETE_ORDER)
     Call<BaseResponse> completeOrder(@Header("Authorization") String token, @Query("orderId") String orderId);
+
+    @PUT(APIConstant.URL_ORDER_SHIPPER_CANCEL)
+    Call<BaseResponse> shipperCancelOrder(@Header("Authorization") String token, @Query("orderId") String orderId);
 }

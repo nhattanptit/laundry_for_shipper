@@ -50,8 +50,6 @@ public class CustomerOderHistoryListFragment extends BaseFragment<CustomerHistor
     }
 
     private void updateView() {
-        binding.toolbar.setTitle(getString(R.string.order_history_uppercase));
-        binding.toolbar.setHideButtonBack();
         beforeCallApi();
         mDataController.getOrderListCustomer(getMyActivity(), 0, 9999, new OrderListCustomerCallBack());
         mOrderListCustomerAdapter.setIsOrderListCallBack(this);

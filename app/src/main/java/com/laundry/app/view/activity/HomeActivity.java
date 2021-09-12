@@ -73,7 +73,7 @@ public class HomeActivity extends BaseActivity<HomeBinding> implements LoginDial
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         navController.setGraph(isCustomer ? R.navigation.customer_navigation : R.navigation.shipper_navigation);
         NavigationUI.setupWithNavController(navView, navController);
-//        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         FacebookSdk.sdkInitialize(this);
 
         // Add permission

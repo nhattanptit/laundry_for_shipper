@@ -9,4 +9,8 @@ public class BaseResponse implements Serializable {
     @SerializedName("statusCd")
     @Expose
     public String statusCd;
+
+    @SerializedName("message")
+    @Expose
+    public String message;
 }

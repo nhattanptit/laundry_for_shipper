@@ -24,7 +24,8 @@
         android:theme="@style/Theme.Laundry"
         android:usesCleartextTraffic="true"
         tools:replace="android:theme">
-        <activity android:name=".view.activity.OrderDetailShipperActivity"></activity>
+        <activity android:name=".view.activity.OrderDetailShipperActivity"
+            android:exported="true"/>
         <activity
             android:name=".view.activity.OrderDetailCustomerActivity"
             android:exported="true" />
@@ -38,7 +39,7 @@
             android:name=".view.activity.HomeActivity"
             android:exported="true"
             android:label="@string/title_activity_home"
-            android:theme="@style/Theme.Laundry" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".view.activity.SwitchModeActivity"
             android:exported="true" />

@@ -1,8 +1,11 @@
 package com.laundry.app.view.adapter;
 
+import android.content.Context;
 import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.View;
 
+import androidx.core.content.ContextCompat;
 import androidx.databinding.ViewDataBinding;
 
 import com.laundry.app.R;
@@ -17,8 +20,10 @@ import java.util.List;
 public class HomeOrderAreShippingAdapter extends BaseAdapter {
 
     private View.OnClickListener mOnClickListener;
+    private Context mContext;
 
-    public HomeOrderAreShippingAdapter(View.OnClickListener onClickListener) {
+    public HomeOrderAreShippingAdapter(Context context, View.OnClickListener onClickListener) {
+        this.mContext = context;
         mOnClickListener = onClickListener;
     }
 
@@ -63,19 +68,48 @@ public class HomeOrderAreShippingAdapter extends BaseAdapter {
 
             binding.homeStaffDeriveringOrderCallButton.setOnClickListener(mOnClickListener);
             binding.homeStaffDeriveringOrderDoneButton.setOnClickListener(mOnClickListener);
+            binding.homeStaffDeriveringOrderCancelButton.setOnClickListener(mOnClickListener);
             binding.homeStaffDeriveringOrderCallButton.setTag(item);
             binding.homeStaffDeriveringOrderDoneButton.setTag(item);
+            binding.homeStaffDeriveringOrderCancelButton.setTag(item);
 
             binding.orderAreShippingItem.setOnClickListener(new SingleTapListener(mOnClickListener));
             binding.orderAreShippingItem.setTag(item);
 
-            if (TextUtils.equals(Constant.SHIPPER_DELIVER_ORDER, item.status)
-                    || TextUtils.equals(Constant.SHIPPER_RECEIVED_ORDER, item.status)) {
+            if (TextUtils.equals(Constant.SHIPPER_ACCEPTED_ORDER, item.status)) {
+                binding.homeStaffDeriveringOrderCancelButton.setVisibility(View.VISIBLE);
+                binding.homeStaffDeriveringOrderDoneButton.setVisibility(View.VISIBLE);
+                binding.homeStaffDeriveringOrderCancelButton.setEnabled(true);
                 binding.homeStaffDeriveringOrderDoneButton.setEnabled(true);
-                binding.homeStaffDeriveringOrderDoneButton.setBackground(binding.homeStaffDeriveringOrderDoneButton.getContext().getResources().getDrawable(R.drawable.shaper_button_green_big));
-            } else {
+
+                binding.homeStaffDeriveringOrderDoneButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f);
+                binding.homeStaffDeriveringOrderDoneButton.setBackground(ContextCompat.getDrawable(mContext,
+                        R.drawable.shaper_button_green_big));
+                binding.homeStaffDeriveringOrderDoneButton.setText(R.string.order_receivered);
+            } else if (TextUtils.equals(Constant.SHIPPER_RECEIVED_ORDER, item.status)) {
+                binding.homeStaffDeriveringOrderCancelButton.setVisibility(View.GONE);
+
+                binding.homeStaffDeriveringOrderDoneButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f);
+                binding.homeStaffDeriveringOrderDoneButton.setText(R.string.order_delivered);
                 binding.homeStaffDeriveringOrderDoneButton.setEnabled(false);
-                binding.homeStaffDeriveringOrderDoneButton.setBackground(binding.homeStaffDeriveringOrderDoneButton.getContext().getResources().getDrawable(R.drawable.shaper_button_green_big_disable));
+                binding.homeStaffDeriveringOrderDoneButton.setBackground(ContextCompat.getDrawable(mContext,
+                        R.drawable.shaper_button_green_disable));
+            } else if (TextUtils.equals(Constant.STORE_RECEIVED_ORDER, item.status)
+                    || TextUtils.equals(Constant.STORE_DONE_ORDER, item.status)) {
+                binding.homeStaffDeriveringOrderCancelButton.setVisibility(View.GONE);
+                binding.homeStaffDeriveringOrderDoneButton.setEnabled(true);
+                binding.homeStaffDeriveringOrderDoneButton.setBackground(ContextCompat.getDrawable(mContext,
+                        R.drawable.shaper_button_green_big));
+
+                binding.homeStaffDeriveringOrderDoneButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f);
+                binding.homeStaffDeriveringOrderDoneButton.setText(R.string.order_delivered);
+            } else if (TextUtils.equals(Constant.SHIPPER_DELIVER_ORDER, item.status)) {
+                binding.homeStaffDeriveringOrderCancelButton.setVisibility(View.GONE);
+
+                binding.homeStaffDeriveringOrderDoneButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f);
+                binding.homeStaffDeriveringOrderDoneButton.setText(R.string.order_complete);
+            } else {
+                binding.homeStaffDeriveringOrderCancelButton.setVisibility(View.GONE);
             }
         }
     }

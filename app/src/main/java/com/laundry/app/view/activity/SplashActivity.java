@@ -1,12 +1,16 @@
 package com.laundry.app.view.activity;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
 
 import com.laundry.app.R;
+import com.laundry.app.constant.Constant;
 import com.laundry.app.databinding.SplashActivityBinding;
 import com.laundry.app.dto.AddressInfo;
 import com.laundry.app.dto.Role;
+import com.laundry.app.dto.UserInfo;
 import com.laundry.app.utils.SharePreferenceManager;
 import com.laundry.base.BaseActivity;
 
@@ -28,9 +32,22 @@ public class SplashActivity extends BaseActivity<SplashActivityBinding> {
             if (TextUtils.isEmpty(mode)) {
                 navigateTo(SplashActivity.this, SwitchModeActivity.class);
             } else {
-                navigateTo(SplashActivity.this, HomeActivity.class);
+                if (TextUtils.equals(Role.CUSTOMER.role(), mode)) {
+                    navigateTo(SplashActivity.this, HomeActivity.class);
+                } else {
+                    if (UserInfo.getInstance().isLogin(this)) {
+                        navigateTo(SplashActivity.this, HomeActivity.class);
+                    } else {
+                        Intent intent = new Intent(SplashActivity.this, LoginOrRegisterActivity.class);
+                        intent.putExtra(Constant.ROLE_SWITCH, mode);
+                        startActivity(intent);
+                        overridePendingTransition(com.laundry.base.R.anim.slide_pop_enter_right_to_left, com.laundry.base.R.anim.slide_pop_exit_left_to_right);
+                    }
+                }
             }
             finish();
+
+
         }, 3000);
     }
 

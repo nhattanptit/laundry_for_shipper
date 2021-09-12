@@ -8,7 +8,19 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.Profile;
+import com.facebook.ProfileTracker;
+import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -28,6 +40,7 @@ import com.laundry.app.dto.authentication.SocialLoginRequest;
 import com.laundry.app.dto.authentication.SocialLoginRequestLite;
 import com.laundry.app.utils.ErrorDialog;
 import com.laundry.app.utils.SharePreferenceManager;
+import com.laundry.app.utils.SingleTapListener;
 import com.laundry.app.view.activity.OrderConfirmActivity;
 import com.laundry.base.BaseDialog;
 
@@ -35,6 +48,11 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Arrays;
 
 public class LoginDialog extends BaseDialog<LoginDialogBinding> implements ApiServiceOperator.OnResponseListener<LoginResponseDto> {
 
@@ -49,6 +67,7 @@ public class LoginDialog extends BaseDialog<LoginDialogBinding> implements ApiSe
     private SocialLoginRequest mSocialLoginRequest = new SocialLoginRequest();
     private boolean isSocialLogin;
     private Uri profileImage;
+    private CallbackManager mCallbackManager;
 
     public static LoginDialog newInstance(String currentTab) {
         LoginDialog loginDialog = new LoginDialog();
@@ -106,6 +125,11 @@ public class LoginDialog extends BaseDialog<LoginDialogBinding> implements ApiSe
         // the GoogleSignInAccount will be non-null.
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(getMyActivity());
 
+        mCallbackManager = CallbackManager.Factory.create();
+        // If using in a fragment
+        binding.loginWithFacebook.setFragment(this);
+
+
     }
 
     @Override
@@ -119,11 +143,105 @@ public class LoginDialog extends BaseDialog<LoginDialogBinding> implements ApiSe
             signInGoogle();
             isSocialLogin = true;
         });
+
+        binding.loginWithFacebook.setOnClickListener(v -> {
+            signInFacebook();
+            isSocialLogin = true;
+        });
     }
 
     @Override
     protected boolean dismissByTouchOutside() {
         return false;
+    }
+
+    /**
+     * onClick signin facebook
+     */
+    private void signInFacebook() {
+
+        beforeCallApi();
+
+        LoginManager.getInstance().logInWithReadPermissions(
+                this,
+                Arrays.asList("user_friends", "email", "public_profile"));
+        // Callback registration
+        LoginManager.getInstance().registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                // App code
+                setFacebookData(loginResult);
+            }
+
+            @Override
+            public void onCancel() {
+                // App code
+                LoginManager.getInstance().logOut();
+            }
+
+            @Override
+            public void onError(FacebookException exception) {
+                // App code
+                Toast.makeText(getMyActivity(), "Error", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    /**
+     * Set facebook data
+     *
+     * @param loginResult
+     */
+    private void setFacebookData(final LoginResult loginResult) {
+        final ProfileTracker[] mProfileTracker = new ProfileTracker[1];
+        GraphRequest request = GraphRequest.newMeRequest(
+                loginResult.getAccessToken(),
+                (object, response) -> {
+                    // Application code
+                    try {
+                        Log.i("Response", response.toString());
+
+                        String email = response.getJSONObject().getString("email");
+                        String firstName = response.getJSONObject().getString("first_name");
+                        String lastName = response.getJSONObject().getString("last_name");
+                        SharePreferenceManager.setUsername(getMyActivity(), firstName + lastName);
+
+                        Profile profile = Profile.getCurrentProfile();
+
+                        if (profile == null) {
+                            mProfileTracker[0] = new ProfileTracker() {
+                                @Override
+                                protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
+                                    Log.v("facebook - profile", currentProfile.getFirstName());
+                                    mProfileTracker[0].stopTracking();
+                                }
+                            };
+                            // no need to call startTracking() on mProfileTracker
+                            // because it is called by its constructor, internally.
+                        } else {
+                            profile = Profile.getCurrentProfile();
+                        }
+
+                        profileImage = profile.getLinkUri();
+                        if (Profile.getCurrentProfile() != null) {
+                            Log.i("Login", "ProfilePic" + Profile.getCurrentProfile().getProfilePictureUri(200, 200));
+                        }
+
+                        Log.i("Login" + "Email", email);
+                        Log.i("Login" + "FirstName", firstName);
+                        Log.i("Login" + "LastName", lastName);
+
+                        callSocialLogin(firstName, email);
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                });
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "id,email,first_name,last_name");
+        request.setParameters(parameters);
+        request.executeAsync();
     }
 
     private void login() {
@@ -220,6 +338,12 @@ public class LoginDialog extends BaseDialog<LoginDialogBinding> implements ApiSe
         someActivityResultLauncher.launch(signInIntent);
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        mCallbackManager.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
     private final ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
@@ -254,12 +378,22 @@ public class LoginDialog extends BaseDialog<LoginDialogBinding> implements ApiSe
             String personEmail = acct.getEmail();
             profileImage = acct.getPhotoUrl();
 
-            Log.d(TAG, "handleAfterLogin: "+ personEmail + personName);
-            SocialLoginRequestLite socialLoginRequestLite = new SocialLoginRequestLite();
-            socialLoginRequestLite.name = personName;
-            socialLoginRequestLite.email = personEmail;
-            mDataController.socialLogin(socialLoginRequestLite, this);
+            Log.d(TAG, "handleAfterLogin: " + personEmail + personName);
+            callSocialLogin(personName, personEmail);
         }
+    }
+
+    /**
+     * Call social login api
+     *
+     * @param name
+     * @param email
+     */
+    private void callSocialLogin(String name, String email) {
+        SocialLoginRequestLite socialLoginRequestLite = new SocialLoginRequestLite();
+        socialLoginRequestLite.name = name;
+        socialLoginRequestLite.email = email;
+        mDataController.socialLogin(socialLoginRequestLite, this);
     }
 }
 

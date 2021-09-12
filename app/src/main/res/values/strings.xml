@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Laundry Online</string>
     <string name="server_client_id">483875639999-o2eqrodsvoso87cekjj2jo8e5evok2rb.apps.googleusercontent.com</string>
+    <string name="facebook_app_id">843546309885289</string>
+    <string name="fb_login_protocol_scheme">fb843546309885289</string>
+
     <string name="my">My</string>
     <string name="laundry">Laundry</string>
     <string name="title_home">Home</string>

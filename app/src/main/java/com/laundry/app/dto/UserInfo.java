@@ -3,6 +3,8 @@ package com.laundry.app.dto;
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.facebook.AccessToken;
+import com.facebook.login.LoginManager;
 import com.laundry.app.utils.SharePreferenceManager;
 
 public class UserInfo {
@@ -69,9 +71,17 @@ public class UserInfo {
         token = null;
         role = null;
         urlAvatar = null;
+        if (isLoggedIn()) {
+            LoginManager.getInstance().logOut();
+        }
         SharePreferenceManager.setToken(context, null);
         SharePreferenceManager.setUsername(context, null);
         SharePreferenceManager.setUserAvatar(context, null);
         SharePreferenceManager.setUserAvatarSocialLogin(context, null);
+    }
+
+    public boolean isLoggedIn() {
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        return accessToken != null;
     }
 }

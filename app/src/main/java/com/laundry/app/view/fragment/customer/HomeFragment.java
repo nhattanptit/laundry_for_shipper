@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 
+import com.facebook.login.LoginManager;
 import com.laundry.app.R;
 import com.laundry.app.control.ApiServiceOperator;
 import com.laundry.app.control.DataController;
@@ -72,7 +73,9 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements O
 
         // Service all list
         binding.serviceList.setAdapter(serviceListAdapter);
-
+        if (!UserInfo.getInstance().isLogin(getMyActivity())) {
+            LoginManager.getInstance().logOut();
+        }
         getServiceList();
         createLoginLayout();
         createOrderListIncompleteLayout();

@@ -145,7 +145,7 @@
                 android:layout_marginStart="@dimen/dp_6"/>
             <TextView
                 style="@style/account_infomation_item_title_style"
-                android:text="@string/history"/>
+                android:text="@string/general"/>
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -26,7 +26,8 @@
             android:background="@color/alpha_8cc63e"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:visibility="gone">
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <RelativeLayout
                 android:id="@+id/avatar_layout"
@@ -190,7 +191,7 @@
 
                     <TextView
                         style="@style/account_infomation_item_title_style"
-                        android:text="@string/history" />
+                        android:text="@string/general" />
 
                     <ImageView
                         android:layout_width="match_parent"

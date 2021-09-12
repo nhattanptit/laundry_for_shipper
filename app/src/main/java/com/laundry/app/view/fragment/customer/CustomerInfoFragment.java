@@ -22,6 +22,7 @@ import com.laundry.app.databinding.CustomerInfoFragmentBinding;
 import com.laundry.app.dto.Role;
 import com.laundry.app.dto.UserInfo;
 import com.laundry.app.utils.SharePreferenceManager;
+import com.laundry.app.utils.SingleTapListener;
 import com.laundry.app.view.activity.HomeActivity;
 import com.laundry.app.view.dialog.LoginDialog;
 import com.laundry.app.view.dialog.RegisterAccountDialog;
@@ -39,6 +40,8 @@ public class CustomerInfoFragment extends BaseFragment<CustomerInfoFragmentBindi
     private static final int GALLERY = 1, CAMERA = 2;
     private ISCustomerInfoCallBack mIsCustomerInfoCallBack;
 
+    private OnClickAccountInfomationListener mOnClickAccountInfomation;
+
     @Override
     protected int getLayoutResource() {
         return R.layout.customer_info_fragment;
@@ -48,6 +51,7 @@ public class CustomerInfoFragment extends BaseFragment<CustomerInfoFragmentBindi
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         mIsCustomerInfoCallBack = (ISCustomerInfoCallBack) context;
+        this.mOnClickAccountInfomation = (OnClickAccountInfomationListener) context;
     }
 
     @Override
@@ -89,6 +93,11 @@ public class CustomerInfoFragment extends BaseFragment<CustomerInfoFragmentBindi
             UserInfo.getInstance().init(getActivity());
             logout();
         });
+
+
+        binding.accountInfomationHistory.setOnClickListener(new SingleTapListener(v -> {
+            mOnClickAccountInfomation.onMoveTab();
+        }));
     }
 
     private void showPictureDialog() {
@@ -196,6 +205,11 @@ public class CustomerInfoFragment extends BaseFragment<CustomerInfoFragmentBindi
 
     public interface ISCustomerInfoCallBack {
         void setPermission();
+    }
+
+
+    public interface OnClickAccountInfomationListener {
+        void onMoveTab();
     }
 
 }

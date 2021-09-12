@@ -6,12 +6,10 @@ import android.view.View;
 
 import com.laundry.app.R;
 import com.laundry.app.constant.Constant;
-import com.laundry.app.databinding.ShipperFragmentHomeBinding;
 import com.laundry.app.databinding.ShipperFragmentInfoBinding;
 import com.laundry.app.dto.Role;
 import com.laundry.app.dto.UserInfo;
 import com.laundry.app.utils.SharePreferenceManager;
-import com.laundry.app.view.activity.HomeActivity;
 import com.laundry.app.view.activity.LoginOrRegisterActivity;
 import com.laundry.app.view.dialog.LoginDialog;
 import com.laundry.app.view.dialog.RegisterAccountDialog;
@@ -19,7 +17,6 @@ import com.laundry.app.view.fragment.customer.CustomerInfoFragment;
 import com.laundry.base.BaseFragment;
 
 public class ShipperInfoFragment extends BaseFragment<ShipperFragmentInfoBinding> {
-
 
     @Override
     protected int getLayoutResource() {

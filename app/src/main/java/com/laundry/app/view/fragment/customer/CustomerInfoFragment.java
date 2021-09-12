@@ -16,6 +16,7 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 
+import com.bumptech.glide.Glide;
 import com.laundry.app.R;
 import com.laundry.app.constant.Constant;
 import com.laundry.app.databinding.CustomerInfoFragmentBinding;
@@ -70,6 +71,15 @@ public class CustomerInfoFragment extends BaseFragment<CustomerInfoFragmentBindi
         String mMode = SharePreferenceManager.getMode(getMyActivity());
         if (TextUtils.equals(Role.CUSTOMER.role(), mMode)) {
             binding.registerLoginFragment.signUp.setVisibility(View.VISIBLE);
+        }
+        String imageProfile = SharePreferenceManager.getUserAvatarSocialLogin(getMyActivity());
+        if (!TextUtils.isEmpty(imageProfile)) {
+            Uri imageUri = Uri.parse(imageProfile);
+            Glide.with(binding.getRoot().getContext())
+                    .load(imageUri)
+                    .centerCrop()
+                    .placeholder(R.drawable.user_placeholder)
+                    .into(binding.accountInfomationAvatar);
         }
     }
 

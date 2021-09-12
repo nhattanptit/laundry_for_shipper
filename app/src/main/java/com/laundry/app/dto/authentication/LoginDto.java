@@ -15,4 +15,12 @@ public class LoginDto {
     @SerializedName("username")
     @Expose
     public String username;
+
+    @SerializedName("name")
+    @Expose
+    public String socialName;
+
+    @SerializedName("email")
+    @Expose
+    public String email;
 }

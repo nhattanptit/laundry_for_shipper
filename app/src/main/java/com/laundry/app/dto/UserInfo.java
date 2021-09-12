@@ -72,5 +72,6 @@ public class UserInfo {
         SharePreferenceManager.setToken(context, null);
         SharePreferenceManager.setUsername(context, null);
         SharePreferenceManager.setUserAvatar(context, null);
+        SharePreferenceManager.setUserAvatarSocialLogin(context, null);
     }
 }

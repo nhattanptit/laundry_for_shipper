@@ -11,6 +11,8 @@ import com.laundry.app.dto.authentication.LoginRequest;
 import com.laundry.app.dto.authentication.LoginResponseDto;
 import com.laundry.app.dto.authentication.RegisterRequest;
 import com.laundry.app.dto.authentication.RegisterResponse;
+import com.laundry.app.dto.authentication.SocialLoginRequest;
+import com.laundry.app.dto.authentication.SocialLoginRequestLite;
 import com.laundry.app.dto.maps.MapDirectionResponse;
 import com.laundry.app.dto.order.OrderConfirmResponseDto;
 import com.laundry.app.dto.ordercreate.OrderRequest;
@@ -46,6 +48,12 @@ public interface ApiService {
 
     @POST(APIConstant.URL_LOGIN)
     Call<LoginResponseDto> signin(@Body LoginRequest loginRequest);
+
+    @POST(APIConstant.URL_SOCIAL_LOGIN_FIRST_TIME)
+    Call<LoginResponseDto> signinSocialFirstTime(@Body SocialLoginRequest body);
+
+    @POST(APIConstant.URL_SOCIAL_LOGIN_SECOND_TIME)
+    Call<LoginResponseDto> signinSocialSecordTime(@Body SocialLoginRequestLite body);
 
     @POST(APIConstant.URL_SHIPPER_LOGIN)
     Call<LoginResponseDto> signinShipper(@Body LoginRequest loginRequest);

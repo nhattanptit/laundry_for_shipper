@@ -59,7 +59,7 @@ public class BillingAddressActivity extends BaseActivity<BillingAddressActivityB
     public void onViewClick() {
 
         binding.addAddressButton.setOnClickListener(new SingleTapListener(view -> {
-            AddAddressDialog addAddressDialog = new AddAddressDialog();
+            AddAddressDialog addAddressDialog = AddAddressDialog.newInstance(AddAddressDialog.TRANSITION_NO_BILLING_ADDRESSS);
             addAddressDialog.show(getSupportFragmentManager(), AddAddressDialog.class.getSimpleName());
         }));
 

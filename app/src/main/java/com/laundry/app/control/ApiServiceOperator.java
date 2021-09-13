@@ -1,5 +1,7 @@
 package com.laundry.app.control;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -26,6 +28,7 @@ public class ApiServiceOperator<T> implements Callback<T> {
         } else {
             onResponseListener.onFailure(new ServerErrorException());
         }
+        Log.d("TAG", "onResponse: "+ response.toString());
     }
 
     @Override

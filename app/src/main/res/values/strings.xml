@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">Laundry Online</string>
+    <string name="server_client_id">483875639999-o2eqrodsvoso87cekjj2jo8e5evok2rb.apps.googleusercontent.com</string>
+    <string name="facebook_app_id">843546309885289</string>
+    <string name="fb_login_protocol_scheme">fb843546309885289</string>
+
     <string name="my">My</string>
     <string name="laundry">Laundry</string>
     <string name="title_home">Home</string>
@@ -114,6 +118,7 @@
     <string name="name_receiver">Name Receiver :</string>
     <string name="address_receiver">Address Receiver :</string>
     <string name="order_complete">Order completed</string>
+    <string name="general">General</string>
     <string name="phone_number_dot">Phone Number :</string>
     <string name="freshchat_file_provider_authority">com.example.demoapp.providerr</string>
     <string name="id_fresh_chat">98ad0dbb-f4e5-4889-9026-cc9deeef8b15</string>

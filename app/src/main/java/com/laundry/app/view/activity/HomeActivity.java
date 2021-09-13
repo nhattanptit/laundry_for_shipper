@@ -25,12 +25,13 @@ import com.laundry.app.view.fragment.customer.CustomerInfoFragment;
 import com.laundry.app.view.fragment.customer.CustomerOderHistoryListFragment;
 import com.laundry.app.view.fragment.customer.HomeFragment;
 import com.laundry.app.view.fragment.shipper.ShipperHomeFragment;
+import com.laundry.app.view.fragment.shipper.ShipperInfoFragment;
 import com.laundry.base.BaseActivity;
 
 import java.util.ArrayList;
 
 public class HomeActivity extends BaseActivity<HomeBinding> implements LoginDialog.LoginListener,
-        ShipperHomeFragment.OnClickCallPhone, BaseActivity.ConfigPermission, CustomerInfoFragment.ISCustomerInfoCallBack {
+        ShipperHomeFragment.OnClickCallPhone, BaseActivity.ConfigPermission, CustomerInfoFragment.ISCustomerInfoCallBack, CustomerInfoFragment.OnClickAccountInfomationListener {
 
     private static final String TAG = HomeActivity.class.getSimpleName();
     private String mMode;
@@ -169,5 +170,12 @@ public class HomeActivity extends BaseActivity<HomeBinding> implements LoginDial
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE};
         doRequestPermission(simpleArray, this);
+    }
+
+    @Override
+    public void onMoveTab() {
+        if (TextUtils.equals(Role.CUSTOMER.role(), mMode)) {
+            navController.navigate(R.id.navigation_customer_order_list);
+        }
     }
 }

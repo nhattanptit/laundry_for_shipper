@@ -115,6 +115,15 @@
     <string name="parcel_deliver_order">Deliver order</string>
     <string name="order_list_incomplete">Order Incomplete List</string>
     <string name="wrong_distance"><![CDATA[Please select address have distance <= 20km]]></string>
+    <string name="name_receiver">Name Receiver :</string>
+    <string name="address_receiver">Address Receiver :</string>
     <string name="order_complete">Order completed</string>
     <string name="general">General</string>
+    <string name="phone_number_dot">Phone Number :</string>
+    <string name="freshchat_file_provider_authority">com.example.demoapp.providerr</string>
+    <string name="id_fresh_chat">98ad0dbb-f4e5-4889-9026-cc9deeef8b15</string>
+    <string name="key_fresh_chat">a1816856-a8ce-4739-84b2-ed46fe85c9f5</string>
+    <string name="domain_fresh_chat">msdk.freshchat.com</string>
+    <string name="shipper">Shipper</string>
+    <string name="customer">Customer</string>
 </resources>

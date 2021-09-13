@@ -1,22 +1,26 @@
 package com.laundry.app.view.fragment.shipper;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Handler;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager.widget.ViewPager;
 
+import com.freshchat.consumer.sdk.Freshchat;
+import com.freshchat.consumer.sdk.FreshchatConfig;
+import com.freshchat.consumer.sdk.exception.MethodNotAllowedException;
 import com.laundry.app.R;
 import com.laundry.app.constant.Constant;
 import com.laundry.app.control.ApiServiceOperator;
@@ -27,9 +31,8 @@ import com.laundry.app.dto.BaseResponse;
 import com.laundry.app.dto.UserInfo;
 import com.laundry.app.dto.orderlistshipper.OrderListShipperDto;
 import com.laundry.app.dto.orderlistshipper.OrderListShipperResponse;
-import com.laundry.app.view.activity.OrderDetailShipperActivity;
-import com.laundry.app.utils.ErrorDialog;
 import com.laundry.app.utils.SingleTapListener;
+import com.laundry.app.view.activity.OrderDetailShipperActivity;
 import com.laundry.app.view.adapter.BannerAdapter;
 import com.laundry.app.view.adapter.HomeOrderAdapter;
 import com.laundry.app.view.adapter.HomeOrderAreShippingAdapter;
@@ -39,7 +42,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -68,6 +73,8 @@ public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding
     OnClickCallPhone mOnClickCallPhone;
 
     private DataController mDataController = new DataController();
+
+    private String mRestoreId;
 
     @Override
     public void onAttach(@NonNull @NotNull Context context) {
@@ -105,6 +112,7 @@ public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding
         initHistoryOrder();
 
         loadData();
+        createFreshChat();
     }
 
     /**
@@ -146,6 +154,9 @@ public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding
 
     @Override
     public void onViewClick() {
+        binding.chatIcon.setOnClickListener(view -> {
+            Freshchat.showConversations(getMyActivity());
+        });
     }
 
 
@@ -191,6 +202,49 @@ public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding
     @Override
     public void onPageScrollStateChanged(int state) {
 
+    }
+
+    private void createFreshChat() {
+        FreshchatConfig config = new FreshchatConfig(getString(R.string.id_fresh_chat), getString(R.string.key_fresh_chat));
+        config.setDomain(getString(R.string.domain_fresh_chat));
+        config.setCameraCaptureEnabled(true);
+        config.setGallerySelectionEnabled(true);
+        config.setResponseExpectationEnabled(true);
+        Freshchat.getInstance(getMyActivity()).init(config);
+
+        //Set properties
+        Map<String, String> userMeta = new HashMap<>();
+        userMeta.put(getString(R.string.shipper), UserInfo.getInstance().getUsername(getMyActivity()));
+        try {
+            Freshchat.getInstance(getMyActivity()).setUserProperties(userMeta);
+        } catch (MethodNotAllowedException e) {
+            e.printStackTrace();
+        }
+
+        //Save conversation refer 3.5 link above
+        try {
+            Freshchat.getInstance(getMyActivity()).identifyUser(UserInfo.getInstance().getUsername(getMyActivity())
+                    , null);
+        } catch (MethodNotAllowedException e) {
+            e.printStackTrace();
+        }
+
+        BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                mRestoreId = Freshchat.getInstance(getMyActivity()).getUser().getRestoreId();
+            }
+        };
+
+        IntentFilter intentFilter = new IntentFilter(Freshchat.FRESHCHAT_USER_RESTORE_ID_GENERATED);
+        LocalBroadcastManager.getInstance(getMyActivity()).registerReceiver(broadcastReceiver, intentFilter);
+
+        try {
+            Freshchat.getInstance(getMyActivity()).identifyUser(UserInfo.getInstance().getUsername(getMyActivity())
+                    , mRestoreId);
+        } catch (MethodNotAllowedException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -382,6 +436,7 @@ public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding
 
     /**
      * Cancel order
+     *
      * @param item OrderListShipperDto
      */
     private void cancelOrder(OrderListShipperDto item) {

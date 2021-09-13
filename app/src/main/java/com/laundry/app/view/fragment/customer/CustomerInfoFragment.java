@@ -211,6 +211,7 @@ public class CustomerInfoFragment extends BaseFragment<CustomerInfoFragmentBindi
         Intent intent = new Intent(getMyActivity(), HomeActivity.class);
         intent.putExtra(Constant.ROLE_SWITCH, Role.CUSTOMER.role());
         startActivity(intent);
+        getMyActivity().finish();
     }
 
     public interface ISCustomerInfoCallBack {

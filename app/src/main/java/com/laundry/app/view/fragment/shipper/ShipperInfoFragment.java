@@ -77,5 +77,6 @@ public class ShipperInfoFragment extends BaseFragment<ShipperFragmentInfoBinding
         Intent intent = new Intent(getMyActivity(), LoginOrRegisterActivity.class);
         intent.putExtra(Constant.ROLE_SWITCH, Role.SHIPPER.role());
         startActivity(intent);
+        getMyActivity().finish();
     }
 }

@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.databinding.DataBindingUtil;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -27,7 +26,6 @@ import com.laundry.app.control.DataController;
 import com.laundry.app.data.APIConstant;
 import com.laundry.app.databinding.ActivityOrderDetailCustomerBinding;
 import com.laundry.app.dto.AddressInfo;
-import com.laundry.app.dto.BaseResponse;
 import com.laundry.app.dto.maps.MapDirectionResponse;
 import com.laundry.app.dto.ordercreate.OrderResponseDto;
 import com.laundry.app.dto.sevicedetail.ServiceDetailDto;
@@ -145,27 +143,7 @@ public class OrderDetailCustomerActivity extends BaseActivity<ActivityOrderDetai
 
     @Override
     public void onViewClick() {
-        binding.orderDetailOrderCancel.setOnClickListener(new SingleTapListener(view -> {
-            beforeCallApi();
-            mDataController.cancelOrder(this, String.valueOf(mOrderId), new ApiServiceOperator.OnResponseListener<BaseResponse>() {
-                @Override
-                public void onSuccess(BaseResponse body) {
-                    int returnCd = Integer.parseInt(body.statusCd);
-                    if ((returnCd == 200)) {
-                        finish();
-                    } else {
-                        Toast.makeText(OrderDetailCustomerActivity.this, body.message, Toast.LENGTH_LONG).show();
-                    }
-                    afterCallApi();
-                }
 
-                @Override
-                public void onFailure(Throwable t) {
-                    Toast.makeText(OrderDetailCustomerActivity.this, getResources().getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
-                    afterCallApi();
-                }
-            });
-        }));
     }
 
     @Override
@@ -340,8 +318,7 @@ public class OrderDetailCustomerActivity extends BaseActivity<ActivityOrderDetai
             binding.orderDetailStatusImage.setImageResource(orderResponseDto.data.getIconByStatus());
             binding.orderDetailStatusNotice.setText(orderResponseDto.data.getStatusContent());
 
-            if (TextUtils.equals(Constant.NEW, orderResponseDto.data.status)
-                    || TextUtils.equals(Constant.CANCEL, orderResponseDto.data.status)) {
+            if (TextUtils.equals(Constant.NEW, orderResponseDto.data.status) || TextUtils.equals(Constant.CANCEL, orderResponseDto.data.status)) {
                 binding.shipperInfoLayout.setVisibility(View.GONE);
                 binding.licensePlateLayout.setVisibility(View.GONE);
                 binding.rangeOfVehicleLayout.setVisibility(View.GONE);
@@ -364,11 +341,13 @@ public class OrderDetailCustomerActivity extends BaseActivity<ActivityOrderDetai
             binding.shippingAddressText.setText(orderResponseDto.data.shippingAddress);
             binding.orderDetailPhoneNumber.setText(orderResponseDto.data.shippingPersonPhoneNumber);
 
-            if (TextUtils.equals(Constant.NEW, orderResponseDto.data.status)) {
-                binding.orderDetailOrderCancel.setEnabled(true);
-                binding.orderDetailOrderCancel.setText(R.string.cancel_order);
+            if (TextUtils.equals(Constant.SHIPPER_DELIVER_ORDER, orderResponseDto.data.status)
+                    || TextUtils.equals(Constant.SHIPPER_RECEIVED_ORDER, orderResponseDto.data.status)) {
+                binding.orderReceiveredConfirm.setEnabled(true);
+                binding.orderReceiveredConfirm.setBackgroundDrawable(getResources().getDrawable(R.drawable.shaper_button_green_big));
             } else {
-                binding.orderDetailOrderCancel.setVisibility(View.GONE);
+                binding.orderReceiveredConfirm.setEnabled(false);
+                binding.orderReceiveredConfirm.setBackgroundDrawable(getResources().getDrawable(R.drawable.shaper_button_green_big_disable));
             }
 
             // Create order list

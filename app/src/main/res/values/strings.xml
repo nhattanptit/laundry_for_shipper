@@ -79,6 +79,7 @@
     <string name="order_success">Order Success</string>
     <string name="select_delivery_date">Select Delivery Date</string>
     <string name="total_price">Total Price:</string>
+    <string name="cash_payment">Cash Payment</string>
     <string name="momo_wallet">Momo Wallet</string>
     <string name="other_payment_menthods">Other payment methods</string>
     <string name="place_an_order">Place an order</string>
@@ -125,5 +126,4 @@
     <string name="domain_fresh_chat">msdk.freshchat.com</string>
     <string name="shipper">Shipper</string>
     <string name="customer">Customer</string>
-    <string name="cash_payment">Cash Payment</string>
 </resources>

@@ -149,7 +149,7 @@
                                 android:ellipsize="end"
                                 android:gravity="end"
                                 android:maxLines="1"
-                                android:text="@string/cash_payment"
+                                android:text="Cash Payment"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/sp_10"
                                 android:textStyle="bold" />
@@ -353,15 +353,18 @@ Thành phố Hồ Chí Minh, Việt Nam"
 
 
                             <androidx.appcompat.widget.AppCompatTextView
-                                android:id="@+id/order_detail_order_cancel"
-                                android:layout_width="@dimen/dp_240"
+                                android:id="@+id/order_receivered_confirm"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/dp_4"
+                                android:layout_marginEnd="@dimen/dp_8"
+                                android:layout_weight="1"
                                 android:background="@drawable/shaper_button_green_big"
                                 android:gravity="center"
                                 android:padding="@dimen/dp_8"
-                                android:text="@string/cancel_order"
+                                android:text="@string/order_receivered"
                                 android:textColor="@color/white"
-                                android:textSize="@dimen/sp_15"
+                                android:textSize="@dimen/sp_17"
                                 android:textStyle="bold" />
                         </LinearLayout>
                     </RelativeLayout>

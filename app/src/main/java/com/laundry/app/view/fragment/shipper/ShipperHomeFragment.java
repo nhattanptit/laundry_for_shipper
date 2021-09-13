@@ -207,9 +207,8 @@ public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding
     private void createFreshChat() {
         FreshchatConfig config = new FreshchatConfig(getString(R.string.id_fresh_chat), getString(R.string.key_fresh_chat));
         config.setDomain(getString(R.string.domain_fresh_chat));
-        config.setCameraCaptureEnabled(true);
+        config.setCameraCaptureEnabled(false);
         config.setGallerySelectionEnabled(true);
-        config.setResponseExpectationEnabled(true);
         Freshchat.getInstance(getMyActivity()).init(config);
 
         //Set properties

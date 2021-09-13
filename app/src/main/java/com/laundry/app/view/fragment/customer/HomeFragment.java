@@ -215,6 +215,8 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements O
     private void createFreshChat() {
         FreshchatConfig config = new FreshchatConfig(getString(R.string.id_fresh_chat), getString(R.string.key_fresh_chat));
         config.setDomain(getString(R.string.domain_fresh_chat));
+        config.setCameraCaptureEnabled(false);
+        config.setGallerySelectionEnabled(true);
         Freshchat.getInstance(getMyActivity()).init(config);
 
         //Setting properties

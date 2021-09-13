@@ -21,6 +21,59 @@
             android:background="@drawable/selector_press">
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/name_receiver_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp_8"
+                android:text="@string/name_receiver"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp_15"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@id/icon"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/name_receiver"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:maxLines="1"
+                android:textColor="@color/green_8cc63e"
+                android:textSize="@dimen/sp_13"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@id/name_receiver_title"
+                app:layout_constraintStart_toEndOf="@id/name_receiver_title"
+                app:layout_constraintTop_toTopOf="@id/name_receiver_title"
+                tools:text="NEW" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/phone_receiver_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp_8"
+                android:text="@string/phone_number_dot"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp_15"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@id/icon"
+                app:layout_constraintTop_toBottomOf="@id/name_receiver_title" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/phone_receiver"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:maxLines="1"
+                android:textColor="@color/green_8cc63e"
+                android:textSize="@dimen/sp_13"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@id/phone_receiver_title"
+                app:layout_constraintStart_toEndOf="@id/phone_receiver_title"
+                app:layout_constraintTop_toBottomOf="@id/name_receiver"
+                app:layout_constraintTop_toTopOf="@id/phone_receiver_title"
+                tools:text="NEW aaaaaaaaaaaaaaaaaaaaaaaaaaaaa" />
+
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/order_status_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -31,8 +84,7 @@
                 android:textSize="@dimen/sp_15"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@id/icon"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="Order Status : " />
+                app:layout_constraintTop_toBottomOf="@id/phone_receiver_title" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/status_order"
@@ -40,10 +92,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp_4"
                 android:gravity="center"
+                android:maxLines="1"
                 android:textColor="@color/green_8cc63e"
                 android:textSize="@dimen/sp_13"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@id/order_status_title"
                 app:layout_constraintStart_toEndOf="@id/order_status_title"
+                app:layout_constraintTop_toBottomOf="@id/phone_receiver_title"
                 app:layout_constraintTop_toTopOf="@id/order_status_title"
                 tools:text="NEW" />
 
@@ -60,8 +115,7 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@id/order_status_title"
                 app:layout_constraintStart_toEndOf="@id/icon"
-                app:layout_constraintTop_toBottomOf="@id/order_status_title"
-                tools:text="@string/date_create" />
+                app:layout_constraintTop_toBottomOf="@id/order_status_title" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/create_date"
@@ -70,7 +124,9 @@
                 android:layout_marginEnd="@dimen/dp_16"
                 android:gravity="center"
                 android:textColor="@color/green_8cc63e"
+
                 android:textSize="@dimen/sp_13"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@id/date_create_title"
                 app:layout_constraintStart_toStartOf="@id/status_order"
                 app:layout_constraintTop_toTopOf="@id/date_create_title"
@@ -89,7 +145,7 @@
                 app:layout_constraintBottom_toBottomOf="@id/date_create_title"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/order_status_title"
+                app:layout_constraintTop_toTopOf="@id/name_receiver_title"
                 tools:src="@drawable/new_order_icon"
                 tools:text="20/11/2020" />
 

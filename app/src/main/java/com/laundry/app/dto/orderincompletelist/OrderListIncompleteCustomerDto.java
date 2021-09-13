@@ -4,9 +4,6 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.laundry.app.R;
 
-import static com.laundry.app.constant.Constant.CANCEL;
-import static com.laundry.app.constant.Constant.COMPLETE_ORDER;
-import static com.laundry.app.constant.Constant.NEW;
 import static com.laundry.app.constant.Constant.SHIPPER_ACCEPTED_ORDER;
 import static com.laundry.app.constant.Constant.SHIPPER_DELIVER_ORDER;
 import static com.laundry.app.constant.Constant.SHIPPER_RECEIVED_ORDER;
@@ -22,6 +19,14 @@ public class OrderListIncompleteCustomerDto {
     @SerializedName("status")
     @Expose
     public String status;
+
+    @SerializedName("shippingPersonName")
+    @Expose
+    public String shippingPersonName;
+
+    @SerializedName("shippingPersonPhoneNumber")
+    @Expose
+    public String shippingPersonPhoneNumber;
 
     @SerializedName("createdDate")
     @Expose

@@ -61,6 +61,8 @@ public class OrderListCustomerAdapter extends BaseAdapter {
         @Override
         public void bind(OrderListCustomerDisplay item) {
             super.bind(item);
+            binding.nameReceiver.setText(item.data.shippingPersonName);
+            binding.phoneReceiver.setText(item.data.shippingPersonPhoneNumber);
             binding.statusOrder.setText(item.data.status);
             binding.createDate.setText(item.data.createdDate);
             binding.icon.setImageResource(item.getIcon());

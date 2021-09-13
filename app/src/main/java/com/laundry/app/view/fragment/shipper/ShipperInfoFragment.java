@@ -6,12 +6,10 @@ import android.view.View;
 
 import com.laundry.app.R;
 import com.laundry.app.constant.Constant;
-import com.laundry.app.databinding.ShipperFragmentHomeBinding;
 import com.laundry.app.databinding.ShipperFragmentInfoBinding;
 import com.laundry.app.dto.Role;
 import com.laundry.app.dto.UserInfo;
 import com.laundry.app.utils.SharePreferenceManager;
-import com.laundry.app.view.activity.HomeActivity;
 import com.laundry.app.view.activity.LoginOrRegisterActivity;
 import com.laundry.app.view.dialog.LoginDialog;
 import com.laundry.app.view.dialog.RegisterAccountDialog;
@@ -80,5 +78,6 @@ public class ShipperInfoFragment extends BaseFragment<ShipperFragmentInfoBinding
         Intent intent = new Intent(getMyActivity(), LoginOrRegisterActivity.class);
         intent.putExtra(Constant.ROLE_SWITCH, Role.SHIPPER.role());
         startActivity(intent);
+        getMyActivity().finish();
     }
 }

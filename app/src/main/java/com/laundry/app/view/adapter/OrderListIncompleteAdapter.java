@@ -1,6 +1,7 @@
 package com.laundry.app.view.adapter;
 
 import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.databinding.ViewDataBinding;
 
@@ -56,17 +57,19 @@ public class OrderListIncompleteAdapter extends BaseAdapter {
         @Override
         public void bind(OrderListIncompleteCustomerDto item) {
             super.bind(item);
-            if (item.getIconByStatus() != 0) {
-                binding.orderStatusTitle.setText(context.getString(R.string.order_status));
-                binding.dateCreateTitle.setText(context.getString(R.string.date_create));
+            if (item.getIconByStatus() == 0) {
+                binding.getRoot().setVisibility(View.GONE);
+                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) itemView.getLayoutParams();
+                params.width = 0;
+                params.height = 0;
+                params.setMargins(0, 0, 0, 0);
+                itemView.requestLayout();
+            } else {
+                binding.nameReceiver.setText(item.shippingPersonName);
+                binding.phoneReceiver.setText(item.shippingPersonPhoneNumber);
                 binding.statusOrder.setText(item.status);
                 binding.createDate.setText(item.createdDate);
                 binding.icon.setImageResource(item.getIconByStatus());
-            } else {
-                binding.statusOrder.setVisibility(View.GONE);
-                binding.createDate.setVisibility(View.GONE);
-                binding.icon.setVisibility(View.GONE);
-                binding.getRoot().setVisibility(View.GONE);
             }
         }
     }

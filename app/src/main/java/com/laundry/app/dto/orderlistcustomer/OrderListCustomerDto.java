@@ -14,6 +14,14 @@ public class OrderListCustomerDto {
     @Expose
     public String status;
 
+    @SerializedName("shippingPersonName")
+    @Expose
+    public String shippingPersonName;
+
+    @SerializedName("shippingPersonPhoneNumber")
+    @Expose
+    public String shippingPersonPhoneNumber;
+
     @SerializedName("createdDate")
     @Expose
     public String createdDate;

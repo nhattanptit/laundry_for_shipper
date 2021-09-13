@@ -7,10 +7,6 @@ import android.content.IntentFilter;
 import android.util.Log;
 import android.view.View;
 
-import com.facebook.login.LoginManager;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import com.freshchat.consumer.sdk.Freshchat;
 import com.freshchat.consumer.sdk.FreshchatConfig;
 import com.freshchat.consumer.sdk.exception.MethodNotAllowedException;
@@ -39,6 +35,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements OrderListIncompleteAdapter.ISOrderListCallBack, SwipeRefreshLayout.OnRefreshListener {
 
@@ -85,9 +84,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements O
 
         // Service all list
         binding.serviceList.setAdapter(serviceListAdapter);
-        if (!UserInfo.getInstance().isLogin(getMyActivity())) {
-            LoginManager.getInstance().logOut();
-        }
         getServiceList();
         createLoginLayout();
         loadData();

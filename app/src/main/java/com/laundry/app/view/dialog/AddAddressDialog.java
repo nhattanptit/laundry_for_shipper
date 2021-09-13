@@ -1,7 +1,6 @@
 package com.laundry.app.view.dialog;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
@@ -10,24 +9,18 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 
 import com.laundry.app.R;
 import com.laundry.app.constant.Constant;
 import com.laundry.app.control.ApiServiceOperator;
 import com.laundry.app.control.DataController;
-import com.laundry.app.data.APIConstant;
 import com.laundry.app.databinding.AddressAddDialogBinding;
 import com.laundry.app.dto.AddressInfo;
-import com.laundry.app.dto.UserInfo;
 import com.laundry.app.dto.address.CityResponseDto;
 import com.laundry.app.dto.address.DistrictResponseDto;
 import com.laundry.app.dto.address.WardResponseDto;
 import com.laundry.app.dto.addressnew.AddressAddRequest;
 import com.laundry.app.dto.addressnew.AddressAddResponse;
-import com.laundry.app.dto.authentication.LoginResponseDto;
-import com.laundry.app.dto.authentication.SocialLoginRequest;
-import com.laundry.app.utils.ErrorDialog;
 import com.laundry.app.view.activity.BillingAddressActivity;
 import com.laundry.base.BaseDialog;
 
@@ -37,36 +30,8 @@ public class AddAddressDialog extends BaseDialog<AddressAddDialogBinding> {
 
     private static final String TAG = "AddAddressDialog";
     private final AddressAddRequest addAddressRequest = new AddressAddRequest();
-    private final SocialLoginRequest socialLoginRequest = new SocialLoginRequest();
     private final DataController mDataController = new DataController();
     private BillingAddressActivity activity;
-    public static final int TRANSITION_NO_SOCIAL_LOGIN = 1;
-    public static final int TRANSITION_NO_BILLING_ADDRESSS = 2;
-    private String customerName;
-    private LoginDialog.LoginListener mLoginListener;
-    private int transitionNo;
-    private String currentTab;
-
-    public static AddAddressDialog newInstance(String customerName, String email, int transitionNo, String currentTab) {
-        AddAddressDialog addressDialog = new AddAddressDialog();
-        Bundle bundle = new Bundle();
-        bundle.putString(Constant.KEY_BUNDLE_CUSTOMER_NAME, customerName);
-        bundle.putString(Constant.KEY_BUNDLE_CUSTOMER_EMAIL, email);
-        bundle.putInt(Constant.KEY_BUNDLE_TRANSITION_NO, transitionNo);
-        bundle.putString(Constant.CURRENT_TAB, currentTab);
-        addressDialog.setArguments(bundle);
-
-        return addressDialog;
-    }
-
-    public static AddAddressDialog newInstance(int transitionNo) {
-        AddAddressDialog addressDialog = new AddAddressDialog();
-        Bundle bundle = new Bundle();
-        bundle.putInt(Constant.KEY_BUNDLE_TRANSITION_NO, transitionNo);
-        addressDialog.setArguments(bundle);
-
-        return addressDialog;
-    }
 
     @Override
     protected int getLayoutResource() {
@@ -76,44 +41,20 @@ public class AddAddressDialog extends BaseDialog<AddressAddDialogBinding> {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if (context instanceof BillingAddressActivity) {
-            activity = (BillingAddressActivity) context;
-        }
-        try {
-            this.mLoginListener = (LoginDialog.LoginListener) context;
-        } catch (ClassCastException e) {
-            throw e;
-        }
+        activity = (BillingAddressActivity) context;
     }
 
     @Override
     public void onInitView() {
         Log.d(TAG, "onInitView: ");
-        if (getArguments() != null) {
-            transitionNo = getArguments().getInt(Constant.KEY_BUNDLE_TRANSITION_NO);
-            currentTab = getArguments().getString(Constant.CURRENT_TAB);
-            socialLoginRequest.name = getArguments().getString(Constant.KEY_BUNDLE_CUSTOMER_NAME);
-            socialLoginRequest.email = getArguments().getString(Constant.KEY_BUNDLE_CUSTOMER_EMAIL);
-        }
-        if (transitionNo == TRANSITION_NO_BILLING_ADDRESSS) {
-            binding.nameLayout.setVisibility(View.VISIBLE);
-        } else {
-            binding.nameLayout.setVisibility(View.GONE);
-        }
         loadCityList();
     }
 
     @Override
     public void onViewClick() {
         binding.doneButton.setOnClickListener(view -> {
-            switch (transitionNo) {
-                case TRANSITION_NO_BILLING_ADDRESSS:
-                    addAddressNew();
-                    break;
-                case TRANSITION_NO_SOCIAL_LOGIN:
-                    callSocialLoginApi();
-                    break;
-            }
+            addAddressNew();
+            dismissDialog();
         });
 
         binding.cancelButton.setOnClickListener(view -> {
@@ -122,21 +63,10 @@ public class AddAddressDialog extends BaseDialog<AddressAddDialogBinding> {
     }
 
     /**
-     * Call social login api
-     */
-    private void callSocialLoginApi() {
-        if (validate()) {
-            beforeCallApi();
-            mDataController.socialLoginFirst(getMyActivity(), socialLoginRequest, new SocialLoginCallBack());
-        }
-    }
-
-    /**
      * Call api add address
      */
     private void addAddressNew() {
         if (validate()) {
-            dismissDialog();
             activity.beforeCallApi();
             mDataController.addAddress(getMyActivity(), addAddressRequest, new AddressAddCallBack());
         }
@@ -162,7 +92,6 @@ public class AddAddressDialog extends BaseDialog<AddressAddDialogBinding> {
                     return;
                 } else {
                     addAddressRequest.city = cityList.get(position - 1).level1Id;
-                    socialLoginRequest.city = cityList.get(position - 1).name;
                     loadDistrictList(cityList.get(position - 1).level1Id);
                 }
             }
@@ -196,7 +125,6 @@ public class AddAddressDialog extends BaseDialog<AddressAddDialogBinding> {
                     return;
                 } else {
                     addAddressRequest.district = districtList.get(position - 1).level2Id;
-                    socialLoginRequest.district = districtList.get(position - 1).name;
                     loadWardList(districtList.get(position - 1).level2Id, cityId);
                 }
             }
@@ -232,7 +160,6 @@ public class AddAddressDialog extends BaseDialog<AddressAddDialogBinding> {
                     return;
                 } else {
                     addAddressRequest.ward = wardList.get(position - 1).level3Id;
-                    socialLoginRequest.ward = wardList.get(position - 1).name;
                 }
             }
 
@@ -275,22 +202,18 @@ public class AddAddressDialog extends BaseDialog<AddressAddDialogBinding> {
     private boolean validate() {
         boolean isValid = true;
 
-
-        if (transitionNo == TRANSITION_NO_BILLING_ADDRESSS) {
-            // Validate full name
-            addAddressRequest.receiverName = binding.name.getText().toString();
-            if (TextUtils.isEmpty(addAddressRequest.receiverName)) {
-                isValid = false;
-                binding.nameLayout.setError(Constant.FULL_NAME_WRONG);
-            } else {
-                binding.nameLayout.setError(null);
-                binding.nameLayout.setErrorEnabled(false);
-            }
+        // Validate full name
+        addAddressRequest.receiverName = binding.name.getText().toString();
+        if (TextUtils.isEmpty(addAddressRequest.receiverName)) {
+            isValid = false;
+            binding.nameLayout.setError(Constant.FULL_NAME_WRONG);
+        } else {
+            binding.nameLayout.setError(null);
+            binding.nameLayout.setErrorEnabled(false);
         }
 
         // Validate phone number
         addAddressRequest.receiverPhoneNumber = binding.accountPhone.getText().toString();
-        socialLoginRequest.phoneNumber = binding.accountPhone.getText().toString();
         if (TextUtils.isEmpty(addAddressRequest.receiverPhoneNumber)) {
             isValid = false;
             binding.accountPhoneLayout.setError(Constant.PHONE_WRONG);
@@ -334,7 +257,6 @@ public class AddAddressDialog extends BaseDialog<AddressAddDialogBinding> {
 
         // Validate address
         addAddressRequest.address = binding.accountAddress.getText().toString();
-        socialLoginRequest.address = binding.accountAddress.getText().toString();
         if (TextUtils.isEmpty(addAddressRequest.address)) {
             isValid = false;
             binding.accountAddressLayout.setError(Constant.ADDRESS_WRONG);
@@ -343,49 +265,5 @@ public class AddAddressDialog extends BaseDialog<AddressAddDialogBinding> {
             binding.accountAddressLayout.setErrorEnabled(false);
         }
         return isValid;
-    }
-
-    private void beforeCallApi() {
-        binding.progressBar.maskviewLayout.setVisibility(View.VISIBLE);
-    }
-
-    private void afterCallApi() {
-        binding.progressBar.maskviewLayout.setVisibility(View.GONE);
-    }
-
-    private class SocialLoginCallBack implements ApiServiceOperator.OnResponseListener<LoginResponseDto> {
-
-        @Override
-        public void onSuccess(LoginResponseDto body) {
-            if (TextUtils.equals(APIConstant.STATUS_CODE_SUCCESS, body.statusCd)) {
-                UserInfo userInfo = UserInfo.getInstance();
-                userInfo.setToken(getMyActivity(), String.format(Constant.TOKEN_FORMAT, body.data.type, body.data.token));
-                userInfo.setUsername(getMyActivity(), body.data.username);
-
-                if (mLoginListener != null) {
-                    mLoginListener.onLoginSuccess();
-                    mLoginListener.onLoginSuccess(currentTab);
-
-                }
-
-                dismissDialog();
-            } else if (TextUtils.equals(APIConstant.STATUS_CODE_EMAIL_NOT_EXIST, body.statusCd)) {
-                dismissDialog();
-                AddAddressDialog addAddressDialog = AddAddressDialog.newInstance(AddAddressDialog.TRANSITION_NO_SOCIAL_LOGIN);
-                addAddressDialog.show(getMyActivity().getSupportFragmentManager(), AddAddressDialog.class.getSimpleName());
-            } else if (TextUtils.equals(APIConstant.STATUS_CODE_EMAIL_EXIST, body.statusCd)) {
-                AlertDialog alertDialog = ErrorDialog.buildPopupOnlyPositive(getMyActivity(),
-                        body.message, R.string.ok, (dialogInterface, i) -> {
-
-                        });
-                alertDialog.show();
-            }
-            afterCallApi();
-        }
-
-        @Override
-        public void onFailure(Throwable t) {
-            afterCallApi();
-        }
     }
 }

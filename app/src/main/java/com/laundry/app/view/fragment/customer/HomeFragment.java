@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.util.Log;
 import android.view.View;
 
+import com.facebook.login.LoginManager;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 

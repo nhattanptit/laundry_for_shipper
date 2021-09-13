@@ -78,11 +78,12 @@ public class AddAddressDialog extends BaseDialog<AddressAddDialogBinding> {
         super.onAttach(context);
         if (context instanceof BillingAddressActivity) {
             activity = (BillingAddressActivity) context;
-        }
-        try {
-            this.mLoginListener = (LoginDialog.LoginListener) context;
-        } catch (ClassCastException e) {
-            throw e;
+        } else {
+            try {
+                this.mLoginListener = (LoginDialog.LoginListener) context;
+            } catch (ClassCastException e) {
+                throw e;
+            }
         }
     }
 
@@ -365,7 +366,6 @@ public class AddAddressDialog extends BaseDialog<AddressAddDialogBinding> {
                 if (mLoginListener != null) {
                     mLoginListener.onLoginSuccess();
                     mLoginListener.onLoginSuccess(currentTab);
-
                 }
 
                 dismissDialog();

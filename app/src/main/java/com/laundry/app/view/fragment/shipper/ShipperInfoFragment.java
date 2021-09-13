@@ -18,7 +18,6 @@ import com.laundry.base.BaseFragment;
 
 public class ShipperInfoFragment extends BaseFragment<ShipperFragmentInfoBinding> {
 
-
     @Override
     protected int getLayoutResource() {
         return R.layout.shipper_fragment_info;

@@ -71,4 +71,7 @@ public class Constant {
     public static final String MERCHANT_NAME = "Ca Nhan";
     public static final String MERCHANT_CODE = "MOMOFO2O20210910";
     public static final String PARTNER_CODE_MOMO = "MOMO";
+    public static final String KEY_BUNDLE_CUSTOMER_NAME = "key_bundle_customer_name";
+    public static final String KEY_BUNDLE_CUSTOMER_EMAIL = "KEY_BUNDLE_CUSTOMER_EMAIL";
+    public static final String KEY_BUNDLE_TRANSITION_NO = "KEY_BUNDLE_TRANSITION_NO";
 }

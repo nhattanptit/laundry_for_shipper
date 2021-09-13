@@ -15,8 +15,6 @@ import com.laundry.app.view.dialog.LoginDialog;
 import com.laundry.app.view.dialog.RegisterAccountDialog;
 import com.laundry.base.BaseActivity;
 
-import androidx.annotation.Nullable;
-
 public class LoginOrRegisterActivity extends BaseActivity<ActivityLoginOrRegisterBinding> implements LoginDialog.LoginListener {
 
     private static final String TAG = LoginOrRegisterActivity.class.getSimpleName();

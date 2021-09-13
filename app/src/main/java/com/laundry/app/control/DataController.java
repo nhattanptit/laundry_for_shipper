@@ -21,6 +21,8 @@ import com.laundry.app.dto.authentication.LoginRequest;
 import com.laundry.app.dto.authentication.LoginResponseDto;
 import com.laundry.app.dto.authentication.RegisterRequest;
 import com.laundry.app.dto.authentication.RegisterResponse;
+import com.laundry.app.dto.authentication.SocialLoginRequest;
+import com.laundry.app.dto.authentication.SocialLoginRequestLite;
 import com.laundry.app.dto.maps.MapDirectionResponse;
 import com.laundry.app.dto.order.OrderConfirmResponseDto;
 import com.laundry.app.dto.ordercreate.OrderRequest;
@@ -56,6 +58,20 @@ public class DataController {
                       ApiServiceOperator.OnResponseListener<LoginResponseDto> listener) {
         String mode = SharePreferenceManager.getMode(context);
         Call<LoginResponseDto> call = TextUtils.equals(Role.CUSTOMER.role(), mode) ? service.signin(loginRequest) : service.signinShipper(loginRequest);
+        call.enqueue(new ApiServiceOperator<>(listener));
+
+    }
+
+    public void socialLoginFirst(Context context, SocialLoginRequest loginRequest,
+                      ApiServiceOperator.OnResponseListener<LoginResponseDto> listener) {
+        Call<LoginResponseDto> call = service.signinSocialFirstTime(loginRequest);
+        call.enqueue(new ApiServiceOperator<>(listener));
+
+    }
+
+    public void socialLogin(SocialLoginRequestLite body,
+                            ApiServiceOperator.OnResponseListener<LoginResponseDto> listener) {
+        Call<LoginResponseDto> call = service.signinSocialSecordTime(body);
         call.enqueue(new ApiServiceOperator<>(listener));
 
     }

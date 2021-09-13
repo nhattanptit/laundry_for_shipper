@@ -84,7 +84,9 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements O
 
         // Service all list
         binding.serviceList.setAdapter(serviceListAdapter);
-
+        if (!UserInfo.getInstance().isLogin(getMyActivity())) {
+            LoginManager.getInstance().logOut();
+        }
         getServiceList();
         createLoginLayout();
         loadData();

@@ -314,6 +314,8 @@ public class LoginDialog extends BaseDialog<LoginDialogBinding> implements ApiSe
             this.dismiss();
         } else if (TextUtils.equals(APIConstant.STATUS_CODE_EMAIL_NOT_EXIST, body.statusCd)) {
             this.dismiss();
+            AddAddressDialog addAddressDialog = AddAddressDialog.newInstance(body.data.socialName, body.data.email, AddAddressDialog.TRANSITION_NO_SOCIAL_LOGIN, currentTab);
+            addAddressDialog.show(getMyActivity().getSupportFragmentManager(), AddAddressDialog.class.getSimpleName());
         } else if (TextUtils.equals(APIConstant.STATUS_CODE_EMAIL_EXIST, body.statusCd)) {
             AlertDialog alertDialog = ErrorDialog.buildPopupOnlyPositive(getMyActivity(),
                     body.message, R.string.ok, (dialogInterface, i) -> {

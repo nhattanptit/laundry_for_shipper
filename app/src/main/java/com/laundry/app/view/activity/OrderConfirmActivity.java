@@ -159,8 +159,8 @@ public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBindi
 
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == AppMoMoLib.getInstance().REQUEST_CODE_MOMO && resultCode == -1) {
-            if (data != null) {
+        if (requestCode == AppMoMoLib.getInstance().REQUEST_CODE_MOMO) {
+            if (data != null  && resultCode == -1) {
                 if (data.getIntExtra("status", -1) == 0) {
                     PaymentRequest request = new PaymentRequest();
                     request.orderId = data.getIntExtra("orderId", -1);

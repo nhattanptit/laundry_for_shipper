@@ -76,6 +76,18 @@ public class OrderResponse extends BaseResponse {
     @Expose
     public String pickUpAddress;
 
+    @SerializedName("pickUpWard")
+    @Expose
+    public String pickUpWard;
+
+    @SerializedName("pickUpDistrict")
+    @Expose
+    public String pickUpDistrict;
+
+    @SerializedName("pickUpCity")
+    @Expose
+    public String pickUpCity;
+
     @SerializedName("isPaid")
     @Expose
     public boolean isPaid;

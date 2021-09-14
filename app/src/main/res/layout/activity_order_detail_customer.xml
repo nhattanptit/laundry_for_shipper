@@ -295,11 +295,44 @@
                         </LinearLayout>
 
                         <RelativeLayout
-                            android:id="@+id/order_success_billing_address"
+                            android:id="@+id/order_success_pickup_address"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/total_price_layout"
                             android:layout_marginTop="@dimen/dp_6"
+                            android:padding="@dimen/dp_8">
+
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/pickup_address_text"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/address_pickup_text"
+                                android:layout_marginStart="@dimen/dp_8"
+                                android:layout_marginTop="@dimen/dp_2"
+                                android:paddingTop="@dimen/dp_8"
+                                android:paddingBottom="@dimen/dp_8"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/sp_13"
+                                android:visibility="visible" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/address_pickup_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:drawableStart="@drawable/location_icon"
+                                android:drawablePadding="@dimen/dp_8"
+                                android:text="@string/pickup_address"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/sp_15"
+                                android:textStyle="bold" />
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/order_success_billing_address"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/order_success_pickup_address"
                             android:padding="@dimen/dp_8">
 
 
@@ -312,8 +345,6 @@
                                 android:layout_marginTop="@dimen/dp_2"
                                 android:paddingTop="@dimen/dp_8"
                                 android:paddingBottom="@dimen/dp_8"
-                                android:text="Số 91-93 Đường số 5, Phường An Phú, Tp. Thủ Đức,
-Thành phố Hồ Chí Minh, Việt Nam"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/sp_13"
                                 android:visibility="visible" />
@@ -353,7 +384,7 @@ Thành phố Hồ Chí Minh, Việt Nam"
 
 
                             <androidx.appcompat.widget.AppCompatTextView
-                                android:id="@+id/order_receivered_confirm"
+                                android:id="@+id/cancel_order_button"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/dp_4"
@@ -362,7 +393,7 @@ Thành phố Hồ Chí Minh, Việt Nam"
                                 android:background="@drawable/shaper_button_green_big"
                                 android:gravity="center"
                                 android:padding="@dimen/dp_8"
-                                android:text="@string/order_receivered"
+                                android:text="@string/cancel_order"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/sp_17"
                                 android:textStyle="bold" />

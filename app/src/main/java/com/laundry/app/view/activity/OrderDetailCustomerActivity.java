@@ -26,6 +26,7 @@ import com.laundry.app.control.DataController;
 import com.laundry.app.data.APIConstant;
 import com.laundry.app.databinding.ActivityOrderDetailCustomerBinding;
 import com.laundry.app.dto.AddressInfo;
+import com.laundry.app.dto.BaseResponse;
 import com.laundry.app.dto.maps.MapDirectionResponse;
 import com.laundry.app.dto.ordercreate.OrderResponseDto;
 import com.laundry.app.dto.sevicedetail.ServiceDetailDto;
@@ -143,7 +144,10 @@ public class OrderDetailCustomerActivity extends BaseActivity<ActivityOrderDetai
 
     @Override
     public void onViewClick() {
+        binding.cancelOrderButton.setOnClickListener(new SingleTapListener(view -> {
 
+            callCancelOrderApi();
+        }));
     }
 
     @Override
@@ -249,6 +253,14 @@ public class OrderDetailCustomerActivity extends BaseActivity<ActivityOrderDetai
     //----------------------------------------------------------------------------------------------
 
     /**
+     * Cancel order api
+     */
+    private void callCancelOrderApi() {
+        beforeCallApi();
+        mDataController.cancelOrder(this, String.valueOf(mOrderResponseDto.data.id), new CancelOrderCallBack());
+    }
+
+    /**
      * Handle click call shipper
      */
     private void onClickCallShipper() {
@@ -341,15 +353,18 @@ public class OrderDetailCustomerActivity extends BaseActivity<ActivityOrderDetai
             binding.shippingAddressText.setText(orderResponseDto.data.shippingAddress);
             binding.orderDetailPhoneNumber.setText(orderResponseDto.data.shippingPersonPhoneNumber);
 
-            if (TextUtils.equals(Constant.SHIPPER_DELIVER_ORDER, orderResponseDto.data.status)
-                    || TextUtils.equals(Constant.SHIPPER_RECEIVED_ORDER, orderResponseDto.data.status)) {
-                binding.orderReceiveredConfirm.setEnabled(true);
-                binding.orderReceiveredConfirm.setBackgroundDrawable(getResources().getDrawable(R.drawable.shaper_button_green_big));
-            } else {
-                binding.orderReceiveredConfirm.setEnabled(false);
-                binding.orderReceiveredConfirm.setBackgroundDrawable(getResources().getDrawable(R.drawable.shaper_button_green_big_disable));
+            if (mOrderResponseDto.data.isPaid || (!TextUtils.equals(Constant.NEW, mOrderResponseDto.data.status)
+                    && !TextUtils.equals(Constant.SHIPPER_ACCEPTED_ORDER, mOrderResponseDto.data.status))) {
+                binding.cancelOrderButton.setEnabled(false);
+                binding.cancelOrderButton.setBackgroundDrawable(getDrawable(R.drawable.shaper_button_green_big_disable));
             }
 
+            String fullAddress = String.format(getString(R.string.address_format),
+                    orderResponseDto.data.pickUpAddress,
+                    AddressInfo.getInstance().getWardNameById(orderResponseDto.data.pickUpCity, orderResponseDto.data.pickUpDistrict, orderResponseDto.data.pickUpWard),
+                    AddressInfo.getInstance().getDistrictNameById(orderResponseDto.data.pickUpCity, orderResponseDto.data.pickUpDistrict),
+                    AddressInfo.getInstance().getCityNameById(orderResponseDto.data.pickUpCity));
+            binding.pickupAddressText.setText(fullAddress);
             // Create order list
             mServicesOrderAdapter.typeService = ServicesOrderAdapter.SERVICES_DETAIL_VIEW_TYPE.ORDER;
             List<ServiceDetailDto> products = mOrderResponseDto.data.serviceDetails;
@@ -454,4 +469,25 @@ public class OrderDetailCustomerActivity extends BaseActivity<ActivityOrderDetai
         }
     }
 
+    /**
+     * CancelOrderCallBack
+     */
+    private class CancelOrderCallBack implements ApiServiceOperator.OnResponseListener<BaseResponse> {
+        @Override
+        public void onSuccess(BaseResponse body) {
+            if (TextUtils.equals(APIConstant.STATUS_CODE_SUCCESS, body.statusCd)) {
+                Toast.makeText(OrderDetailCustomerActivity.this, getResources().getString(R.string.cancel_order_successful), Toast.LENGTH_LONG).show();
+                finish();
+            } else {
+                Toast.makeText(OrderDetailCustomerActivity.this, getResources().getString(R.string.cancel_order_fail), Toast.LENGTH_LONG).show();
+            }
+            afterCallApi();
+        }
+
+        @Override
+        public void onFailure(Throwable t) {
+            Toast.makeText(OrderDetailCustomerActivity.this, getResources().getString(R.string.cancel_order_fail), Toast.LENGTH_LONG).show();
+            afterCallApi();
+        }
+    }
 }

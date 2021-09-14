@@ -227,6 +227,7 @@ public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBindi
 
     }
 
+    /** Handle receive data from screen Billing Address */
     private final ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {

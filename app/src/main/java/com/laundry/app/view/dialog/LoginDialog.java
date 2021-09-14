@@ -244,6 +244,7 @@ public class LoginDialog extends BaseDialog<LoginDialogBinding> implements ApiSe
         request.executeAsync();
     }
 
+    /** Call api login */
     private void login() {
         if (validate()) {
             beforeCallApi();

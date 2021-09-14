@@ -72,7 +72,18 @@ public class OrderListShipperDto {
     @SerializedName("userPhoneNumber")
     @Expose
     public String shippingPhoneNumber;
-
+    @SerializedName("shippingAddress")
+    @Expose
+    public String shippingAddress;
+    @SerializedName("pickUpWard")
+    @Expose
+    public String pickUpWard;
+    @SerializedName("pickUpDistrict")
+    @Expose
+    public String pickUpDistrict;
+    @Expose
+    public String pickUpCity;
+    @SerializedName("pickUpCity")
 
     /**
      * get icon by status

@@ -79,6 +79,7 @@ public class RegisterAccountDialog extends BaseDialog<RegisterAccountDialogBindi
         return false;
     }
 
+    /** Success register account */
     @Override
     public void onSuccess(RegisterResponse body) {
         int returnCd = Integer.parseInt(body.statusCd);

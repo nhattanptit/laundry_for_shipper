@@ -49,6 +49,7 @@ public class ServicesOrderAdapter extends BaseAdapter {
         }
     }
 
+    /** Reset data to object  */
     @Override
     public void submitList(List<? extends Object> list) {
         List<ServiceDetailDisplay> displayList = new ArrayList<>();
@@ -60,6 +61,7 @@ public class ServicesOrderAdapter extends BaseAdapter {
         resetDataList(displayList);
     }
 
+    /** View holder of screen Service Detail List*/
     private class ServiceDetailVH extends BaseVH<ServiceDetailDisplay> {
 
         private ServiceDetailItemBinding binding;
@@ -100,8 +102,7 @@ public class ServicesOrderAdapter extends BaseAdapter {
         }
     }
 
-    private static final String TAG = "ServiceDetailAdapter";
-
+    /** View holder of screen Order Confirm List*/
     private class OrderConfirmVH extends BaseVH<ServiceDetailDisplay> {
 
         private OrderConfirmItemBinding binding;
@@ -126,6 +127,7 @@ public class ServicesOrderAdapter extends BaseAdapter {
         void onClickItem(int position, ServiceDetailDto item);
     }
 
+    /** Use enum for display list service detail and list selected order confirm */
     public enum SERVICES_DETAIL_VIEW_TYPE {
         SERVICES_DETAIL,
         ORDER

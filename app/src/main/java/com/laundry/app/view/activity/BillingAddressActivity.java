@@ -95,12 +95,14 @@ public class BillingAddressActivity extends BaseActivity<BillingAddressActivityB
         mDataController.deleteAddress(this, item.id, new DeleteAddressCallBack());
     }
 
+    /** Call api get all address */
     public void getAddress() {
         beforeCallApi();
         addressListlDtos.clear();
         mDataController.getAddress(this, new AddressCallBack());
     }
 
+    /** Call back get all address */
     private class AddressCallBack implements ApiServiceOperator.OnResponseListener<AddressListResponse> {
         @SuppressLint("SetTextI18n")
         @Override

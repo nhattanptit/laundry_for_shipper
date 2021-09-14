@@ -37,9 +37,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/dp_200"
                             android:layout_marginTop="@dimen/dp_8"
-                            android:paddingEnd="@dimen/dp_12"
+                            android:clipToPadding="false"
                             android:paddingStart="@dimen/dp_12"
-                            android:clipToPadding="false">
+                            android:paddingEnd="@dimen/dp_12">
 
                         </androidx.viewpager.widget.ViewPager>
 
@@ -67,8 +67,8 @@
                         android:layout_marginTop="@dimen/dp_96"
                         android:background="@drawable/card_background_gray"
                         android:elevation="@dimen/dp_2"
-                        android:paddingBottom="@dimen/dp_64"
-                        android:paddingTop="@dimen/dp_110">
+                        android:paddingTop="@dimen/dp_110"
+                        android:paddingBottom="@dimen/dp_64">
 
                         <FrameLayout
                             android:id="@+id/background_corner"
@@ -86,11 +86,11 @@
                             android:orientation="horizontal">
 
                             <TextView
-                                android:drawablePadding="@dimen/dp_8"
-                                android:drawableLeft="@drawable/oder_are_shipping_icon"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/dp_6"
+                                android:drawableLeft="@drawable/oder_are_shipping_icon"
+                                android:drawablePadding="@dimen/dp_8"
                                 android:text="@string/order_are_shipping"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/sp_21"
@@ -103,31 +103,31 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/order_delivering_heading_layout"
                             android:layout_marginTop="@dimen/dp_16"
+                            android:clipToPadding="false"
                             android:paddingStart="@dimen/dp_16"
                             android:paddingEnd="@dimen/dp_16"
-                            android:clipToPadding="false"
                             android:visibility="gone"
-                            tools:visibility="visible"/>
+                            tools:visibility="visible" />
 
                         <LinearLayout
                             android:id="@+id/history_order_heading_layout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/home_staff_order_delivering_rcv"
-                            android:layout_marginEnd="@dimen/dp_16"
                             android:layout_marginStart="@dimen/dp_16"
                             android:layout_marginTop="@dimen/dp_16"
+                            android:layout_marginEnd="@dimen/dp_16"
                             android:gravity="center_vertical"
                             android:orientation="horizontal"
                             android:visibility="visible">
 
                             <TextView
-                                android:drawablePadding="@dimen/dp_8"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/dp_6"
-                                android:text="@string/order_history"
                                 android:drawableLeft="@drawable/history_icon"
+                                android:drawablePadding="@dimen/dp_8"
+                                android:text="@string/order_history"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/sp_21"
                                 android:textStyle="bold" />
@@ -140,25 +140,27 @@
                             android:layout_below="@+id/history_order_heading_layout"
                             android:layout_marginTop="@dimen/dp_16"
                             android:clipToPadding="false"
+                            android:paddingStart="@dimen/dp_16"
                             android:visibility="gone"
-                            tools:visibility="visible"/>
+                            tools:visibility="visible" />
 
                         <LinearLayout
                             android:id="@+id/new_order_heading_layout"
-                            android:layout_below="@+id/home_staff_history_order_rcv"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/dp_16"
+                            android:layout_below="@+id/home_staff_history_order_rcv"
                             android:layout_marginStart="@dimen/dp_16"
                             android:layout_marginTop="@dimen/dp_16"
+                            android:layout_marginEnd="@dimen/dp_16"
                             android:gravity="center_vertical"
                             android:orientation="horizontal">
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/dp_6"
-                                android:drawablePadding="@dimen/dp_8"
                                 android:drawableLeft="@drawable/new_icon"
+                                android:drawablePadding="@dimen/dp_8"
                                 android:text="@string/new_order"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/sp_21"
@@ -176,7 +178,7 @@
                             android:paddingStart="@dimen/dp_16"
                             android:paddingEnd="@dimen/dp_16"
                             android:visibility="gone"
-                            tools:visibility="visible"/>
+                            tools:visibility="visible" />
                     </RelativeLayout>
 
                     <androidx.cardview.widget.CardView
@@ -184,9 +186,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dp_180"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginEnd="@dimen/dp_32"
                         android:layout_marginStart="@dimen/dp_32"
                         android:layout_marginTop="@dimen/dp_240"
+                        android:layout_marginEnd="@dimen/dp_32"
                         android:background="@color/white"
                         app:cardCornerRadius="@dimen/dp_16"
                         app:cardElevation="@dimen/dp_4">

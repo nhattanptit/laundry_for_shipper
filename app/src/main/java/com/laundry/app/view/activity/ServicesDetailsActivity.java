@@ -67,6 +67,7 @@ public class ServicesDetailsActivity extends BaseActivity<ServicesDetailsActivit
         mServicesOrderAdapter.setCallback(this);
     }
 
+    /** Handle tap button book when login or yet login */
     @Override
     public void onViewClick() {
         binding.bookButton.setOnClickListener(view -> {
@@ -103,6 +104,7 @@ public class ServicesDetailsActivity extends BaseActivity<ServicesDetailsActivit
 
     }
 
+    /** Tap button add and minus item */
     @SuppressLint("SetTextI18n")
     @Override
     public void onClickItem(int position, ServiceDetailDto item) {
@@ -149,7 +151,7 @@ public class ServicesDetailsActivity extends BaseActivity<ServicesDetailsActivit
         binding.progressBar.maskviewLayout.setVisibility(View.GONE);
     }
 
-
+    /** Call back call api services detail */
     private class ServiceDetailCallBack implements ApiServiceOperator.OnResponseListener<ServicesDetailResponse> {
         @Override
         public void onSuccess(ServicesDetailResponse body) {

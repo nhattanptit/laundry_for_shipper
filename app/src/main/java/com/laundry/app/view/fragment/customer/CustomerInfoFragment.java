@@ -115,7 +115,7 @@ public class CustomerInfoFragment extends BaseFragment<CustomerInfoFragmentBindi
                     , mPersonalInfoDto.address
                     , mPersonalInfoDto.city
                     , mPersonalInfoDto.district
-                    , mPersonalInfoDto.ward, mPersonalInfoDto.isSocialUser));
+                    , mPersonalInfoDto.ward));
         } else {
             binding.accountInfomation.setVisibility(View.GONE);
         }

@@ -11,7 +11,9 @@ import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.Fragment;
 
+import com.facebook.login.LoginManager;
 import com.laundry.app.R;
 import com.laundry.app.constant.Constant;
 import com.laundry.app.control.ApiServiceOperator;
@@ -119,6 +121,9 @@ public class AddAddressDialog extends BaseDialog<AddressAddDialogBinding> {
 
         binding.cancelButton.setOnClickListener(view -> {
             dismissDialog();
+            if (transitionNo == TRANSITION_NO_SOCIAL_LOGIN) {
+                LoginManager.getInstance().logOut();
+            }
         });
     }
 
@@ -163,7 +168,7 @@ public class AddAddressDialog extends BaseDialog<AddressAddDialogBinding> {
                     return;
                 } else {
                     addAddressRequest.city = cityList.get(position - 1).level1Id;
-                    socialLoginRequest.city = cityList.get(position - 1).name;
+                    socialLoginRequest.city = cityList.get(position - 1).level1Id;
                     loadDistrictList(cityList.get(position - 1).level1Id);
                 }
             }
@@ -197,7 +202,7 @@ public class AddAddressDialog extends BaseDialog<AddressAddDialogBinding> {
                     return;
                 } else {
                     addAddressRequest.district = districtList.get(position - 1).level2Id;
-                    socialLoginRequest.district = districtList.get(position - 1).name;
+                    socialLoginRequest.district = districtList.get(position - 1).level2Id;
                     loadWardList(districtList.get(position - 1).level2Id, cityId);
                 }
             }
@@ -233,7 +238,7 @@ public class AddAddressDialog extends BaseDialog<AddressAddDialogBinding> {
                     return;
                 } else {
                     addAddressRequest.ward = wardList.get(position - 1).level3Id;
-                    socialLoginRequest.ward = wardList.get(position - 1).name;
+                    socialLoginRequest.ward = wardList.get(position - 1).level3Id;
                 }
             }
 
@@ -346,6 +351,11 @@ public class AddAddressDialog extends BaseDialog<AddressAddDialogBinding> {
         return isValid;
     }
 
+    @Override
+    protected boolean dismissByOnBackPress() {
+        return transitionNo == TRANSITION_NO_BILLING_ADDRESSS;
+    }
+
     private void beforeCallApi() {
         binding.progressBar.maskviewLayout.setVisibility(View.VISIBLE);
     }
@@ -372,7 +382,7 @@ public class AddAddressDialog extends BaseDialog<AddressAddDialogBinding> {
             } else if (TextUtils.equals(APIConstant.STATUS_CODE_EMAIL_NOT_EXIST, body.statusCd)) {
                 dismissDialog();
                 AddAddressDialog addAddressDialog = AddAddressDialog.newInstance(AddAddressDialog.TRANSITION_NO_SOCIAL_LOGIN);
-                addAddressDialog.show(getMyActivity().getSupportFragmentManager(), AddAddressDialog.class.getSimpleName());
+                addAddressDialog.showDialog(getMyActivity().getSupportFragmentManager(), AddAddressDialog.class.getSimpleName());
             } else if (TextUtils.equals(APIConstant.STATUS_CODE_EMAIL_EXIST, body.statusCd)) {
                 AlertDialog alertDialog = ErrorDialog.buildPopupOnlyPositive(getMyActivity(),
                         body.message, R.string.ok, (dialogInterface, i) -> {
@@ -388,4 +398,5 @@ public class AddAddressDialog extends BaseDialog<AddressAddDialogBinding> {
             afterCallApi();
         }
     }
+
 }

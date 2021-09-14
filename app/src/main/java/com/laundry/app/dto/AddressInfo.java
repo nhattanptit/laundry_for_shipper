@@ -142,15 +142,9 @@ public class AddressInfo {
      * @param ward
      * @return
      */
-    public String getAddressStr(Context context, String address, String city, String district, String ward, boolean isSocial) {
+    public String getAddressStr(Context context, String address, String city, String district, String ward) {
 
-        return isSocial ?String.format(context.getString(R.string.address_format),
-                address,
-                ward,
-                district,
-                city)
-                :
-                String.format(context.getString(R.string.address_format),
+        return String.format(context.getString(R.string.address_format),
                 address,
                 getWardNameById(city, district, ward),
                 getDistrictNameById(city, district),

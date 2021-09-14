@@ -100,13 +100,13 @@ public abstract class BaseDialog<DB extends ViewDataBinding> extends DialogFragm
         return dialog;
     }
 
-    protected final void showDialog(FragmentManager manager, String tag) {
+    public final void showDialog(FragmentManager manager, String tag) {
         if (!this.isAdded()) {
             show(manager, tag);
         }
     }
 
-    protected final void dismissDialog() {
+    public final void dismissDialog() {
         if (this.isAdded()) {
             dismiss();
         }

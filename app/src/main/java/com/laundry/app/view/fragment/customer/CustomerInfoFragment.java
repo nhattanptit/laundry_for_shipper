@@ -19,9 +19,16 @@ import androidx.annotation.NonNull;
 import com.bumptech.glide.Glide;
 import com.laundry.app.R;
 import com.laundry.app.constant.Constant;
+import com.laundry.app.control.ApiServiceOperator;
+import com.laundry.app.control.DataController;
+import com.laundry.app.data.APIConstant;
 import com.laundry.app.databinding.CustomerInfoFragmentBinding;
+import com.laundry.app.dto.AddressInfo;
 import com.laundry.app.dto.Role;
 import com.laundry.app.dto.UserInfo;
+import com.laundry.app.dto.user.PersonalInfoDto;
+import com.laundry.app.dto.user.PersonalInfoResponse;
+import com.laundry.app.utils.ErrorDialog;
 import com.laundry.app.utils.SharePreferenceManager;
 import com.laundry.app.utils.SingleTapListener;
 import com.laundry.app.view.activity.HomeActivity;
@@ -42,6 +49,11 @@ public class CustomerInfoFragment extends BaseFragment<CustomerInfoFragmentBindi
     private ISCustomerInfoCallBack mIsCustomerInfoCallBack;
 
     private OnClickAccountInfomationListener mOnClickAccountInfomation;
+
+    private PersonalInfoDto mPersonalInfoDto;
+
+    private DataController mDataController = new DataController();
+
 
     @Override
     protected int getLayoutResource() {
@@ -81,6 +93,32 @@ public class CustomerInfoFragment extends BaseFragment<CustomerInfoFragmentBindi
                     .placeholder(R.drawable.user_placeholder)
                     .into(binding.accountInfomationAvatar);
         }
+
+        if (UserInfo.getInstance().isLogin(getMyActivity())) {
+            beforeCallApi();
+            callPersonalInfoApi();
+        }
+    }
+
+    /**
+     * Bind view personal info
+     */
+    private void bindViewPersonalInfo() {
+        mPersonalInfoDto = SharePreferenceManager.getAccountInfomation(getMyActivity());
+        if (mPersonalInfoDto != null) {
+            binding.accountInfomation.setVisibility(View.VISIBLE);
+            binding.accountInfomationUsername.setText(mPersonalInfoDto.username);
+            binding.name.setText(mPersonalInfoDto.name);
+            binding.phoneNumber.setText(mPersonalInfoDto.phoneNumber);
+            binding.email.setText(mPersonalInfoDto.email);
+            binding.address.setText(AddressInfo.getInstance().getAddressStr(getMyActivity()
+                    , mPersonalInfoDto.address
+                    , mPersonalInfoDto.city
+                    , mPersonalInfoDto.district
+                    , mPersonalInfoDto.ward, mPersonalInfoDto.isSocialUser));
+        } else {
+            binding.accountInfomation.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -108,6 +146,14 @@ public class CustomerInfoFragment extends BaseFragment<CustomerInfoFragmentBindi
         binding.accountInfomationHistory.setOnClickListener(new SingleTapListener(v -> {
             mOnClickAccountInfomation.onMoveTab();
         }));
+    }
+
+    private void beforeCallApi() {
+        binding.progressBar.maskviewLayout.setVisibility(View.VISIBLE);
+    }
+
+    private void afterCallApi() {
+        binding.progressBar.maskviewLayout.setVisibility(View.GONE);
     }
 
     private void showPictureDialog() {
@@ -221,6 +267,43 @@ public class CustomerInfoFragment extends BaseFragment<CustomerInfoFragmentBindi
 
     public interface OnClickAccountInfomationListener {
         void onMoveTab();
+    }
+
+
+
+    /**
+     * Call personal info api
+     */
+    private void callPersonalInfoApi() {
+        mDataController.getAccountInfomation(getMyActivity(), new AccountInfomationCallback());
+    }
+
+    /**
+     * Account infomation callback
+     */
+    private class AccountInfomationCallback implements ApiServiceOperator.OnResponseListener<PersonalInfoResponse> {
+        @Override
+        public void onSuccess(PersonalInfoResponse body) {
+            if (TextUtils.equals(APIConstant.STATUS_CODE_SUCCESS, body.statusCd)) {
+                SharePreferenceManager.setAccountInfomation(getMyActivity(), body.personalInfoDto);
+                bindViewPersonalInfo();
+            } else {
+                androidx.appcompat.app.AlertDialog alertDialog = ErrorDialog.buildPopupOnlyPositive(getMyActivity(),
+                        getString(R.string.cannot_get_account_infomation), R.string.ok, (dialogInterface, i) -> {
+                        });
+                alertDialog.show();
+            }
+            afterCallApi();
+        }
+
+        @Override
+        public void onFailure(Throwable t) {
+            androidx.appcompat.app.AlertDialog alertDialog = ErrorDialog.buildPopupOnlyPositive(getMyActivity(),
+                    getString(R.string.cannot_get_account_infomation), R.string.ok, (dialogInterface, i) -> {
+                    });
+            alertDialog.show();
+            afterCallApi();
+        }
     }
 
 }

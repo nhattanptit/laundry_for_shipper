@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -17,8 +18,15 @@ import com.facebook.FacebookSdk;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.laundry.app.R;
 import com.laundry.app.constant.Constant;
+import com.laundry.app.control.ApiServiceOperator;
+import com.laundry.app.control.DataController;
+import com.laundry.app.data.APIConstant;
 import com.laundry.app.databinding.HomeBinding;
 import com.laundry.app.dto.Role;
+import com.laundry.app.dto.UserInfo;
+import com.laundry.app.dto.authentication.RegisterRequest;
+import com.laundry.app.dto.user.PersonalInfoResponse;
+import com.laundry.app.utils.ErrorDialog;
 import com.laundry.app.utils.SharePreferenceManager;
 import com.laundry.app.view.dialog.LoginDialog;
 import com.laundry.app.view.fragment.customer.CustomerInfoFragment;
@@ -80,12 +88,6 @@ public class HomeActivity extends BaseActivity<HomeBinding> implements LoginDial
         // Add permission
         listPermission.add(Manifest.permission.CALL_PHONE);
 
-
-        navView.setOnItemSelectedListener(item -> {
-            if (item.getItemId() != binding.navView.getSelectedItemId())
-                NavigationUI.onNavDestinationSelected(item, navController);
-            return false;
-        });
 
         SharePreferenceManager.hasVisitedHome(this, true);
 

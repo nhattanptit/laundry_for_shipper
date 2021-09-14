@@ -78,6 +78,7 @@ public class UserInfo {
         SharePreferenceManager.setUsername(context, null);
         SharePreferenceManager.setUserAvatar(context, null);
         SharePreferenceManager.setUserAvatarSocialLogin(context, null);
+        SharePreferenceManager.setAccountInfomation(context, null);
     }
 
     public boolean isLoggedIn() {

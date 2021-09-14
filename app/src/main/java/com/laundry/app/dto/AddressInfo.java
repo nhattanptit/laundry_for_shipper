@@ -3,6 +3,7 @@ package com.laundry.app.dto;
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.laundry.app.R;
 import com.laundry.app.dto.address.CityResponseDto;
 import com.laundry.app.dto.address.DistrictResponseDto;
 import com.laundry.app.dto.address.WardResponseDto;
@@ -130,6 +131,31 @@ public class AddressInfo {
             }
         }
         return "";
+    }
+
+    /**
+     * Get address string
+     * @param context
+     * @param address
+     * @param city
+     * @param district
+     * @param ward
+     * @return
+     */
+    public String getAddressStr(Context context, String address, String city, String district, String ward, boolean isSocial) {
+
+        return isSocial ?String.format(context.getString(R.string.address_format),
+                address,
+                ward,
+                district,
+                city)
+                :
+                String.format(context.getString(R.string.address_format),
+                address,
+                getWardNameById(city, district, ward),
+                getDistrictNameById(city, district),
+                getCityNameById(city));
+
     }
 
     /**

@@ -26,6 +26,7 @@ import com.laundry.app.dto.payment.PaymentResponseDto;
 import com.laundry.app.dto.servicelist.ServiceListResponse;
 import com.laundry.app.dto.sevicedetail.ServicesDetailResponse;
 import com.laundry.app.dto.shippingfee.ShippingFeeResponseDto;
+import com.laundry.app.dto.user.PersonalInfoResponse;
 
 import java.util.List;
 
@@ -130,4 +131,7 @@ public interface ApiService {
 
     @PUT(APIConstant.URL_ORDER_SHIPPER_CANCEL)
     Call<BaseResponse> shipperCancelOrder(@Header("Authorization") String token, @Query("orderId") String orderId);
+
+    @POST(APIConstant.URL_USER_INFO)
+    Call<PersonalInfoResponse> getAccountInfomation(@Header("Authorization") String token);
 }

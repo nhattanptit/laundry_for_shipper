@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import androidx.annotation.IntRange;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.laundry.app.constant.Constant;
 import com.laundry.app.data.APIConstant;
@@ -36,6 +37,7 @@ import com.laundry.app.dto.payment.PaymentResponseDto;
 import com.laundry.app.dto.servicelist.ServiceListResponse;
 import com.laundry.app.dto.sevicedetail.ServicesDetailResponse;
 import com.laundry.app.dto.shippingfee.ShippingFeeResponseDto;
+import com.laundry.app.dto.user.PersonalInfoResponse;
 import com.laundry.app.utils.SharePreferenceManager;
 
 import java.util.List;
@@ -267,5 +269,13 @@ public class DataController {
         if (call != null) {
             call.enqueue(new ApiServiceOperator<>(listener));
         }
+    }
+
+    /**
+     * Get account infomation api
+     */
+    public void getAccountInfomation(Context context, ApiServiceOperator.OnResponseListener<PersonalInfoResponse> listener) {
+        Call<PersonalInfoResponse> call = service.getAccountInfomation(UserInfo.getInstance().getToken(context));
+        call.enqueue(new ApiServiceOperator<>(listener));
     }
 }

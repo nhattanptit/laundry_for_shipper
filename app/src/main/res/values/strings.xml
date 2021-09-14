@@ -111,7 +111,7 @@
     <string name="order_receivered">Order received</string>
     <string name="something_went_wrong">Something went wrong!</string>
     <string name="please_select_service">Please select service!!!</string>
-    <string name="phone_number_customer">"Phone Number: "</string>
+    <string name="phone_number_customer">Phone Number: </string>
     <string name="parcel_deliver_order">Deliver order</string>
     <string name="order_list_incomplete">Order Incomplete List</string>
     <string name="wrong_distance"><![CDATA[Please select address have distance <= 20km]]></string>
@@ -126,5 +126,9 @@
     <string name="domain_fresh_chat">msdk.freshchat.com</string>
     <string name="shipper">Shipper</string>
     <string name="customer">Customer</string>
->>>>>>>>> Temporary merge branch 2
+    <string name="cannot_get_account_infomation">Cannot get account infomation</string>
+    <string name="account_infomation">ACCOUNT INFOMATION</string>
+    <string name="email">Email</string>
+    <string name="fullname">Fullname</string>
+    >>>>>>>>> Temporary merge branch 2
 </resources>

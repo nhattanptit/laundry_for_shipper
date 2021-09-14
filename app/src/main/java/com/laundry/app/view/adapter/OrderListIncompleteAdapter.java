@@ -67,7 +67,7 @@ public class OrderListIncompleteAdapter extends BaseAdapter {
             } else {
                 binding.nameReceiver.setText(item.shippingPersonName);
                 binding.phoneReceiver.setText(item.shippingPersonPhoneNumber);
-                binding.statusOrder.setText(item.status);
+                binding.statusOrder.setText(item.getStatusContent());
                 binding.createDate.setText(item.createdDate);
                 binding.icon.setImageResource(item.getIconByStatus());
             }

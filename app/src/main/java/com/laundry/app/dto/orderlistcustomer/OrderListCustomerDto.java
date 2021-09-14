@@ -4,6 +4,15 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.laundry.app.dto.servicelist.INamedStatus;
 
+import static com.laundry.app.constant.Constant.CANCEL;
+import static com.laundry.app.constant.Constant.COMPLETE_ORDER;
+import static com.laundry.app.constant.Constant.NEW;
+import static com.laundry.app.constant.Constant.SHIPPER_ACCEPTED_ORDER;
+import static com.laundry.app.constant.Constant.SHIPPER_DELIVER_ORDER;
+import static com.laundry.app.constant.Constant.SHIPPER_RECEIVED_ORDER;
+import static com.laundry.app.constant.Constant.STORE_DONE_ORDER;
+import static com.laundry.app.constant.Constant.STORE_RECEIVED_ORDER;
+
 public class OrderListCustomerDto {
 
     @SerializedName("id")
@@ -25,6 +34,37 @@ public class OrderListCustomerDto {
     @SerializedName("createdDate")
     @Expose
     public String createdDate;
+
+    public String getStatusContent() {
+        String statusContent = "";
+        switch (status) {
+            case NEW:
+                statusContent = "New";
+                break;
+            case SHIPPER_ACCEPTED_ORDER:
+                statusContent = "Shipper Accepted Order";
+                break;
+            case SHIPPER_RECEIVED_ORDER:
+                statusContent = "Shipper Received Order";
+                break;
+            case STORE_RECEIVED_ORDER:
+                statusContent = "Store Accepted Order";
+                break;
+            case STORE_DONE_ORDER:
+                statusContent = "Store Done Order";
+                break;
+            case SHIPPER_DELIVER_ORDER:
+                statusContent = "Shipper Deliver Order";
+                break;
+            case COMPLETE_ORDER:
+                statusContent = "Delivered!";
+                break;
+            case CANCEL:
+                statusContent = "Cancelled!";
+                break;
+        }
+        return statusContent;
+    }
 
     public OrderListCustomerType getOrderListIcon() {
         return OrderListCustomerType.getType(status);

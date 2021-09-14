@@ -57,4 +57,26 @@ public class OrderListIncompleteCustomerDto {
         }
         return icon;
     }
+
+    public String getStatusContent() {
+        String statusContent = "";
+        switch (status) {
+            case SHIPPER_ACCEPTED_ORDER:
+                statusContent = "Shipper Accepted Order";
+                break;
+            case SHIPPER_RECEIVED_ORDER:
+                statusContent = "Shipper Received Order";
+                break;
+            case STORE_RECEIVED_ORDER:
+                statusContent = "Store Accepted Order";
+                break;
+            case STORE_DONE_ORDER:
+                statusContent = "Store Done Order";
+                break;
+            case SHIPPER_DELIVER_ORDER:
+                statusContent = "Shipper Deliver Order";
+                break;
+        }
+        return statusContent;
+    }
 }

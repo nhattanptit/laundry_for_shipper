@@ -164,6 +164,7 @@ public class OrderResponse extends BaseResponse {
 
     /**
      * Get content status order
+     *
      * @return Content status order
      */
     public String getStatusContent() {
@@ -176,7 +177,7 @@ public class OrderResponse extends BaseResponse {
                 statusContent = "Shipper accepted order";
                 break;
             case SHIPPER_RECEIVED_ORDER:
-                statusContent = "Shipper accepted order";
+                statusContent = "Shipper received order";
                 break;
             case STORE_RECEIVED_ORDER:
                 statusContent = "Store accepted order";

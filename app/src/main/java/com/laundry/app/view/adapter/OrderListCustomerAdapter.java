@@ -63,7 +63,7 @@ public class OrderListCustomerAdapter extends BaseAdapter {
             super.bind(item);
             binding.nameReceiver.setText(item.data.shippingPersonName);
             binding.phoneReceiver.setText(item.data.shippingPersonPhoneNumber);
-            binding.statusOrder.setText(item.data.status);
+            binding.statusOrder.setText(item.data.getStatusContent());
             binding.createDate.setText(item.data.createdDate);
             binding.icon.setImageResource(item.getIcon());
         }

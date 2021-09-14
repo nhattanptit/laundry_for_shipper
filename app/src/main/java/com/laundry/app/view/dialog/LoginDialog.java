@@ -8,18 +8,19 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Toast;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
 import com.facebook.Profile;
 import com.facebook.ProfileTracker;
-import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -41,17 +42,9 @@ import com.laundry.app.dto.authentication.SocialLoginRequest;
 import com.laundry.app.dto.authentication.SocialLoginRequestLite;
 import com.laundry.app.utils.ErrorDialog;
 import com.laundry.app.utils.SharePreferenceManager;
-import com.laundry.app.utils.SingleTapListener;
-import com.laundry.app.view.activity.OrderConfirmActivity;
 import com.laundry.base.BaseDialog;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.Arrays;
 
@@ -245,7 +238,9 @@ public class LoginDialog extends BaseDialog<LoginDialogBinding> implements ApiSe
         request.executeAsync();
     }
 
-    /** Call api login */
+    /**
+     * Call api login
+     */
     private void login() {
         if (validate()) {
             beforeCallApi();
@@ -310,7 +305,7 @@ public class LoginDialog extends BaseDialog<LoginDialogBinding> implements ApiSe
                 mLoginListener.onLoginSuccess(currentTab);
 
             }
-            if (isSocialLogin) {
+            if (isSocialLogin && profileImage != null) {
                 SharePreferenceManager.setUserAvatarSocialLogin(getMyActivity(), profileImage.toString());
             }
             this.dismiss();

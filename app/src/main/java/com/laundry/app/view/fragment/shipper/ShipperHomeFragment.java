@@ -358,7 +358,7 @@ public class ShipperHomeFragment extends BaseFragment<ShipperFragmentHomeBinding
                 binding.orderItem.orderTopDoneButton.setVisibility(View.VISIBLE);
                 binding.orderItem.orderTopDoneButton.setEnabled(true);
 
-                binding.orderItem.orderTopDoneButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f);
+                binding.orderItem.orderTopDoneButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, 11f);
                 binding.orderItem.orderTopDoneButton.setBackground(ContextCompat.getDrawable(getMyActivity(),
                         R.drawable.shaper_button_green_big));
                 binding.orderItem.orderTopDoneButton.setText(R.string.order_receivered);

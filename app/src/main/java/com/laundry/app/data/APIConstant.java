@@ -6,7 +6,7 @@ public final class APIConstant {
     public static final String STATUS_CODE_EMAIL_NOT_EXIST = "L10";
     public static final String STATUS_CODE_EMAIL_EXIST = "L11";
 
-    public static final String BASE_URL = "https://laundry-online.herokuapp.com";
+    public static final String BASE_URL = "http://192.168.1.61:8080";
     public static final String URL_LOGIN = "/user/auth/signin";
     public static final String URL_SOCIAL_LOGIN_SECOND_TIME = "/user/auth/social-signin";
     public static final String URL_SOCIAL_LOGIN_FIRST_TIME = "/user/auth/social-first-signin";

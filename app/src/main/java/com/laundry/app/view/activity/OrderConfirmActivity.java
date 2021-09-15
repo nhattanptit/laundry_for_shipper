@@ -65,7 +65,7 @@ public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBindi
     double longitude = 0;
     double latitude = 0;
 
-    private String description = "Thanh toán dịch vụ Giặt Là";
+    private final String DESCRIPTION = "Thanh toán dịch vụ Giặt Là";
 
     private OrderFailDialog mOrderFailDialog;
 
@@ -126,6 +126,12 @@ public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBindi
         }));
     }
 
+    /**
+     * Create request to momo
+     *
+     * @param orderId
+     * @param totalAmount
+     */
     private void requestPayment(int orderId, double totalAmount) {
         AppMoMoLib.getInstance().setAction(AppMoMoLib.ACTION.PAYMENT);
         AppMoMoLib.getInstance().setActionType(AppMoMoLib.ACTION_TYPE.GET_TOKEN);
@@ -143,7 +149,7 @@ public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBindi
 
         //client Optional - bill info
         eventValue.put("merchantnamelabel", "Dịch vụ");
-        eventValue.put("description", description);
+        eventValue.put("description", DESCRIPTION);
 
         //client extra data
         eventValue.put("requestId", Constant.MERCHANT_CODE + "merchant_billId_" + System.currentTimeMillis());
@@ -160,7 +166,7 @@ public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBindi
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == AppMoMoLib.getInstance().REQUEST_CODE_MOMO) {
-            if (data != null  && resultCode == -1) {
+            if (data != null && resultCode == -1) {
                 if (data.getIntExtra("status", -1) == 0) {
                     PaymentRequest request = new PaymentRequest();
                     request.orderId = data.getIntExtra("orderId", -1);
@@ -227,7 +233,9 @@ public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBindi
 
     }
 
-    /** Handle receive data from screen Billing Address */
+    /**
+     * Handle receive data from screen Billing Address
+     */
     private final ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
@@ -298,11 +306,19 @@ public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBindi
         getDistance();
     }
 
+    /**
+     * Get distance
+     */
     private void getDistance() {
         mDataController.getDirectionMaps(MapUtils.getCoordinate(Constant.LONG_START, Constant.LAT_START, longitude, latitude), Constant.GEOMETRIES,
                 APIConstant.MAPBOX_ACCESS_TOKEN, new MapDirectionCallback(this));
     }
 
+    /**
+     * Get lat long with address
+     *
+     * @param fullAddress
+     */
     private void getLatLong(String fullAddress) {
         Geocoder coder = new Geocoder(this);
         try {
@@ -336,6 +352,9 @@ public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBindi
         onClickPlaceAnOrder();
     }
 
+    /**
+     * MapDirectionCallback
+     */
     private class MapDirectionCallback implements ApiServiceOperator.OnResponseListener<MapDirectionResponse> {
         OrderConfirmActivity mActivity;
 
@@ -348,7 +367,7 @@ public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBindi
             mDistance = (body.getRoutes().get(0).getDistance() / 1000);
             mActivity.setMapDirectionResponse(body);
             Toast.makeText(OrderConfirmActivity.this, "Distance: " + mDistance, Toast.LENGTH_LONG).show();
-            if(mDistance > 20) {
+            if (mDistance > 20) {
                 AlertDialog alertDialog = ErrorDialog.buildPopupOnlyPositive(OrderConfirmActivity.this,
                         getString(R.string.wrong_distance), R.string.ok, (dialogInterface, i) -> {
 
@@ -368,6 +387,9 @@ public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBindi
         }
     }
 
+    /**
+     * ShippingFeeCallback
+     */
     private class ShippingFeeCallback implements ApiServiceOperator.OnResponseListener<ShippingFeeResponseDto> {
         @Override
         public void onSuccess(ShippingFeeResponseDto body) {
@@ -386,6 +408,9 @@ public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBindi
         }
     }
 
+    /**
+     * OrderCreateCallback
+     */
     private class OrderCreateCallback implements ApiServiceOperator.OnResponseListener<OrderResponseDto> {
         @Override
         public void onSuccess(OrderResponseDto body) {
@@ -420,6 +445,9 @@ public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBindi
         }
     }
 
+    /**
+     * PaymentFinishedCallback
+     */
     private class PaymentFinishedCallback implements ApiServiceOperator.OnResponseListener<PaymentResponseDto> {
         @Override
         public void onSuccess(PaymentResponseDto body) {
@@ -433,7 +461,7 @@ public class OrderConfirmActivity extends BaseActivity<OrderConfirmActivityBindi
                 startActivity(intent);
                 finish();
             } else {
-                // TODO add message
+                Toast.makeText(OrderConfirmActivity.this, body.message, Toast.LENGTH_LONG).show();
             }
             afterCallApi();
         }

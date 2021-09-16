@@ -35,6 +35,7 @@ import com.laundry.app.control.ApiServiceOperator;
 import com.laundry.app.control.DataController;
 import com.laundry.app.data.APIConstant;
 import com.laundry.app.databinding.LoginDialogBinding;
+import com.laundry.app.dto.Role;
 import com.laundry.app.dto.UserInfo;
 import com.laundry.app.dto.authentication.LoginRequest;
 import com.laundry.app.dto.authentication.LoginResponseDto;
@@ -123,6 +124,15 @@ public class LoginDialog extends BaseDialog<LoginDialogBinding> implements ApiSe
         // If using in a fragment
         binding.loginWithFacebook.setFragment(this);
 
+        if (TextUtils.equals(Role.CUSTOMER.role(), mMode)) {
+            binding.loginWithFacebook.setVisibility(View.VISIBLE);
+            binding.loginWithGoogle.setVisibility(View.VISIBLE);
+            binding.connectWithText.setVisibility(View.VISIBLE);
+        } else {
+            binding.loginWithFacebook.setVisibility(View.GONE);
+            binding.loginWithGoogle.setVisibility(View.GONE);
+            binding.connectWithText.setVisibility(View.GONE);
+        }
 
     }
 
